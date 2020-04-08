@@ -5,12 +5,14 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "start": "node server.js",
   },
   "dependencies": {
     "@ionic/core": "^5.0.7",
     "@ionic/vue": "0.0.9",
     "core-js": "^3.6.4",
+    "express": "^4.17.1",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"
   },
