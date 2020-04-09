@@ -2,20 +2,24 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title>Home</ion-title>
+        <ion-title class="ion-text-center" >ActOut</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
+
       <ion-list>
         <ion-item>
-          <ion-checkbox slot="start"></ion-checkbox>
-          <ion-label>
-            <h1>Create Idea</h1>
-            <ion-note>Run Idea by Brandy</ion-note>
-          </ion-label>
-          <ion-badge color="success" slot="end">5 Days</ion-badge>
+          <ion-label position="stacked" color="primary">Email</ion-label>
+          <ion-input></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Password</ion-label>
+          <ion-input></ion-input>
         </ion-item>
       </ion-list>
+    <ion-button @click="$router.push({ name: 'dashboard'})"> LogIn </ion-button><br/>
+    <ion-button @click="$router.push({ name: 'register'})"> Sign Up </ion-button>
+
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button @click="$router.push({ name: 'new-item' })">
           <ion-icon name="add" />
