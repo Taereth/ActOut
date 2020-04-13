@@ -8,8 +8,11 @@ import "@ionic/core/css/ionic.bundle.css"
 import router from "./router"
 
 
+
+
 Vue.config.productionTip = false;
 Vue.use(Ionic);
+
 
 
 // router

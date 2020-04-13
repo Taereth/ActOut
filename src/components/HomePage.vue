@@ -49,7 +49,9 @@ export default {
       fetch("/test", {
         method: "GET"
       }).then(response=>{
-        console.log(response);
+        return response.json();
+      }).then((data)=>{
+        console.log(data);
       })
     }
   }

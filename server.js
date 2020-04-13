@@ -5,8 +5,6 @@ var serveStatic = require('serve-static');
 app = express();
 app.use(serveStatic(__dirname + "/dist"));
 var port = process.env.PORT || 5001;
-app.listen(port);
-console.log('server started '+ port);
 
 //dependencies
 
@@ -22,11 +20,16 @@ const client = new MongoClient(uri);
 const assert = require('assert');
 
 //make requests readable for Server
+app.use(bodyParser.urlencoded())
 app.use(bodyParser.json());
+
+app.listen(port);
+console.log('server started '+ port);
 
 //test
 
-const dbName = "test";
+let dbName = "test";
+
 
 async function run() {
    try {
@@ -35,7 +38,7 @@ async function run() {
         const db = client.db(dbName);
 
         // Use the collection "people"
-        const col = db.collection("people");
+        let col = db.collection("people");
 
         col.insertOne({
   item: "canvas",
@@ -54,11 +57,44 @@ async function run() {
    }
 }
 
-run().catch(console.dir);
+//run().catch(console.dir);
 
 //Server Listener
 
 app.get("/test", function (req,res){
-  res.send("hallo");
+  res.json({status: 'testing', 'bibel': 'bobel'});
   console.log("bah");
 })
+
+
+//New User Registration, pushing data to mongoDB
+//TODO ERROR if no data sent
+app.post("/newuser",function (req,res){
+
+  storeIntoMongoDB(req.body,"users");
+
+
+})
+
+function storeIntoMongoDB(object, collectionName) {
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    const collection = db.collection(collectionName);
+
+    collection.insertOne(object, (err, result) =>{
+      if (err){
+        throw err;
+      }
+      client.close();
+
+    })
+
+  })
+
+}
