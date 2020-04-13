@@ -11,8 +11,13 @@
   "dependencies": {
     "@ionic/core": "^5.0.7",
     "@ionic/vue": "0.0.9",
+    "assert": "^2.0.0",
+    "body-parser": "^1.19.0",
     "core-js": "^3.6.4",
     "express": "^4.17.1",
+    "mongodb": "^3.5.5",
+    "multer": "^1.4.2",
+    "nconf": "^0.10.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6"
   },

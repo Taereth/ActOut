@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title class="ion-text-center" >ActOut</ion-title>
+        <ion-title class="ion-text-center" >ActOut REEEE</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
@@ -21,7 +21,7 @@
     <ion-button @click="$router.push({ name: 'register'})"> Sign Up </ion-button>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button @click="$router.push({ name: 'new-item' })">
+        <ion-fab-button @click="test">
           <ion-icon name="add" />
         </ion-fab-button>
       </ion-fab>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+
+
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 addIcons({
@@ -40,6 +42,16 @@ export default {
   name: "HomePage",
   props: {
     msg: String
+  },
+  methods: {
+      test: function(){
+        console.log("here");
+      fetch("/test", {
+        method: "GET"
+      }).then(response=>{
+        console.log(response);
+      })
+    }
   }
 };
 </script>
