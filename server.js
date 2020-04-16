@@ -76,6 +76,70 @@ app.post("/newuser",function (req,res){
 
 })
 
+//Checking whether Email and Password are in the MongoDB and correct
+
+app.post("/checklogin",function (req,res){
+
+  console.log(req.body);
+
+  var theemail = req.body['email'];
+  var password = req.body['password'];
+
+  var theuser = {
+    email : theemail
+  }
+
+  function iterateFunc(doc) {
+
+    checkeduser = {
+      email: doc.email,
+      password: doc.password
+    }
+
+    res.json(checkeduser);
+
+    client.close();
+
+  }
+  function errorFunc(error) {
+    console.log(error);
+  }
+
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+
+    var cursor = collection.find(theuser);
+
+    var checkeduser = "empty";
+
+    cursor.count(function(err, count) {
+    if(count == 1) {
+      cursor.forEach(iterateFunc,errorFunc);
+    }
+    else if(count == 0){
+      res.json({status:'Incorrect Email'});
+      client.close();
+    }
+    else{
+      res.json({status:'DB Error'});
+      client.close();
+    }
+});
+
+
+
+
+  })
+
+})
+
 function storeIntoMongoDB(object, collectionName) {
 
 
