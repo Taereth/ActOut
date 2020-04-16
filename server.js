@@ -76,22 +76,23 @@ app.post("/newuser",function (req,res){
 
 })
 
-//Checking whether Email and Password are in the MongoDB and correct
+//Checking whether Email and Password are in the MongoDB, if they are, returns Email and Password to the Client
 
 app.post("/checklogin",function (req,res){
 
   console.log(req.body);
 
   var theemail = req.body['email'];
-  var password = req.body['password'];
 
   var theuser = {
     email : theemail
   }
 
+//Functions to run when the user exists in the database
+
   function iterateFunc(doc) {
 
-    checkeduser = {
+    var checkeduser = {
       email: doc.email,
       password: doc.password
     }
@@ -117,16 +118,18 @@ app.post("/checklogin",function (req,res){
 
     var cursor = collection.find(theuser);
 
-    var checkeduser = "empty";
+
 
     cursor.count(function(err, count) {
     if(count == 1) {
       cursor.forEach(iterateFunc,errorFunc);
     }
+
     else if(count == 0){
       res.json({status:'Incorrect Email'});
       client.close();
     }
+
     else{
       res.json({status:'DB Error'});
       client.close();
@@ -139,6 +142,8 @@ app.post("/checklogin",function (req,res){
   })
 
 })
+
+//Function to store any Object into mongoDB -> Made in previous project ( https://github.com/Taereth/InstantFeed )
 
 function storeIntoMongoDB(object, collectionName) {
 

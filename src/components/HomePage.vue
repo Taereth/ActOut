@@ -60,16 +60,10 @@ export default {
     }
   },
   methods: {
-      test: function(){
-        console.log("here");
-      fetch("/test", {
-        method: "GET"
-      }).then(response=>{
-        return response.json();
-      }).then((data)=>{
-        console.log(data);
-      })
-    },
+
+    //LogIn Function, sends request to server, server returns email and password from mongodb, then this function compares passwords
+    //and if successful allows entry
+
     login: function(){
       fetch("/checklogin", {
         headers: {
