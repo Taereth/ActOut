@@ -92,7 +92,9 @@ export default {
             return
           }
           if(res && data.email==this.user.email && this.user.password != null && this.user.email != null){
-            this.$router.push({ name: 'dashboard'});
+            console.log(data.vorname);
+            console.log(data.nachname);
+            this.$router.push({ name: 'profiles', params: { id: data.vorname+'.'+data.nachname }});
           }
           else{
             console.log(data);

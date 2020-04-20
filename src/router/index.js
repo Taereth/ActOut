@@ -35,8 +35,8 @@ export default new IonicVueRouter({
           import(/* webpackChunkName: "new-item" */ "@/components/Dashboard"),
       },
       {
-        path: "/profile",
-        name: "profile",
+        path: "/profiles/:id",
+        name: "profiles",
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/Profile"),
       },

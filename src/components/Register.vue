@@ -65,7 +65,7 @@
           <ion-input required
           @input="user.wohnort=$event.target.value"
           :value="user.wohnort"
-          name="vorname"
+          name="wohnort"
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-input>

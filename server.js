@@ -94,7 +94,9 @@ app.post("/checklogin",function (req,res){
 
     var checkeduser = {
       email: doc.email,
-      password: doc.password
+      password: doc.password,
+      vorname: doc.vorname,
+      nachname: doc.nachname
     }
 
     res.json(checkeduser);
