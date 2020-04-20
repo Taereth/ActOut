@@ -29,7 +29,8 @@
         </ion-item>
       </ion-list>
     <ion-button @click="login"> LogIn </ion-button><br/>
-    <ion-button @click="$router.push({ name: 'register'})"> Sign Up </ion-button>
+    <ion-button @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
+    <ion-button @click="hash">Hash</ion-button>
 
       <ion-fab vertical="bottom" horizontal="end" slot="fixed">
         <ion-fab-button @click="test">
@@ -45,6 +46,10 @@
 
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
+
+//Password hashing library
+const bcrypt = require('bcryptjs');
+
 addIcons({
   "ios-add": add.ios,
   "md-add": add.md
@@ -79,13 +84,48 @@ export default {
         console.log(data.password);
         console.log(this.user.password);
 
-        if(data.password==this.user.password && data.email==this.user.email && this.user.password != null && this.user.email != null){
-          this.$router.push({ name: 'dashboard'});
-        }
-        else{
-          console.log(data);
-        }
+        //Check Password hashing
+
+        bcrypt.compare(this.user.password,data.password,(err,res)=>{
+          if (err) {
+            console.log(err)
+            return
+          }
+          if(res && data.email==this.user.email && this.user.password != null && this.user.email != null){
+            this.$router.push({ name: 'dashboard'});
+          }
+          else{
+            console.log(data);
+          }
+        })
+
+
+
       })
+
+    },
+    hash: function(){
+      console.log("hash function");
+
+      var pass = this.user.password;
+      var rounds = 10;
+      bcrypt.hash(pass, rounds, (err,hash)=>{
+        if (err) {
+          console.log(err);
+          return
+        }
+        bcrypt.compare("Ok", hash, (err, res) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    console.log(res) //true or false
+  })
+      })
+
+
+
+
 
     }
   }

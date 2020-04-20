@@ -23,8 +23,8 @@ export default new IonicVueRouter({
           import(/* webpackChunkName: "new-item" */ "@/components/NewItemPage"),
       },
       {
-        path: "/register",
-        name: "register",
+        path: "/signup",
+        name: "signup",
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/Register"),
       },
