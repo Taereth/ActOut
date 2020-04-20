@@ -8,6 +8,8 @@ import "@ionic/core/css/ionic.bundle.css"
 import router from "./router"
 
 
+var VueCookie = require('vue-cookie');
+Vue.use(VueCookie);
 
 
 Vue.config.productionTip = false;

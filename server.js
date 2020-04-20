@@ -2,8 +2,15 @@
 var express = require('express');
 var path = require('path');
 var serveStatic = require('serve-static');
+var history = require('connect-history-api-fallback');
 app = express();
-app.use(serveStatic(__dirname + "/dist"));
+const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
+app.use(staticFileMiddleware);
+app.use(history({
+  disableDotRule: true,
+  verbose: true
+}));
+app.use(staticFileMiddleware);
 var port = process.env.PORT || 5001;
 
 //dependencies
@@ -22,6 +29,9 @@ const assert = require('assert');
 //make requests readable for Server
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json());
+
+//Fallback
+
 
 app.listen(port);
 console.log('server started '+ port);
