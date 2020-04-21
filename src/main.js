@@ -8,8 +8,11 @@ import "@ionic/core/css/ionic.bundle.css"
 import router from "./router"
 
 
-var VueCookie = require('vue-cookie');
-Vue.use(VueCookie);
+var VueCookies = require('vue-cookies');
+Vue.use(VueCookies);
+Vue.$cookies.config('7d');
+Vue.$cookies.set('theme','default');
+Vue.$cookies.set('hover-time','1s');
 
 
 Vue.config.productionTip = false;

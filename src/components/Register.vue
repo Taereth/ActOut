@@ -112,6 +112,10 @@ export default {
     newuser: function(){
       var unhashedpassword = this.user.password;
       var rounds = 10;
+
+      //Assign user a unique id
+      this.user.id = Date.now().toString();
+      //Password hashing
       bcrypt.hash(unhashedpassword, rounds, (err,hash)=>{
         if (err) {
           console.log(err);

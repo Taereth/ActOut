@@ -41,34 +41,6 @@ console.log('server started '+ port);
 let dbName = "test";
 
 
-async function run() {
-   try {
-        await client.connect();
-        console.log("Connected correctly to server");
-        const db = client.db(dbName);
-
-        // Use the collection "people"
-        let col = db.collection("people");
-
-        col.insertOne({
-  item: "canvas",
-  qty: 100,
-  tags: ["cotton"],
-  size: { h: 28, w: 35.5, uom: "cm" }
-})
-
-       } catch (err) {
-        console.log(err.stack);
-    }
-
-    finally {
-       await client.close();
-       console.log("closed client.");
-   }
-}
-
-//run().catch(console.dir);
-
 //Server Listener
 
 app.get("/test", function (req,res){
@@ -98,18 +70,14 @@ app.post("/checklogin",function (req,res){
     email : theemail
   }
 
+  console.log(theuser);
+
 //Functions to run when the user exists in the database
 
   function iterateFunc(doc) {
 
-    var checkeduser = {
-      email: doc.email,
-      password: doc.password,
-      vorname: doc.vorname,
-      nachname: doc.nachname
-    }
 
-    res.json(checkeduser);
+    res.json(doc);
 
     client.close();
 
@@ -149,6 +117,63 @@ app.post("/checklogin",function (req,res){
 });
 
 
+  })
+
+})
+
+app.post("/currentuser",function (req,res){
+
+  console.log(req.body);
+
+  var id = req.body['id'].toString();
+
+
+  console.log(id);
+
+//Functions to run when the user exists in the database
+
+  function iterateFunc(doc) {
+
+    console.log(doc)
+
+
+    res.json(doc);
+
+    client.close();
+
+  }
+  function errorFunc(error) {
+    console.log(error);
+  }
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+
+    var cursor = collection.find({id: id});
+
+
+
+    cursor.count(function(err, count) {
+    if(count == 1) {
+      cursor.forEach(iterateFunc,errorFunc);
+    }
+
+    else if(count == 0){
+      res.json({status:'No Id Found'});
+      client.close();
+    }
+
+    else{
+      res.json({status:'DB Error'});
+      client.close();
+    }
+});
 
 
   })
