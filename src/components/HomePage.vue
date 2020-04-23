@@ -2,7 +2,7 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="primary">
-        <ion-title class="ion-text-center" >ActOut REEEE</ion-title>
+        <ion-title class="ion-text-center" >ActOut</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
@@ -81,20 +81,19 @@ export default {
         return response.json();
       }).then((data)=>{
 
-        console.log(data.password);
-        console.log(this.user.password);
+
 
         //Check Password hashing
 
-        bcrypt.compare(this.user.password,data.password,(err,res)=>{
+        bcrypt.compare(this.user.password,data.user.password,(err,res)=>{
           if (err) {
             console.log(err)
             return
           }
-          if(res && data.email==this.user.email && this.user.password != null && this.user.email != null){
+          if(res && data.user.email==this.user.email && this.user.password != null && this.user.email != null){
 
-            this.$cookies.set('user',data);
-            this.$router.push({ name: 'profiles', params: { id: data.id }});
+            this.$cookies.set('user',data.user);
+            this.$router.push({ name: 'profiles', params: { id: data.user.id }});
           }
           else{
             console.log(data);

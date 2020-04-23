@@ -11,11 +11,10 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
-          <ion-item>Menu Item</ion-item>
+          <ion-item><ion-button @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
+          <ion-item>Projekte verwalten</ion-item>
+          <ion-item>Freunde</ion-item>
+          <ion-item><ion-button @click="Logout">Logout</ion-button></ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
@@ -26,9 +25,9 @@
           <ion-icon @click="openFirst" v-if="userIsLoggedIn" slot="icon-only" name="menu"/>
         </ion-buttons>
         <ion-buttons slot="end">
-          <ion-back-button default-href="/">Logout</ion-back-button>
+          <ion-button @click="Logout">Logout</ion-button>
         </ion-buttons>
-        <ion-title> Actout </ion-title>
+        <ion-title class="ion-text-center"> Actout </ion-title>
       </ion-toolbar>
     </ion-header>
   </div>
@@ -62,10 +61,17 @@ export default{
   },
   methods: {
     openFirst: function() {
-      console.log("click");
-      console.log(this);
       document.querySelector('ion-menu-controller').enable('first')
       document.querySelector('ion-menu-controller').open('first')
+    },
+    Logout: function() {
+      this.userisLoggedIn=false;
+      this.$cookies.remove('user');
+      this.cookie=null;
+      this.$router.push({ name: 'home' });
+    },
+    EditProfile: function() {
+      this.$router.push({ name: 'editProfile', params: { id: this.$cookies.id }});
     }
   }
 

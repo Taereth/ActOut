@@ -1,8 +1,10 @@
 // server.js
-var express = require('express');
-var path = require('path');
-var serveStatic = require('serve-static');
-var history = require('connect-history-api-fallback');
+const express = require('express');
+const path = require('path');
+const serveStatic = require('serve-static');
+const history = require('connect-history-api-fallback');
+const jwt = require('jsonwebtoken');
+const config = require('./config');
 app = express();
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
@@ -54,6 +56,8 @@ app.get("/test", function (req,res){
 app.post("/newuser",function (req,res){
 
   storeIntoMongoDB(req.body,"users");
+  let token = jwt.sign({ id:req.body.id }, config.secret, {expiresIn: 86400 })
+  res.status(200).send({ auth: true, token: token })
 
 
 })
@@ -76,9 +80,8 @@ app.post("/checklogin",function (req,res){
 
   function iterateFunc(doc) {
 
-
-    res.json(doc);
-
+    let token = jwt.sign({ id:doc.id }, config.secret, {expiresIn: 86400 })
+    res.status(200).send({ auth: true, token: token, user: doc });
     client.close();
 
   }
@@ -106,12 +109,12 @@ app.post("/checklogin",function (req,res){
     }
 
     else if(count == 0){
-      res.json({status:'Incorrect Email'});
+      res.status(404).send("User not found.");
       client.close();
     }
 
     else{
-      res.json({status:'DB Error'});
+      res.status(500).send("DB Error");
       client.close();
     }
 });

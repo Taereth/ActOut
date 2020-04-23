@@ -4,7 +4,7 @@ import { IonicVueRouter } from "@ionic/vue";
 Vue.use(IonicVueRouter);
 
 
-export default new IonicVueRouter({
+let router = new IonicVueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -40,6 +40,37 @@ export default new IonicVueRouter({
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/Profile"),
       },
+      {
+        path: "/profiles/:id/edit",
+        name: "editProfile",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/Edit_Profile"),
+        meta: {
+                requiresAuth: true
+            }
+      },
 
   ]
 });
+
+router.beforeEach((to, from, next) => {
+    if(to.matched.some(record => record.meta.requiresAuth)) {
+        if (Vue.$cookies.get('user') == null) {
+          console.log("No Auth");
+            next({
+                path: '/home',
+                params: { nextUrl: to.fullPath }
+            })
+        }
+        else {
+          console.log("success");
+            next()
+        }
+    }
+    else {
+      console.log("success");
+        next()
+    }
+})
+
+export default router;
