@@ -53,6 +53,8 @@ let router = new IonicVueRouter({
   ]
 });
 
+//Only allow people with Authentication to access routes with the requiresAuth metatag
+
 router.beforeEach((to, from, next) => {
     if(to.matched.some(record => record.meta.requiresAuth)) {
         if (Vue.$cookies.get('user') == null) {
@@ -63,12 +65,12 @@ router.beforeEach((to, from, next) => {
             })
         }
         else {
-          console.log("success");
+
             next()
         }
     }
     else {
-      console.log("success");
+
         next()
     }
 })

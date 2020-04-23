@@ -4,7 +4,6 @@
     <ion-content padding>
       {{currentuser}} haha
     </ion-content>
-    <TestComponent/>
   </ion-page>
 </template>
 
@@ -13,7 +12,6 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
-import TestComponent from '@/components/TestComponent.vue'
 
 addIcons({
   "ios-add": add.ios,
@@ -41,8 +39,7 @@ export default {
 
   },
   components: {
-    NavBar,
-    TestComponent
+    NavBar
   }
 
 };

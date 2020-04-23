@@ -3,8 +3,6 @@ const express = require('express');
 const path = require('path');
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
-const jwt = require('jsonwebtoken');
-const config = require('./config');
 app = express();
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
@@ -23,10 +21,13 @@ const bodyParser = require('body-parser');
 
 //mongoDB Setup
 
+const mongodb = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://atlasAdmin:Taereth9594&@cluster0-0nxjb.mongodb.net/test?retryWrites=true&w=majority"
 const client = new MongoClient(uri);
 const assert = require('assert');
+const mongoose = require('mongoose');
+const ObjectID = mongodb.ObjectID;
 
 //make requests readable for Server
 app.use(bodyParser.urlencoded())
@@ -56,8 +57,7 @@ app.get("/test", function (req,res){
 app.post("/newuser",function (req,res){
 
   storeIntoMongoDB(req.body,"users");
-  let token = jwt.sign({ id:req.body.id }, config.secret, {expiresIn: 86400 })
-  res.status(200).send({ auth: true, token: token })
+  res.status(200).send({ auth: true })
 
 
 })
@@ -80,8 +80,7 @@ app.post("/checklogin",function (req,res){
 
   function iterateFunc(doc) {
 
-    let token = jwt.sign({ id:doc.id }, config.secret, {expiresIn: 86400 })
-    res.status(200).send({ auth: true, token: token, user: doc });
+    res.status(200).send({ auth: true, user: doc });
     client.close();
 
   }
@@ -126,7 +125,6 @@ app.post("/checklogin",function (req,res){
 
 app.post("/currentuser",function (req,res){
 
-  console.log(req.body);
 
   var id = req.body['id'].toString();
 
@@ -180,6 +178,43 @@ app.post("/currentuser",function (req,res){
 
 
   })
+
+})
+
+app.post("/updateDB",function (req,res){
+
+  var dbid = req.body.id;
+  var payload = req.body.payload;
+
+  console.log(req.body);
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+
+    collection.updateOne({_id: new ObjectID(dbid)},{$set:
+      {
+        "email":payload.email,
+        "vorname":payload.vorname,
+        "nachname":payload.nachname,
+        "gender":payload.gender,
+        "wohnort":payload.wohnort,
+        "job":payload.job
+      }
+    },{upsert: true}, (err, result) =>{
+      if (err){
+        throw err;
+      }
+      client.close();
+
+    })
+
+  })
+
 
 })
 

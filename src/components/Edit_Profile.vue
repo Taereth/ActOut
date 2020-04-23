@@ -2,18 +2,87 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      PROFILE EDIT of user {{currentuser.id}}
+      <ion-list>
+        <ion-item>
+          <ion-label position="stacked" color="primary">Email</ion-label>
+          <ion-input required
+          @input="user.email=$event.target.value"
+          :value="user.email"
+          name="email"
+          type="text"
+          spellcheck="false"
+          autocapitalize="off"
+          ></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Password</ion-label>
+          <ion-input required
+          @input="user.password = $event.target.value"
+          :value="user.password"
+          name="password"
+          type="password"></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Vorname</ion-label>
+          <ion-input required
+          @input="user.vorname=$event.target.value"
+          :value="user.vorname"
+          name="vorname"
+          type="text"
+          spellcheck="false"
+          autocapitalize="on"></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Nachname</ion-label>
+          <ion-input required
+          @input="user.nachname=$event.target.value"
+          :value="user.nachname"
+          name="nachname"
+          type="text"
+          spellcheck="false"
+          autocapitalize="on"></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Geschlecht</ion-label>
+          <ion-select required
+          @ionChange="user.gender=$event.target.value"
+          :value="user.gender"
+          placeholder="">
+            <ion-select-option value="m">Männlich</ion-select-option>
+            <ion-select-option value="f">Weiblich</ion-select-option>
+            <ion-select-option value="o">Anderes</ion-select-option>
+          </ion-select>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Wohnort</ion-label>
+          <ion-input required
+          @input="user.wohnort=$event.target.value"
+          :value="user.wohnort"
+          name="wohnort"
+          type="text"
+          spellcheck="false"
+          autocapitalize="on"></ion-input>
+          </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Du bist ein/e</ion-label>
+          <ion-select required multiple="true" cancel-text="Nah" ok-text="Okay!"
+          @ionChange="user.job=$event.target.value"
+          :value="user.job" >
+           <ion-select-option value="actor">Schauspieler/in</ion-select-option>
+           <ion-select-option value="producer">Produzent/in</ion-select-option>
+           <ion-select-option value="crew">Crewmitglied</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <ion-button @click="update"> Update </ion-button><br/>
     </ion-content>
-    <TestComponent/>
   </ion-page>
 </template>
-
 <script>
 
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
-import TestComponent from '@/components/TestComponent.vue'
 
 addIcons({
   "ios-add": add.ios,
@@ -25,7 +94,8 @@ export default {
     return{
       cookie: "empty cookie",
       currentuser: {},
-      userIsLoggedIn: false
+      userIsLoggedIn: false,
+      user: {}
     }
   },
   beforeMount: function(){
@@ -36,13 +106,30 @@ export default {
     }
     //get data of current profile
     this.currentuser=this.$cookies.get('user');
+    this.user=this.currentuser;
   },
   mounted: function(){
 
   },
   components: {
-    NavBar,
-    TestComponent
+    NavBar
+  },
+  methods: {
+    update: function(){
+
+      console.log(this.currentuser._id);
+      console.log(this.user);
+
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": this.currentuser._id, "payload": this.user})
+    })
+
+    }
   }
 
 };
