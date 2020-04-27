@@ -181,7 +181,7 @@ app.post("/currentuser",function (req,res){
 
 })
 
-app.post("/updateDB",function (req,res){
+app.post("/updateUserDB",function (req,res){
 
   var dbid = req.body.id;
   var payload = req.body.payload;
@@ -212,6 +212,51 @@ app.post("/updateDB",function (req,res){
       client.close();
 
     })
+
+  })
+
+
+})
+
+app.get("/allusers",function (req,res){
+
+  var users=[];
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+
+
+    function iterateFunc(doc) {
+
+      users.push(doc);
+      console.log(users);
+
+
+    }
+    function errorFunc(error) {
+      console.log(error);
+    }
+
+
+    const db = client.db(dbName);
+    const collection = db.collection("users");
+
+    var cursor = collection.find();
+    await cursor.forEach(iterateFunc,errorFunc);
+
+
+
+    console.log(users);
+
+    res.json(users);
+
+    client.close();
+
+
 
   })
 

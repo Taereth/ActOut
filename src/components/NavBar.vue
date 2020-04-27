@@ -13,7 +13,7 @@
         <ion-list>
           <ion-item><ion-button @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
           <ion-item>Projekte verwalten</ion-item>
-          <ion-item>Freunde</ion-item>
+          <ion-item><ion-button @click="Friends">Freunde</ion-button></ion-item>
           <ion-item><ion-button @click="Logout">Logout</ion-button></ion-item>
         </ion-list>
       </ion-content>
@@ -72,6 +72,9 @@ export default{
     },
     EditProfile: function() {
       this.$router.push({ name: 'editProfile', params: { id: this.$cookies.id }});
+    },
+    Friends: function() {
+      this.$router.push({ name: 'friends', params: { id: this.$cookies.id }});
     }
   }
 
