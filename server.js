@@ -224,39 +224,17 @@ app.get("/allusers",function (req,res){
 
 
   MongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
-    if (err) {
-      throw err;
-    }
+    if (err) throw err;
+    
+    const db = client.db(dbName)
+    const collection = db.collection("users")
 
-
-
-    function iterateFunc(doc) {
-
-      users.push(doc);
-      console.log(users);
-
-
-    }
-    function errorFunc(error) {
-      console.log(error);
-    }
-
-
-    const db = client.db(dbName);
-    const collection = db.collection("users");
-
-    var cursor = collection.find();
-    await cursor.forEach(iterateFunc,errorFunc);
-
-
-
-    console.log(users);
-
+	var cursor = collection.find()
+	
+	let users = await cursor.toArray()
     res.json(users);
 
-    client.close();
-
-
+    client.close()
 
   })
 
