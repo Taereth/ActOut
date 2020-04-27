@@ -14,6 +14,9 @@ Vue.$cookies.config('7d');
 Vue.$cookies.set('theme','default');
 Vue.$cookies.set('hover-time','1s');
 
+import VueSessionStorage from 'vue-sessionstorage'
+Vue.use(VueSessionStorage)
+
 
 Vue.config.productionTip = false;
 Vue.use(Ionic);

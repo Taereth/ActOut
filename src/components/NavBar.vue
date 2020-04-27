@@ -22,7 +22,7 @@
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
-          <ion-icon @click="openFirst" v-if="userIsLoggedIn" slot="icon-only" name="menu"/>
+          <ion-icon @click="openFirst" slot="icon-only" name="menu"/>
         </ion-buttons>
         <ion-buttons slot="end">
           <ion-button @click="Logout">Logout</ion-button>
@@ -48,16 +48,11 @@ addIcons({
 export default{
   data: function(){
     return{
-      cookie: "",
-      userIsLoggedIn: false
+      currentuser: ""
     }
   },
   beforeMount: function(){
-    //get cookie of currently logged in user
-    this.cookie = this.$cookies.get('user');
-    if(this.cookie!=null){
-      this.userIsLoggedIn=true;
-    }
+      this.currentuser=JSON.parse(sessionStorage.getItem("User"));
   },
   methods: {
     openFirst: function() {
@@ -65,9 +60,6 @@ export default{
       document.querySelector('ion-menu-controller').open('first')
     },
     Logout: function() {
-      this.userisLoggedIn=false;
-      this.$cookies.remove('user');
-      this.cookie=null;
       this.$router.push({ name: 'home' });
     },
     EditProfile: function() {

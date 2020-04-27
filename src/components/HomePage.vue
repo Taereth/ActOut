@@ -78,28 +78,18 @@ export default {
         method: "POST",
         body: JSON.stringify(this.user),
       }).then(response=>{
-        return response.json();
+        if(response.status==200){
+        return response.json();}
+        else{
+          console.log("Access Denied.")
+        }
       }).then((data)=>{
 
-
-
-        //Check Password hashing
-
-        bcrypt.compare(this.user.password,data.user.password,(err,res)=>{
-          if (err) {
-            console.log(err)
-            return
-          }
-          if(res && data.user.email==this.user.email && this.user.password != null && this.user.email != null){
-
-            this.$cookies.set('user',data.user);
-            this.$router.push({ name: 'profiles', params: { id: data.user.id }});
-          }
-          else{
-            console.log(data);
-          }
-        })
-
+        data = JSON.stringify(data.user);
+        sessionStorage.setItem("User",data);
+        console.log(sessionStorage.getItem("User"));
+        console.log(JSON.parse(sessionStorage.getItem("User")));
+        this.$router.push({ name: 'profiles', params: { id: JSON.parse(sessionStorage.getItem("User")).id }});
 
 
       })

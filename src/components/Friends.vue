@@ -20,21 +20,14 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      cookie: "empty cookie",
       currentuser: {},
-      userIsLoggedIn: false,
       user: {},
       allusers: "empty users"
     }
   },
   beforeMount: function(){
-    //get cookie of currently logged in user
-    this.cookie = this.$cookies.get('user');
-    if(this.cookie!=null){
-      this.userIsLoggedIn=true;
-    }
-    //get data of current profile
-    this.currentuser=this.$cookies.get('user');
+
+    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
     this.user=this.currentuser;
 
     //get all userdata

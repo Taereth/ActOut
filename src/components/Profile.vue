@@ -2,7 +2,7 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      {{currentuser}} haha
+      {{currentuser.vorname}} haha
     </ion-content>
   </ion-page>
 </template>
@@ -21,19 +21,14 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      cookie: "empty cookie",
       currentuser: {},
       userIsLoggedIn: false
     }
   },
   beforeMount: function(){
-    //get cookie of currently logged in user
-    this.cookie = this.$cookies.get('user');
-    if(this.cookie!=null){
-      this.userIsLoggedIn=true;
-    }
-    //get data of current profile
-    currentuser(this);
+
+    this.currentuser = JSON.parse(sessionStorage.getItem("User"));
+
   },
   mounted: function(){
 
@@ -44,37 +39,6 @@ export default {
 
 };
 
-function currentuser(self){
-
-  var currentprofileID = window.location.href;
-  currentprofileID = currentprofileID.substr(currentprofileID.length - 13);
-
-  var reqbody = {
-    "id": currentprofileID
-  }
-
-
-
-  fetch("/currentuser", {
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      "Content-type" : "application/json"
-    },
-    method: "POST",
-    body: JSON.stringify(reqbody),
-  }).then(response=>{
-    return response.json();
-  }).then((data)=>{
-
-    self.currentuser = data;
-
-
-
-  })
-
-
-
-}
 
 
 

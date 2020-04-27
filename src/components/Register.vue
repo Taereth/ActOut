@@ -90,8 +90,6 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 
-//Password hashing library
-const bcrypt = require('bcryptjs');
 
 addIcons({
   "ios-add": add.ios,
@@ -110,28 +108,17 @@ export default {
   },
   methods: {
     newuser: function(){
-      var unhashedpassword = this.user.password;
-      var rounds = 10;
-
       //Assign user a unique id
       this.user.id = Date.now().toString();
-      //Password hashing
-      bcrypt.hash(unhashedpassword, rounds, (err,hash)=>{
-        if (err) {
-          console.log(err);
-          return
-        }
-        this.user.password = hash;
-        fetch('/newuser', {
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          "Content-type" : "application/json"
-        },
-        method: 'POST',
-        body: JSON.stringify(this.user)
-      })
 
-      })
+      fetch('/newuser', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify(this.user)
+    })
 
 
     }

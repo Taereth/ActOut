@@ -18,6 +18,11 @@ var port = process.env.PORT || 5001;
 const nconf = require('nconf');
 const Multer = require('multer');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const sessionStorage = require('sessionstorage');
+const jwt = require('jsonwebtoken');
+app.use(cookieParser());
+
 
 //mongoDB Setup
 
@@ -30,6 +35,7 @@ const mongoose = require('mongoose');
 const ObjectID = mongodb.ObjectID;
 
 //make requests readable for Server
+
 app.use(bodyParser.urlencoded())
 app.use(bodyParser.json());
 
@@ -42,6 +48,9 @@ console.log('server started '+ port);
 //test
 
 let dbName = "test";
+
+//password hashing
+const bcrypt = require('bcryptjs');
 
 
 //Server Listener
@@ -56,6 +65,17 @@ app.get("/test", function (req,res){
 //TODO ERROR if no data sent
 app.post("/newuser",function (req,res){
 
+  var rounds = 10;
+
+  bcrypt.hash(req.body.password, rounds, (err,hash)=>{
+    if (err) {
+      console.log(err);
+      return
+    }
+    req.body.password = hash;
+
+  })
+
   storeIntoMongoDB(req.body,"users");
   res.status(200).send({ auth: true })
 
@@ -66,7 +86,7 @@ app.post("/newuser",function (req,res){
 
 app.post("/checklogin",function (req,res){
 
-  console.log(req.body);
+
 
   var theemail = req.body['email'];
 
@@ -74,14 +94,31 @@ app.post("/checklogin",function (req,res){
     email : theemail
   }
 
-  console.log(theuser);
+
 
 //Functions to run when the user exists in the database
 
   function iterateFunc(doc) {
 
-    res.status(200).send({ auth: true, user: doc });
-    client.close();
+    bcrypt.compare(req.body.password,doc.password,(err,response)=>{
+      if (err) {
+        console.log(err)
+        res.status(401).send({error:"Access denied."})
+        client.close();
+      }
+      if(response && req.body.email==doc.email && req.body.password != null && req.body.email != null){
+
+        delete doc["password"];
+        res.status(200).send({auth: true, "user":doc})
+        client.close();
+      }
+      else{
+        res.status(401).send({error:"Access denied."})
+        client.close();
+      }
+    })
+
+
 
   }
   function errorFunc(error) {
@@ -225,12 +262,12 @@ app.get("/allusers",function (req,res){
 
   MongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
     if (err) throw err;
-    
+
     const db = client.db(dbName)
     const collection = db.collection("users")
 
 	var cursor = collection.find()
-	
+
 	let users = await cursor.toArray()
     res.json(users);
 
