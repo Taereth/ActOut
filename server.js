@@ -20,7 +20,10 @@ const Multer = require('multer');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const sessionStorage = require('sessionstorage');
+const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const JWTKEY = fs.readFileSync('./key.key', 'utf8');
+
 app.use(cookieParser());
 
 
@@ -51,6 +54,26 @@ let dbName = "test";
 
 //password hashing
 const bcrypt = require('bcryptjs');
+
+//JWT Authentication
+
+function jwtauth(req, res, next){
+
+
+  var token = req.cookies.sessionToken;
+
+  if(token==null || token == "undefined"){
+    res.status(401).send("Token Error");
+  }
+  try{
+    var legit = jwt.verify(token, JWTKEY);
+    next();
+  }
+  catch{
+    res.status(401).send("Token Error");
+  }
+
+}
 
 
 //Server Listener
@@ -108,6 +131,20 @@ app.post("/checklogin",function (req,res){
       }
       if(response && req.body.email==doc.email && req.body.password != null && req.body.email != null){
 
+        var payload = {
+          "email": doc.email,
+          "id": doc.id
+        }
+
+        var duration = 30 * 24 * 60 * 60
+
+        var token = jwt.sign(payload, JWTKEY, {
+          expiresIn: duration
+        })
+
+        res.cookie("sessionToken",token, {maxAge: duration*1000, httpOnly: true});
+
+
         delete doc["password"];
         res.status(200).send({auth: true, "user":doc})
         client.close();
@@ -160,7 +197,7 @@ app.post("/checklogin",function (req,res){
 
 })
 
-app.post("/currentuser",function (req,res){
+app.post("/currentuser",jwtauth,function (req,res){
 
 
   var id = req.body['id'].toString();
@@ -218,7 +255,7 @@ app.post("/currentuser",function (req,res){
 
 })
 
-app.post("/updateUserDB",function (req,res){
+app.post("/updateUserDB",jwtauth,function (req,res){
 
   var dbid = req.body.id;
   var payload = req.body.payload;
@@ -255,7 +292,7 @@ app.post("/updateUserDB",function (req,res){
 
 })
 
-app.get("/allusers",function (req,res){
+app.get("/allusers", jwtauth, function (req,res){
 
   var users=[];
 
