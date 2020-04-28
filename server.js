@@ -101,6 +101,7 @@ app.post("/newuser",function (req,res){
 
   storeIntoMongoDB(req.body,"users");
   res.status(200).send({ auth: true })
+  client.close();
 
 
 })
@@ -260,7 +261,6 @@ app.post("/updateUserDB",jwtauth,function (req,res){
   var dbid = req.body.id;
   var payload = req.body.payload;
 
-  console.log(req.body);
 
   MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
     if (err) {
@@ -315,6 +315,45 @@ app.get("/allusers", jwtauth, function (req,res){
 
 })
 
+app.post("/userprojects", jwtauth, function (req,res){
+
+  var user = req.body.email;
+
+  var userprojects=[];
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
+    if (err) throw err;
+
+    const db = client.db(dbName)
+    const collection = db.collection("projects")
+
+	var cursor = collection.find({members: { $all: [user] }})
+
+	var userprojects = await cursor.toArray()
+    res.json(userprojects);
+
+    client.close();
+
+  })
+
+
+})
+
+app.post("/newproject",function (req,res){
+
+    try{
+      storeIntoMongoDB(req.body,"projects");
+      res.status(200).json("Succesful Insertion");
+    }
+    catch{
+      res.status(500).send({error: "DB Error"});
+    }
+
+
+
+})
+
 //Function to store any Object into mongoDB -> Made in previous project ( https://github.com/Taereth/InstantFeed )
 
 function storeIntoMongoDB(object, collectionName) {
@@ -332,9 +371,10 @@ function storeIntoMongoDB(object, collectionName) {
       if (err){
         throw err;
       }
-      client.close();
+
 
     })
+    client.close();
 
   })
 

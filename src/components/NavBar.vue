@@ -12,7 +12,7 @@
       <ion-content>
         <ion-list>
           <ion-item><ion-button @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
-          <ion-item>Projekte verwalten</ion-item>
+          <ion-item><ion-button @click="Projects">Projekte verwalten</ion-button></ion-item>
           <ion-item><ion-button @click="Friends">Freunde</ion-button></ion-item>
           <ion-item><ion-button @click="Logout">Logout</ion-button></ion-item>
         </ion-list>
@@ -63,10 +63,13 @@ export default{
       this.$router.push({ name: 'home' });
     },
     EditProfile: function() {
-      this.$router.push({ name: 'editProfile', params: { id: this.$cookies.id }});
+      this.$router.push({ name: 'editProfile', params: { id: this.currentuser.id }});
     },
     Friends: function() {
-      this.$router.push({ name: 'friends', params: { id: this.$cookies.id }});
+      this.$router.push({ name: 'friends', params: { id: this.currentuser.id }});
+    },
+    Projects: function() {
+      this.$router.push({ name: 'projects', params: { id: this.currentuser.id }});
     }
   }
 
