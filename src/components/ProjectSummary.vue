@@ -2,7 +2,9 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      {{myprojects}}
+      <ion-list>
+        <ion-item v-for="project in myprojects" :key="project"><ion-button @click="openProjectPage(project.id)">{{ project.name }}</ion-button></ion-item>
+      </ion-list>
     </ion-content>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
@@ -77,6 +79,9 @@ export default {
     })
     .then(m=>m.present())
 
+  },
+  openProjectPage: function(projectid){
+    this.$router.push({ name: 'project', params: { id: projectid }});
   }
   }
 

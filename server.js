@@ -198,19 +198,18 @@ app.post("/checklogin",function (req,res){
 
 })
 
-app.post("/currentuser",jwtauth,function (req,res){
+app.post("/getDBEntry",jwtauth,function (req,res){
 
 
   var id = req.body['id'].toString();
 
 
-  console.log(id);
 
 //Functions to run when the user exists in the database
 
   function iterateFunc(doc) {
 
-    console.log(doc)
+
 
 
     res.json(doc);
@@ -229,7 +228,16 @@ app.post("/currentuser",jwtauth,function (req,res){
     }
 
     const db = client.db(dbName);
-    const collection = db.collection("users");
+    var collection;
+  
+
+    if(id.startsWith("P")){
+      collection = db.collection("projects")
+    }
+    else{
+      collection = db.collection("users");
+    }
+
 
     var cursor = collection.find({id: id});
 
