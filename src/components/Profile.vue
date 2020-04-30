@@ -2,10 +2,10 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      {{currentuser.vorname}} haha
+      {{profileData.vorname}} haha
       <br/>
       Friends:
-      <ion-list v-if="Friendsdata[0]!='Loading'">
+      <ion-list v-if="currentuser.id==profileData.id">
         <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
       </ion-list>
     </ion-content>
@@ -29,20 +29,20 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: false,
-      Friendsdata: [{"email":"Loading"}]
+      Friendsdata: [{"email":"Loading"}],
+      profileData: {}
     }
   },
-  beforeMount: function(){
+  mounted: function(){
 
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
+
+    this.getProfileData();
     for(var i = 0 ; i < this.currentuser.friends.length ; i++){
       console.log(this.currentuser.friends[i]);
       this.getUserData(this.currentuser.friends[i], i);
     }
 
-
-  },
-  mounted: function(){
 
   },
   components: {
@@ -75,13 +75,36 @@ export default {
 
 
 
-
-
-
     },
-  openUserPage: function(userid){
+    openUserPage: function(userid){
+    console.log(userid)
     this.$router.push({ name: 'profiles', params: { id: userid }});
-  }
+    this.$router.go();
+  },
+    getProfileData: function(){
+
+
+      fetch("/getDBEntrybyId", {
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify( { "id" : this.$route.params.id } ),
+      }).then(response=>{
+        if(response.status==200){
+        return response.json();}
+        else{
+          console.log("Access Denied.")
+        }
+      }).then((data)=>{
+
+        this.profileData = data;
+        this.$forceUpdate();
+
+
+      })
+    }
   }
 
 };
