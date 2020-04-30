@@ -198,7 +198,9 @@ app.post("/checklogin",function (req,res){
 
 })
 
-app.post("/getDBEntry",jwtauth,function (req,res){
+app.post("/getDBEntrybyID",jwtauth,function (req,res){
+
+
 
 
   var id = req.body['id'].toString();
@@ -239,6 +241,66 @@ app.post("/getDBEntry",jwtauth,function (req,res){
 
 
     var cursor = collection.find({id: id});
+
+
+
+    cursor.count(function(err, count) {
+    if(count == 1) {
+      cursor.forEach(iterateFunc,errorFunc);
+    }
+
+    else if(count == 0){
+      res.json({status:'No Id Found'});
+      client.close();
+    }
+
+    else{
+      res.json({status:'DB Error'});
+      client.close();
+    }
+});
+
+
+  })
+
+})
+
+app.post("/getUserEntrybyEmail",jwtauth,function (req,res){
+
+
+
+
+  var email = req.body['email'].toString();
+
+
+
+//Functions to run when the user exists in the database
+
+  function iterateFunc(doc) {
+
+
+
+
+    res.json(doc);
+
+    client.close();
+
+  }
+  function errorFunc(error) {
+    console.log(error);
+  }
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    var collection = db.collection("users");
+
+
+    var cursor = collection.find({"email": email});
 
 
 

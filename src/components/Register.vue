@@ -110,6 +110,7 @@ export default {
     newuser: function(){
       //Assign user a unique id
       this.user.id = Date.now().toString();
+      this.user.friends = [];
 
       fetch('/newuser', {
       headers: {

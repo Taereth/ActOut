@@ -60,7 +60,7 @@ export default {
   },
   methods:{
     getProject: function(){
-      fetch("/getDBEntry", {
+      fetch("/getDBEntrybyID", {
         headers: {
           'Accept': 'application/json, text/plain, */*',
           "Content-type" : "application/json"

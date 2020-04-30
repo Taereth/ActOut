@@ -5,9 +5,9 @@
     <ion-header>
       <ion-toolbar color="primary">
         <ion-buttons slot="start">
-            <ion-button @click="closeModal">Close<ion-button>
+            <ion-button @click="closeModal">Close</ion-button>
         </ion-buttons>
-        <ion-title>{{title}}/ion-title>
+        <ion-title>{{title}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
