@@ -229,7 +229,6 @@ app.post("/getDBEntry",jwtauth,function (req,res){
 
     const db = client.db(dbName);
     var collection;
-  
 
     if(id.startsWith("P")){
       collection = db.collection("projects")
@@ -264,10 +263,11 @@ app.post("/getDBEntry",jwtauth,function (req,res){
 
 })
 
-app.post("/updateUserDB",jwtauth,function (req,res){
+app.post("/updateDB",jwtauth,function (req,res){
 
   var dbid = req.body.id;
   var payload = req.body.payload;
+  var id= req.body.payload.id;
 
 
   MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
@@ -276,10 +276,27 @@ app.post("/updateUserDB",jwtauth,function (req,res){
     }
 
     const db = client.db(dbName);
-    const collection = db.collection("users");
 
-    collection.updateOne({_id: new ObjectID(dbid)},{$set:
-      {
+    var collection;
+
+    var dbEntry;
+
+
+    if(id.startsWith("P")){
+      collection = db.collection("projects")
+      dbEntry = {
+        "id":id,
+        "creator":payload.creator,
+        "name":payload.name,
+        "members":payload.members,
+        "details":payload.details,
+        "pendingmembers":payload.pendingmembers
+      }
+    }
+    else{
+      collection = db.collection("users");
+      dbEntry = {
+        "id":id,
         "email":payload.email,
         "vorname":payload.vorname,
         "nachname":payload.nachname,
@@ -287,6 +304,12 @@ app.post("/updateUserDB",jwtauth,function (req,res){
         "wohnort":payload.wohnort,
         "job":payload.job
       }
+
+    }
+
+
+    collection.updateOne({_id: new ObjectID(dbid)},{$set:
+      dbEntry
     },{upsert: true}, (err, result) =>{
       if (err){
         throw err;

@@ -115,7 +115,7 @@ export default {
       console.log(this.currentuser._id);
       console.log(this.user);
 
-      fetch('/updateUserDB', {
+      fetch('/updateDB', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
         "Content-type" : "application/json"

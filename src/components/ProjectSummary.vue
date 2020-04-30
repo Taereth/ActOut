@@ -3,13 +3,16 @@
     <NavBar/>
     <ion-content padding>
       <ion-list>
-        <ion-item v-for="project in myprojects" :key="project"><ion-button @click="openProjectPage(project.id)">{{ project.name }}</ion-button></ion-item>
+        <ion-item v-for="project in myprojects" :key="project">
+          <ion-button @click="openProjectPage(project.id)">{{ project.name }}</ion-button>
+          <ion-label color="danger" v-if="checkNewPendingMembers(project)">New Pending Member</ion-label>
+        </ion-item>
       </ion-list>
     </ion-content>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
       <ion-fab-button @click="openProjectModal">
-        <ion-icon name="add" />
+        <ion-icon color="tertiary" name="add" />
       </ion-fab-button>
     </ion-fab>
 
@@ -34,7 +37,8 @@ export default {
     return{
       currentuser: {},
       user: {},
-      myprojects: "No projects"
+      myprojects: "No projects",
+      newPendingMembers: false
     }
   },
   beforeMount: function(){
@@ -44,6 +48,7 @@ export default {
 
     //get all userdata
     this.userprojects();
+
 
 
   },
@@ -82,6 +87,12 @@ export default {
   },
   openProjectPage: function(projectid){
     this.$router.push({ name: 'project', params: { id: projectid }});
+  },
+  checkNewPendingMembers: function(project){
+    if(this.currentuser.email==project.creator && project.pendingmembers[0] != null){
+      return true;
+    }
+
   }
   }
 

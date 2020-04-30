@@ -57,6 +57,7 @@ export default {
       this.project.creator = JSON.parse(sessionStorage.getItem("User")).email;
       this.project.id = "P"+Date.now().toString();
       this.project.members = [this.project.creator];
+      this.project.pendingmembers = [];
 
       console.log(this.project);
 
