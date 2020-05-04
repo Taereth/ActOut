@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
+const multiparty = require('multiparty-express');
 app = express();
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
@@ -23,6 +24,19 @@ const sessionStorage = require('sessionstorage');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const JWTKEY = fs.readFileSync('./key.key', 'utf8');
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 10 * 1024 * 1024
+  }
+})
+
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({
+  accessKeyId: "AKIAJ5FYQIYL2X23OLPA",
+  secretAccessKey: "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"
+});
 
 app.use(cookieParser());
 
@@ -447,6 +461,42 @@ app.post("/newproject",function (req,res){
 
 })
 
+app.post('/fileupload', multer.single("file"), (req, res) => {
+
+  if(!req.file) {
+    console.log("No File Detected");
+    res.status(400).send("No File Uploaded");
+    return;
+  }
+
+  var filename = "U"+Date.now().toString()+path.extname(req.file.originalname);
+  console.log(req.file);
+
+  var base64data = new Buffer(req.file.buffer, 'binary');
+
+  uploadtoAWS(base64data,filename);
+  res.status(200).json({"ImgName":filename});
+
+
+
+
+});
+
+app.post('/filedownload', (req,res) =>{
+
+  console.log(req.body.filename);
+
+  const params = {
+    Bucket: 'pbaactout',
+    Key: req.body.filename
+  }
+  s3.getObject(params, (err, data)=>{
+    if(err) console.error(err);
+    res.status(200).json(data.Body)
+  })
+
+} )
+
 //Function to store any Object into mongoDB -> Made in previous project ( https://github.com/Taereth/InstantFeed )
 
 function storeIntoMongoDB(object, collectionName) {
@@ -470,5 +520,20 @@ function storeIntoMongoDB(object, collectionName) {
     client.close();
 
   })
+
+}
+
+function uploadtoAWS(payload, fileName) {
+
+  const params = {
+    Bucket: 'pbaactout',
+    Key: fileName,
+    Body: payload
+  };
+  s3.upload(params, function(s3Err,payload){
+    if (s3Err) throw s3Err
+    console.log("File uploaded.");
+  })
+
 
 }

@@ -80,8 +80,21 @@
            <ion-select-option value="crew">Crewmitglied</ion-select-option>
           </ion-select>
         </ion-item>
+        <ion-item>
+          <ion-label position="stacked" color="primary">Profilbild</ion-label>
+          <input
+        type="file"
+        id="imageupload"
+        name="imageupload"
+        accept="image/png, image/jpg"
+        ref="fileinput"
+        >
+        </ion-item>
       </ion-list>
       <ion-button @click="newuser"> Registrieren </ion-button><br/>
+      <ion-button @click="uploadUserImage">Image</ion-button>
+      <ion-button @click="downloadUserImage">Image</ion-button>
+      <ion-img :src="testimg"/>
     </ion-content>
   </ion-page>
 </template>
@@ -102,7 +115,9 @@ export default {
   },
   data() {
     return {
-      user: {}
+      user: {},
+      userimage: "",
+      testimg: ""
     }
     ;
   },
@@ -122,7 +137,50 @@ export default {
     })
 
 
+  },
+  checkimage: function(){
+    console.log(this.userimage);
+  },
+  uploadUserImage: function(){
+
+    let data = new FormData();
+      data.append("file", this.$refs.fileinput.files[0]);
+      fetch("/fileupload", {
+        method: "POST",
+        body: data
+      }).then(response=>{
+        console.log(response);
+        return response.json();
+      }).then(data=>{
+        console.log(data);
+        this.user.imageName = data.ImgName;
+      })
+
+  },
+  downloadUserImage: function(){
+
+    var data = {
+      filename : this.user.imageName
     }
+
+    fetch("/filedownload", {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: "POST",
+      body: JSON.stringify(data)
+    }).then(response=>{
+      return response.json();
+    }).then(data=>{
+      console.log(data.data);
+      var b64encoded = btoa(String.fromCharCode.apply(null, data.data));
+      var datajpg = "data:image/jpg;base64," + b64encoded;
+      this.testimg = datajpg;
+      this.$forceUpdate;
+    })
+
+  }
   }
 };
 </script>

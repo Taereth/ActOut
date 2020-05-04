@@ -19,6 +19,7 @@ import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
 import Vue from 'vue'
 
+
 addIcons({
   "ios-add": add.ios,
   "md-add": add.md
@@ -48,6 +49,7 @@ export default {
   components: {
     NavBar
   },
+
   methods: {
     getUserData: function(email, key){
 
@@ -70,15 +72,20 @@ export default {
         console.log(this.Friendsdata);
         this.$forceUpdate();
 
-
       })
-
-
 
     },
     openUserPage: function(userid){
     console.log(userid)
-    this.$router.push({ name: 'profiles', params: { id: userid }});
+    this.$router.push({ name: 'profiles', params: { id: userid },
+    beforeEnter: (to, from, next) => {
+         /*
+          todo check if to === from
+          Warning!: location.reload()  completely destroy all vuejs stored states
+          */
+          window.location.reload()
+          return next()
+       }});
     this.$router.go();
   },
     getProfileData: function(){
