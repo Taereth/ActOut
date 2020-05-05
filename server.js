@@ -23,6 +23,7 @@ const cookieParser = require('cookie-parser');
 const sessionStorage = require('sessionstorage');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv').config();
 const JWTKEY = fs.readFileSync('./key.key', 'utf8');
 
 const multer = Multer({
@@ -34,18 +35,19 @@ const multer = Multer({
 
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
-  accessKeyId: "",
-  secretAccessKey: ""
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
 });
 
 app.use(cookieParser());
 
-
+console.log(process.env);
+console.log(process.env.MONGODB_PASS);
 //mongoDB Setup
 
 const mongodb = require('mongodb');
 const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://atlasAdmin:Taereth9594&@cluster0-0nxjb.mongodb.net/test?retryWrites=true&w=majority"
+const uri = process.env.MONGODB_PASS;
 const client = new MongoClient(uri);
 const assert = require('assert');
 const mongoose = require('mongoose');
