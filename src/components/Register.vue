@@ -127,14 +127,34 @@ export default {
       this.user.id = Date.now().toString();
       this.user.friends = [];
 
-      fetch('/newuser', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'POST',
-      body: JSON.stringify(this.user)
-    })
+      //Upload Image to AWS, then save Imagename in User and update MongoDB with the new user
+
+      let data = new FormData();
+        data.append("file", this.$refs.fileinput.files[0]);
+        fetch("/fileupload", {
+          method: "POST",
+          body: data
+        }).then(response=>{
+          console.log(response);
+          return response.json();
+        }).then(data=>{
+          console.log(data);
+          this.user.imageName = data.ImgName;
+
+          fetch('/newuser', {
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            "Content-type" : "application/json"
+          },
+          method: 'POST',
+          body: JSON.stringify(this.user)
+        })
+
+      })
+
+
+
+
 
 
   },
@@ -178,7 +198,9 @@ export default {
 
       //transform incoming buffer into Base64 String and make img source
       console.log(data.data);
-      var b64encoded = btoa(String.fromCharCode.apply(null, data.data));
+      var b64encoded = btoa(new Uint8Array(data.data).reduce(function (encoded, byte) {
+    return encoded + String.fromCharCode(byte);
+}, ''));
       var datajpg = "data:image/jpg;base64," + b64encoded;
       this.testimg = datajpg;
       this.$forceUpdate;

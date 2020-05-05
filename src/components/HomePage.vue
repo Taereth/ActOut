@@ -89,7 +89,7 @@ export default {
         sessionStorage.setItem("User",data);
         console.log(sessionStorage.getItem("User"));
         console.log(JSON.parse(sessionStorage.getItem("User")));
-        this.$router.push({ name: 'profiles', params: { id: JSON.parse(sessionStorage.getItem("User")).id }});
+        this.$router.push({ name: 'dashboard' });
 
 
       })

@@ -3,11 +3,6 @@
     <NavBar/>
     <ion-content padding>
       {{profileData.vorname}} haha
-      <br/>
-      Friends:
-      <ion-list v-if="currentuser.id==profileData.id">
-        <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
-      </ion-list>
     </ion-content>
   </ion-page>
 </template>
@@ -30,19 +25,13 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: false,
-      Friendsdata: [{"email":"Loading"}],
       profileData: {}
     }
   },
   mounted: function(){
 
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
-
     this.getProfileData();
-    for(var i = 0 ; i < this.currentuser.friends.length ; i++){
-      console.log(this.currentuser.friends[i]);
-      this.getUserData(this.currentuser.friends[i], i);
-    }
 
 
   },
