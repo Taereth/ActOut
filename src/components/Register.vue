@@ -141,6 +141,7 @@ export default {
   checkimage: function(){
     console.log(this.userimage);
   },
+  //Upload File to AWS
   uploadUserImage: function(){
 
     let data = new FormData();
@@ -163,6 +164,7 @@ export default {
       filename : this.user.imageName
     }
 
+    //Download File from AWS
     fetch("/filedownload", {
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -173,6 +175,8 @@ export default {
     }).then(response=>{
       return response.json();
     }).then(data=>{
+
+      //transform incoming buffer into Base64 String and make img source
       console.log(data.data);
       var b64encoded = btoa(String.fromCharCode.apply(null, data.data));
       var datajpg = "data:image/jpg;base64," + b64encoded;

@@ -34,8 +34,8 @@ const multer = Multer({
 
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
-  accessKeyId: "AKIAJ5FYQIYL2X23OLPA",
-  secretAccessKey: "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"
+  accessKeyId: "",
+  secretAccessKey: ""
 });
 
 app.use(cookieParser());
@@ -447,7 +447,7 @@ app.post("/userprojects", jwtauth, function (req,res){
 
 })
 
-app.post("/newproject",function (req,res){
+app.post("/newproject", jwtauth, function (req,res){
 
     try{
       storeIntoMongoDB(req.body,"projects");
