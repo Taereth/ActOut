@@ -3,13 +3,13 @@
     <NavBar/>
     <ion-content padding>
       This project: {{thisproject}} <br/>
-      <div v-if="this.userisMember">Pending Members: <br/>
+      <div v-if="this.userisMember==true">Pending Members: <br/>
 
         <ion-list>
           <ion-item v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
             <ion-button @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
             <br/>
-            <ion-button @click="ApproveMember(pendingmember[0])">Approve Member</ion-button>
+            <ion-button v-if="JSONArrayContainsString(pendingmember[1]) == false" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
           </ion-item>
         </ion-list>
       </div>
@@ -103,7 +103,7 @@ export default {
 
       //Push Current User into pending members of the project
 
-      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, 0]);
+      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, []]);
       this.userispendingMember=true;
 
       fetch('/updateDB', {
@@ -118,14 +118,15 @@ export default {
   ApproveMember: function(pendingmember){
 
     //Upon Approval, add 1 Vote to the Pending Member. If Votes > half the amount of members in the project, add pending member to members
+    //if statement is to stop multiple votes
 
+    if(this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false){
       for(var i=0; i<this.thisproject.pendingmembers.length; i++){
-        if(this.thisproject.pendingmembers[i][0] == pendingmember){
-          this.thisproject.pendingmembers[i][1]++;
-
-          if(this.thisproject.pendingmembers[i][1]>0){
+        if(this.thisproject.pendingmembers[i][0] == pendingmember[0]){
+          this.thisproject.pendingmembers[i][1].push(this.currentuser.email);
+          if(this.thisproject.pendingmembers[i][1].length>this.thisproject.members.length/2){
             this.thisproject.pendingmembers.splice(i,1);
-            this.thisproject.members.push(pendingmember);
+            this.thisproject.members.push(pendingmember[0]);
           }
 
 
@@ -140,6 +141,12 @@ export default {
       method: 'POST',
       body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
     })
+
+    }
+
+
+    this.$router.go();
+
   },
   RetractFromProject: function(){
 
@@ -177,6 +184,22 @@ export default {
     })
 
   },
+    JSONArrayContainsString: function(arr){
+      //Check whether JSON array contains a string
+
+      var string = this.currentuser.email;
+
+      console.log(arr + " " + string);
+
+      for(var i=0; i<arr.length; i++){
+        if(arr[i]==string){
+          return true;
+        }
+      }
+
+      return false;
+
+    }
   }
 
 };
