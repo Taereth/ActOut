@@ -3,6 +3,7 @@
     <NavBar/>
     <ion-content padding>
       {{profileData.vorname}} haha
+      <ion-img :src="profileImg"/>
     </ion-content>
   </ion-page>
 </template>
@@ -25,13 +26,15 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: false,
-      profileData: {}
+      profileData: {},
+      profileImg: ""
     }
   },
   mounted: function(){
 
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
     this.getProfileData();
+
 
 
   },
@@ -96,10 +99,39 @@ export default {
       }).then((data)=>{
 
         this.profileData = data;
+        this.downloadUserImage();
         this.$forceUpdate();
 
 
       })
+    },
+    downloadUserImage: function(){
+
+      var data = {
+        filename : this.profileData.imageName
+      }
+
+      //Download File from AWS
+      fetch("/filedownload", {
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+      }).then(response=>{
+        return response.json();
+      }).then(data=>{
+
+        //transform incoming buffer into Base64 String and make img source
+        var b64encoded = btoa(new Uint8Array(data.data).reduce(function (encoded, byte) {
+      return encoded + String.fromCharCode(byte);
+  }, ''));
+        var datajpg = "data:image/jpg;base64," + b64encoded;
+        this.profileImg = datajpg;
+        this.$forceUpdate;
+      })
+
     }
   }
 

@@ -23,7 +23,9 @@ const cookieParser = require('cookie-parser');
 const sessionStorage = require('sessionstorage');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config({
+  path: './.env'
+});
 const JWTKEY = fs.readFileSync('./key.key', 'utf8');
 
 const multer = Multer({
@@ -128,6 +130,8 @@ app.post("/checklogin",function (req,res){
 
 
 
+  console.log(uri);
+
   var theemail = req.body['email'];
 
   var theuser = {
@@ -178,7 +182,6 @@ app.post("/checklogin",function (req,res){
   function errorFunc(error) {
     console.log(error);
   }
-
 
 
   MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
@@ -438,6 +441,31 @@ app.post("/userprojects", jwtauth, function (req,res){
     const collection = db.collection("projects")
 
 	var cursor = collection.find({members: { $all: [user] }})
+
+	var userprojects = await cursor.toArray()
+    res.json(userprojects);
+
+    client.close();
+
+  })
+
+
+})
+
+app.post("/allprojects", jwtauth, function (req,res){
+
+  var user = req.body.email;
+
+  var userprojects=[];
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
+    if (err) throw err;
+
+    const db = client.db(dbName)
+    const collection = db.collection("projects")
+
+	var cursor = collection.find()
 
 	var userprojects = await cursor.toArray()
     res.json(userprojects);

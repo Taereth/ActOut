@@ -4,18 +4,10 @@
     <ion-content padding>
       <ion-list>
         <ion-item v-for="project in myprojects" :key="project">
-          <ion-button @click="openProjectPage(project.id)">{{ project.name }}</ion-button>
-          <ion-label color="danger" v-if="checkNewPendingMembers(project)">New Pending Member</ion-label>
+          <ion-button v-if="checkemail!=project.creator" @click="openProjectPage(project.id)">{{ project.name }}</ion-button>
         </ion-item>
       </ion-list>
     </ion-content>
-
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button @click="openProjectModal">
-        <ion-icon color="tertiary" name="add" />
-      </ion-fab-button>
-    </ion-fab>
-
 
 
   </ion-page>
@@ -25,7 +17,6 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
-import Modal from '@/components/ProjectModal.vue'
 
 addIcons({
   "ios-add": add.ios,
@@ -38,16 +29,19 @@ export default {
       currentuser: {},
       user: {},
       myprojects: "No projects",
-      newPendingMembers: false
+      newPendingMembers: false,
+      checkemail: ""
     }
   },
   beforeMount: function(){
 
-    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
-    this.user=this.currentuser;
 
-    //get all userdata
-    this.userprojects();
+
+    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
+    this.checkemail=this.currentuser.email;
+
+    //get all project data
+    this.allprojects();
 
 
 
@@ -56,12 +50,12 @@ export default {
 
   },
   components: {
-    NavBar,
+    NavBar
   },
   methods: {
-    userprojects: function(){
+    allprojects: function(){
 
-      fetch('/userprojects', {
+      fetch('/allprojects', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
         "Content-type" : "application/json"
@@ -77,23 +71,9 @@ export default {
     })
 
   },
-  openProjectModal: function(){
-    return this.$ionic.modalController
-    .create({
-      component: Modal
-    })
-    .then(m=>m.present())
-
-  },
   openProjectPage: function(projectid){
     this.$router.push({ name: 'project', params: { id: projectid }});
   },
-  checkNewPendingMembers: function(project){
-    if(project.pendingmembers[0] != null){
-      return true;
-    }
-
-  }
   }
 
 };

@@ -3,18 +3,19 @@
     <NavBar/>
     <ion-content padding>
       This project: {{thisproject}} <br/>
-      <div v-if="this.currentuser.email==this.thisproject.creator">Pending Members: <br/>
+      <div v-if="this.userisMember">Pending Members: <br/>
 
         <ion-list>
           <ion-item v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
-            {{pendingmember}}
+            <ion-button @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
             <br/>
-            <ion-button @click="ApproveMember(pendingmember)">Approve Member</ion-button>
+            <ion-button @click="ApproveMember(pendingmember[0])">Approve Member</ion-button>
           </ion-item>
         </ion-list>
       </div>
       <br/>
-      <div v-if="this.userisMember==false"><ion-button @click="ApplyForProject">Apply for Project</ion-button></div>
+      <div v-if="this.userisMember==false && this.userispendingMember==false"><ion-button @click="ApplyForProject">Für Projekt bewerben</ion-button></div>
+      <div v-if="this.userispendingMember==true && this.userisMember==false"><ion-button @click="RetractFromProject">Projektbewerbung zurückziehen</ion-button></div>
     </ion-content>
   </ion-page>
 </template>
@@ -36,7 +37,8 @@ export default {
       currentuser: {},
       userIsLoggedIn: false,
       thisproject: {},
-      userisMember: false
+      userisMember: false,
+      userispendingMember: false
     }
   },
   beforeMount: function(){
@@ -84,15 +86,25 @@ export default {
       })
     },
     checkUserMembership: function(){
+
+      // Check whether current user is a member or pending member of the project
+
       var members=JSON.stringify(this.thisproject.members)
+      var pendingmembers=JSON.stringify(this.thisproject.pendingmembers)
       if(members.includes(JSON.stringify(this.currentuser.email))){
         this.userisMember=true;
+      }
+      if(pendingmembers.includes(JSON.stringify(this.currentuser.email))){
+        this.userispendingMember=true;
       }
 
     },
     ApplyForProject: function(){
 
-      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push(this.currentuser.email);
+      //Push Current User into pending members of the project
+
+      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, 0]);
+      this.userispendingMember=true;
 
       fetch('/updateDB', {
       headers: {
@@ -104,8 +116,22 @@ export default {
     })
   },
   ApproveMember: function(pendingmember){
-      this.thisproject.pendingmembers.pop(pendingmember);
-      this.thisproject.members.push(pendingmember);
+
+    //Upon Approval, add 1 Vote to the Pending Member. If Votes > half the amount of members in the project, add pending member to members
+
+      for(var i=0; i<this.thisproject.pendingmembers.length; i++){
+        if(this.thisproject.pendingmembers[i][0] == pendingmember){
+          this.thisproject.pendingmembers[i][1]++;
+
+          if(this.thisproject.pendingmembers[i][1]>0){
+            this.thisproject.pendingmembers.splice(i,1);
+            this.thisproject.members.push(pendingmember);
+          }
+
+
+        }
+      }
+
       fetch('/updateDB', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -114,6 +140,42 @@ export default {
       method: 'POST',
       body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
     })
+  },
+  RetractFromProject: function(){
+
+
+    for(var i=0; i<this.thisproject.pendingmembers.length; i++){
+      if(this.thisproject.pendingmembers[i][0] == this.currentuser.email){
+        this.thisproject.pendingmembers.splice(i,1);
+        i--;
+      }
+    }
+    this.userispendingMember=false;
+
+    fetch('/updateDB', {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      "Content-type" : "application/json"
+    },
+    method: 'POST',
+    body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+  })
+  },
+    openUserPage: function(useremail){
+
+      fetch('/getUserEntrybyEmail', {
+        headers: {
+          'Accept' : 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+      method: 'POST',
+      body: JSON.stringify({"email" : useremail})
+    }).then(response=>{
+      return response.json()
+    }).then(data=>{
+      this.$router.push({ name: 'profiles', params: { id: data.id }});
+    })
+
   },
   }
 
