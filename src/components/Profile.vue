@@ -4,6 +4,8 @@
     <ion-content padding>
       {{profileData.vorname}} haha
       <ion-img :src="profileImg"/>
+      <ion-button v-if="isFriend == false" @click="addFriend"> Add Friend </ion-button>
+      <ion-button v-if="isFriend == true" @click="removeFriend"> Remove Friend </ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -27,16 +29,13 @@ export default {
       currentuser: {},
       userIsLoggedIn: false,
       profileData: {},
-      profileImg: ""
+      profileImg: "",
+      isFriend: false
     }
   },
-  mounted: function(){
-
+  beforeMount: function(){
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
     this.getProfileData();
-
-
-
   },
   components: {
     NavBar
@@ -100,6 +99,7 @@ export default {
 
         this.profileData = data;
         this.downloadUserImage();
+        this.checkFriendstatus();
         this.$forceUpdate();
 
 
@@ -134,8 +134,71 @@ export default {
 
     },
     addFriend: function(){
-      
+      this.currentuser.friends.push(this.profileData.email);
+
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+    })
+
+    var data = JSON.stringify(this.currentuser);
+    sessionStorage.setItem("User",data);
+    this.isFriend = true;
+
+    },
+    removeFriend: function(){
+
+      for(var j=0; j<this.currentuser.friends.length; j++){
+        if(this.currentuser.friends[j] == this.profileData.email){
+          this.currentuser.friends.splice(j,1);
+        }
+      }
+
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+    })
+
+    var data = JSON.stringify(this.currentuser);
+    sessionStorage.setItem("User",data);
+    this.isFriend = false;
+
+  },
+  checkFriendstatus: function(){
+
+    console.log(this.profileData.email);
+    console.log(this.currentuser.email);
+
+    var friends=JSON.stringify(this.currentuser.friends)
+    if(friends.includes(JSON.stringify(this.profileData.email))){
+      this.isFriend=true;
     }
+
+  },
+  JSONArrayContainsCurrentProfile: function(arr){
+    //Check whether JSON array contains a string
+
+    var string = this.profileData.email;
+
+
+
+    for(var i=0; i<arr.length; i++){
+      if(arr[i]==string){
+        return true;
+      }
+    }
+
+    return false;
+
+  }
   }
 
 };
