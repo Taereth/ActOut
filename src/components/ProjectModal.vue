@@ -46,7 +46,8 @@ export default {
   },
   data() {
     return {
-      project: {}
+      project: {},
+      currentuser: ""
     }
   },
   methods: {
@@ -75,6 +76,22 @@ export default {
     }).then(data=>{
       console.log(data);
     })
+    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
+    this.currentuser.projects.push(this.project.id);
+
+    console.log(this.currentuser);
+
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+    })
+
+    var data = JSON.stringify(this.currentuser);
+    sessionStorage.setItem("User",data);
 
     }
   }

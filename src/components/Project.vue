@@ -11,6 +11,7 @@
             <br/>
             <ion-button v-if="JSONArrayContainsCurrentUser(pendingmember[1]) == false || JSONArrayContainsCurrentUser(pendingmember[2]) == true" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
             <ion-button v-if="JSONArrayContainsCurrentUser(pendingmember[2]) == false || JSONArrayContainsCurrentUser(pendingmember[1]) == true" @click="DisapproveMember(pendingmember)">Disapprove Member</ion-button>
+            {{pendingmember[1].length}} Votes
           </ion-item>
         </ion-list>
       </div>
@@ -141,6 +142,9 @@ export default {
           if(this.thisproject.pendingmembers[i][1].length>this.thisproject.members.length/2){
             this.thisproject.pendingmembers.splice(i,1);
             this.thisproject.members.push(pendingmember[0]);
+
+            //If approved add projec to user
+            this.addProjecttoUser(pendingmember[0]);
           }
 
 
@@ -171,6 +175,8 @@ export default {
         if(this.thisproject.pendingmembers[y][1].length>this.thisproject.members.length/2){
           this.thisproject.pendingmembers.splice(y,1);
           this.thisproject.members.push(pendingmember[0]);
+          //If approved add project to user
+          this.addProjecttoUser(pendingmember[0]);
         }
 
 
@@ -189,7 +195,7 @@ export default {
   }
 
 
-    this.$router.go();
+
 
   },
   DisapproveMember: function(pendingmember){
@@ -314,6 +320,35 @@ export default {
 
       return false;
 
+    },
+    addProjecttoUser: function(useremail){
+      fetch('/getUserEntrybyEmail', {
+        headers: {
+          'Accept' : 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+      method: 'POST',
+      body: JSON.stringify({"email" : useremail})
+    }).then(response=>{
+      return response.json()
+    }).then(data=>{
+
+      data.projects.push(this.thisproject.id)
+
+      console.log(data);
+
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": data._id, "payload": data})
+    })
+
+
+
+    })
     }
   }
 

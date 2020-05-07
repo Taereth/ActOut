@@ -126,6 +126,7 @@ export default {
       //Assign user a unique id
       this.user.id = Date.now().toString();
       this.user.friends = [];
+      this.user.projects = [];
 
       //Upload Image to AWS, then save Imagename in User and update MongoDB with the new user
 
