@@ -58,6 +58,7 @@ export default {
       this.project.id = "P"+Date.now().toString();
       this.project.members = [this.project.creator];
       this.project.pendingmembers = [];
+      this.project.bannedmembers = [];
 
       console.log(this.project);
 

@@ -9,7 +9,8 @@
           <ion-item v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
             <ion-button @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
             <br/>
-            <ion-button v-if="JSONArrayContainsString(pendingmember[1]) == false" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
+            <ion-button v-if="JSONArrayContainsString(pendingmember[1]) == false || JSONArrayContainsString(pendingmember[2]) == true" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
+            <ion-button v-if="JSONArrayContainsString(pendingmember[2]) == false || JSONArrayContainsString(pendingmember[1]) == true" @click="DisapproveMember(pendingmember)">Disapprove Member</ion-button>
           </ion-item>
         </ion-list>
       </div>
@@ -103,7 +104,7 @@ export default {
 
       //Push Current User into pending members of the project
 
-      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, []]);
+      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, [], []]);
       this.userispendingMember=true;
 
       fetch('/updateDB', {
@@ -120,7 +121,7 @@ export default {
     //Upon Approval, add 1 Vote to the Pending Member. If Votes > half the amount of members in the project, add pending member to members
     //if statement is to stop multiple votes
 
-    if(this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false){
+    if(this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == false){
       for(var i=0; i<this.thisproject.pendingmembers.length; i++){
         if(this.thisproject.pendingmembers[i][0] == pendingmember[0]){
           this.thisproject.pendingmembers[i][1].push(this.currentuser.email);
@@ -142,7 +143,103 @@ export default {
       body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
     })
 
+  }else if(this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == true){
+    for(var y=0; y<this.thisproject.pendingmembers.length; y++){
+      if(this.thisproject.pendingmembers[y][0] == pendingmember[0]){
+
+        //Take out Current User out of Disapproval list and put it in Approval list instead
+        for(var j=0; j<this.thisproject.pendingmembers[y][2].length; j++){
+          if(this.thisproject.pendingmembers[y][2][j] == this.currentuser.email){
+            this.thisproject.pendingmembers[y][2].splice(j,1);
+          }
+        }
+
+        this.thisproject.pendingmembers[y][1].push(this.currentuser.email);
+        if(this.thisproject.pendingmembers[y][1].length>this.thisproject.members.length/2){
+          this.thisproject.pendingmembers.splice(y,1);
+          this.thisproject.members.push(pendingmember[0]);
+        }
+
+
+      }
     }
+
+    fetch('/updateDB', {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      "Content-type" : "application/json"
+    },
+    method: 'POST',
+    body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+  })
+
+  }
+
+
+    this.$router.go();
+
+  },
+  DisapproveMember: function(pendingmember){
+
+    //Upon Approval, add 1 Vote to the Pending Member. If Votes > half the amount of members in the project, add pending member to members
+    //if statement is to stop multiple votes
+
+    if(this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false){
+      for(var i=0; i<this.thisproject.pendingmembers.length; i++){
+        if(this.thisproject.pendingmembers[i][0] == pendingmember[0]){
+          this.thisproject.pendingmembers[i][2].push(this.currentuser.email);
+          if(this.thisproject.pendingmembers[i][2].length>this.thisproject.members.length/2){
+            this.thisproject.pendingmembers.splice(i,1);
+            this.thisproject.bannedmembers.push(pendingmember[0]);
+          }
+
+
+        }
+      }
+
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+    })
+
+  }else if(this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == true){
+    for(var y=0; y<this.thisproject.pendingmembers.length; y++){
+      if(this.thisproject.pendingmembers[y][0] == pendingmember[0]){
+
+        //Take out Current User out of Approval list and put it in Disapproval list instead
+
+        for(var j=0; j<this.thisproject.pendingmembers[y][1].length; j++){
+
+          if(this.thisproject.pendingmembers[y][1][j] == this.currentuser.email){
+            this.thisproject.pendingmembers[y][1].splice(j,1);
+          }
+        }
+
+
+        this.thisproject.pendingmembers[y][2].push(this.currentuser.email);
+        if(this.thisproject.pendingmembers[y][2].length>this.thisproject.members.length/2){
+          this.thisproject.pendingmembers.splice(y,1);
+          this.thisproject.bannedmembers.push(pendingmember[0]);
+        }
+
+
+      }
+    }
+
+    fetch('/updateDB', {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      "Content-type" : "application/json"
+    },
+    method: 'POST',
+    body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+  })
+
+  }
 
 
     this.$router.go();
