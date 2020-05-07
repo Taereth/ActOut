@@ -2,7 +2,12 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      {{allusers}}
+
+      Friends:
+      <ion-list>
+        <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
+      </ion-list>
+
     </ion-content>
   </ion-page>
 </template>
@@ -11,6 +16,7 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
+import Vue from 'vue'
 
 addIcons({
   "ios-add": add.ios,
@@ -21,43 +27,55 @@ export default {
   data: function(){
     return{
       currentuser: {},
-      user: {},
-      allusers: "empty users"
+      userIsLoggedIn: false,
+      Friendsdata: [],
     }
   },
-  beforeMount: function(){
-
-    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
-    this.user=this.currentuser;
-
-    //get all userdata
-    this.getallusers();
-
-
-  },
   mounted: function(){
+
+    this.currentuser = JSON.parse(sessionStorage.getItem("User"));
+
+    for(var i = 0 ; i < this.currentuser.friends.length ; i++){
+      console.log(this.currentuser.friends[i]);
+      this.getUserData(this.currentuser.friends[i], i);
+    }
+
 
   },
   components: {
     NavBar
   },
+
   methods: {
-    getallusers: function(){
+    getUserData: function(email, key){
 
-      fetch('/allusers', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'GET'
-    }).then(response=>
-    {
-      return response.json();
-    }).then(data=>{
-      console.log(data);
-    })
+      fetch("/getUserEntrybyEmail", {
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify( { "email" : email } ),
+      }).then(response=>{
+        if(response.status==200){
+        return response.json();}
+        else{
+          console.log("Access Denied.")
+        }
+      }).then((data)=>{
 
-    }
+        Vue.set(this.Friendsdata,key,data);
+        console.log(this.Friendsdata);
+        this.$forceUpdate();
+
+      })
+
+    },
+    openUserPage: function(userid){
+    console.log(userid)
+    this.$router.push({ name: 'profiles', params: { id: userid }});
+  },
+
   }
 
 };

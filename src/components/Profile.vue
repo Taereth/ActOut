@@ -132,6 +132,9 @@ export default {
         this.$forceUpdate;
       })
 
+    },
+    addFriend: function(){
+      
     }
   }
 

@@ -9,13 +9,14 @@
           <ion-item v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
             <ion-button @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
             <br/>
-            <ion-button v-if="JSONArrayContainsString(pendingmember[1]) == false || JSONArrayContainsString(pendingmember[2]) == true" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
-            <ion-button v-if="JSONArrayContainsString(pendingmember[2]) == false || JSONArrayContainsString(pendingmember[1]) == true" @click="DisapproveMember(pendingmember)">Disapprove Member</ion-button>
+            <ion-button v-if="JSONArrayContainsCurrentUser(pendingmember[1]) == false || JSONArrayContainsCurrentUser(pendingmember[2]) == true" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
+            <ion-button v-if="JSONArrayContainsCurrentUser(pendingmember[2]) == false || JSONArrayContainsCurrentUser(pendingmember[1]) == true" @click="DisapproveMember(pendingmember)">Disapprove Member</ion-button>
           </ion-item>
         </ion-list>
       </div>
       <br/>
-      <div v-if="this.userisMember==false && this.userispendingMember==false"><ion-button @click="ApplyForProject">Für Projekt bewerben</ion-button></div>
+      <div v-if="this.userisMember==false && this.userispendingMember==false && this.userisBanned == false"><ion-button @click="ApplyForProject">Für Projekt bewerben</ion-button></div>
+      <ion-label v-if="this.userisBanned" > You have been banned from applying to this project.</ion-label>
       <div v-if="this.userispendingMember==true && this.userisMember==false"><ion-button @click="RetractFromProject">Projektbewerbung zurückziehen</ion-button></div>
     </ion-content>
   </ion-page>
@@ -39,14 +40,15 @@ export default {
       userIsLoggedIn: false,
       thisproject: {},
       userisMember: false,
-      userispendingMember: false
+      userispendingMember: false,
+      userisBanned: false
     }
   },
   beforeMount: function(){
 
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
 
-    console.log(this.$route.params.id);
+
 
     this.getProject();
 
@@ -82,6 +84,7 @@ export default {
         this.thisproject=data;
 
         this.checkUserMembership();
+        this.checkBannedUser();
 
 
       })
@@ -97,6 +100,16 @@ export default {
       }
       if(pendingmembers.includes(JSON.stringify(this.currentuser.email))){
         this.userispendingMember=true;
+      }
+
+    },
+    checkBannedUser: function(){
+
+      // Check whether current user is a member or pending member of the project
+
+      var bannedmembers=JSON.stringify(this.thisproject.bannedmembers)
+      if(bannedmembers.includes(JSON.stringify(this.currentuser.email))){
+        this.userisBanned=true;
       }
 
     },
@@ -121,7 +134,7 @@ export default {
     //Upon Approval, add 1 Vote to the Pending Member. If Votes > half the amount of members in the project, add pending member to members
     //if statement is to stop multiple votes
 
-    if(this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == false){
+    if(this.JSONArrayContainsCurrentUser(pendingmember[1],this.currentuser.email) == false && this.JSONArrayContainsCurrentUser(pendingmember[2],this.currentuser.email) == false){
       for(var i=0; i<this.thisproject.pendingmembers.length; i++){
         if(this.thisproject.pendingmembers[i][0] == pendingmember[0]){
           this.thisproject.pendingmembers[i][1].push(this.currentuser.email);
@@ -143,7 +156,7 @@ export default {
       body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
     })
 
-  }else if(this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == true){
+  }else if(this.JSONArrayContainsCurrentUser(pendingmember[1],this.currentuser.email) == false && this.JSONArrayContainsCurrentUser(pendingmember[2],this.currentuser.email) == true){
     for(var y=0; y<this.thisproject.pendingmembers.length; y++){
       if(this.thisproject.pendingmembers[y][0] == pendingmember[0]){
 
@@ -184,18 +197,20 @@ export default {
     //Upon Approval, add 1 Vote to the Pending Member. If Votes > half the amount of members in the project, add pending member to members
     //if statement is to stop multiple votes
 
-    if(this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == false){
+    if(this.JSONArrayContainsCurrentUser(pendingmember[2],this.currentuser.email) == false && this.JSONArrayContainsCurrentUser(pendingmember[1],this.currentuser.email) == false){
       for(var i=0; i<this.thisproject.pendingmembers.length; i++){
         if(this.thisproject.pendingmembers[i][0] == pendingmember[0]){
           this.thisproject.pendingmembers[i][2].push(this.currentuser.email);
           if(this.thisproject.pendingmembers[i][2].length>this.thisproject.members.length/2){
-            this.thisproject.pendingmembers.splice(i,1);
             this.thisproject.bannedmembers.push(pendingmember[0]);
+            this.thisproject.pendingmembers.splice(i,1);
           }
 
 
         }
       }
+
+      console.log(this.thisproject);
 
       fetch('/updateDB', {
       headers: {
@@ -206,7 +221,9 @@ export default {
       body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
     })
 
-  }else if(this.JSONArrayContainsString(pendingmember[2],this.currentuser.email) == false && this.JSONArrayContainsString(pendingmember[1],this.currentuser.email) == true){
+
+
+  }else if(this.JSONArrayContainsCurrentUser(pendingmember[2],this.currentuser.email) == false && this.JSONArrayContainsCurrentUser(pendingmember[1],this.currentuser.email) == true){
     for(var y=0; y<this.thisproject.pendingmembers.length; y++){
       if(this.thisproject.pendingmembers[y][0] == pendingmember[0]){
 
@@ -222,8 +239,8 @@ export default {
 
         this.thisproject.pendingmembers[y][2].push(this.currentuser.email);
         if(this.thisproject.pendingmembers[y][2].length>this.thisproject.members.length/2){
-          this.thisproject.pendingmembers.splice(y,1);
           this.thisproject.bannedmembers.push(pendingmember[0]);
+          this.thisproject.pendingmembers.splice(y,1);
         }
 
 
@@ -239,10 +256,11 @@ export default {
     body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
   })
 
+
+
   }
 
 
-    this.$router.go();
 
   },
   RetractFromProject: function(){
@@ -281,12 +299,12 @@ export default {
     })
 
   },
-    JSONArrayContainsString: function(arr){
+    JSONArrayContainsCurrentUser: function(arr){
       //Check whether JSON array contains a string
 
       var string = this.currentuser.email;
 
-      console.log(arr + " " + string);
+
 
       for(var i=0; i<arr.length; i++){
         if(arr[i]==string){

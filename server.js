@@ -371,7 +371,8 @@ app.post("/updateDB",jwtauth,function (req,res){
         "name":payload.name,
         "members":payload.members,
         "details":payload.details,
-        "pendingmembers":payload.pendingmembers
+        "pendingmembers":payload.pendingmembers,
+        "bannedmembers":payload.bannedmembers
       }
     }
     else{
@@ -383,7 +384,8 @@ app.post("/updateDB",jwtauth,function (req,res){
         "nachname":payload.nachname,
         "gender":payload.gender,
         "wohnort":payload.wohnort,
-        "job":payload.job
+        "job":payload.job,
+        "friends":payload.friends
       }
 
     }
