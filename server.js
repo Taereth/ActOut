@@ -512,7 +512,7 @@ app.post('/fileupload', multer.single("file"), (req, res) => {
 
 });
 
-app.post('/filedownload', jwtauth, function (req,res) =>{
+app.post('/filedownload', jwtauth, (req,res) =>{
 
   console.log(req.body.filename);
 

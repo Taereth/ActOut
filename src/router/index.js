@@ -21,6 +21,9 @@ let router = new IonicVueRouter({
         name: "new-item",
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/NewItemPage"),
+          meta: {
+                  requiresAuth: true
+              }
       },
       {
         path: "/signup",
@@ -33,12 +36,18 @@ let router = new IonicVueRouter({
         name: "dashboard",
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/Dashboard"),
+          meta: {
+                  requiresAuth: true
+              }
       },
       {
         path: "/profiles/:id",
         name: "profiles",
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/Profile"),
+          meta: {
+                  requiresAuth: true
+              }
       },
       {
         path: "/profiles/:id/edit",
