@@ -32,6 +32,25 @@
           spellcheck="false"
           autocapitalize="on"></ion-input>
           </ion-item>
+          <ion-item>
+          <ion-label position="stacked" color="primary">Paid</ion-label>
+            <ion-toggle required
+            @ionChange="togglePaid"
+            :value="project.paid"
+            name="paid"
+            placeholder=""
+            checked=false>
+          </ion-toggle>
+          </ion-item>
+              <ion-item v-for="role in roles" :key="role">
+                <ion-input
+                @input="role[0]=$event.target.value"
+                :value="role[0]"
+                name="role">
+              </ion-input><br/>
+            <ion-button @click="removeRole(role)">Remove Role</ion-button>
+               </ion-item>
+            <ion-button @click="addRole">Add Role</ion-button>
       </ion-list>
       <ion-button @click="newproject"> Neues Projekt hinzufügen </ion-button><br/>
     </ion-content>
@@ -46,14 +65,31 @@ export default {
   },
   data() {
     return {
-      project: {},
-      currentuser: ""
+      project: {"roles": ["test",1]},
+      currentuser: "",
     }
+  },
+  computed: {
+    //Compute Roles to be displayed
+    roles: function(){
+      console.log(this.project.roles);
+      return this.project.roles
+    }
+  },
+  mounted: function() {
+
+    //Set up
+    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
+    this.project.paid = false;
+    this.project.roles = [];
+    this.project.roles.push(["Creator", this.currentuser.email]);
+    console.log(this.project.roles);
   },
   methods: {
     closeModal: function() {
       this.$ionic.modalController.dismiss();
     },
+    //Adds static properties to the project  and then adds it to the DB
     newproject: function() {
       this.project.creator = JSON.parse(sessionStorage.getItem("User")).email;
       this.project.id = "P"+Date.now().toString();
@@ -76,7 +112,6 @@ export default {
     }).then(data=>{
       console.log(data);
     })
-    this.currentuser=JSON.parse(sessionStorage.getItem("User"));
     this.currentuser.projects.push(this.project.id);
 
     console.log(this.currentuser);
@@ -93,7 +128,32 @@ export default {
     var data = JSON.stringify(this.currentuser);
     sessionStorage.setItem("User",data);
 
+  },
+  //sets project paid variable
+  togglePaid: function(){
+    console.log(this.project.paid)
+    if (this.project.paid == false){
+      this.project.paid = true;
+    }else if(this.project.paid == true){
+      this.project.paid = false;
     }
+  },
+  //Add a new role to the project and the template
+  addRole: function(){
+    this.project.roles.push(["New Role", "Not set"]);
+    console.log(this.project.roles);
+  },
+  //Remove role from project and template
+  removeRole: function(role){
+
+    for(var i=0; i<this.project.roles.length; i++){
+      if(this.project.roles[i] == role){
+        this.project.roles.splice(i,1);
+        break
+      }
+    }
+
+  }
   }
 }
 </script>

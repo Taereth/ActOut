@@ -4,8 +4,8 @@
     <ion-content padding>
       {{profileData.vorname}} haha
       <ion-img :src="profileImg"/>
-      <ion-button v-if="isFriend == false" @click="addFriend"> Add Friend </ion-button>
-      <ion-button v-if="isFriend == true" @click="removeFriend"> Remove Friend </ion-button>
+      <ion-button v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
+      <ion-button v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
     </ion-content>
   </ion-page>
 </template>

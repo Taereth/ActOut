@@ -372,7 +372,8 @@ app.post("/updateDB",jwtauth,function (req,res){
         "members":payload.members,
         "details":payload.details,
         "pendingmembers":payload.pendingmembers,
-        "bannedmembers":payload.bannedmembers
+        "bannedmembers":payload.bannedmembers,
+        "roles":payload.roles
       }
     }
     else{

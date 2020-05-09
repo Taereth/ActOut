@@ -3,8 +3,26 @@
     <NavBar/>
     <ion-content padding>
       This project: {{thisproject}} <br/>
-      <div v-if="this.userisMember==true">Pending Members: <br/>
 
+
+
+      <div v-if="this.userisMember==true">
+
+        <ion-list>
+          <ion-item v-for="(role,index) in roles" :key="role">
+            {{role[0]}}
+            <ion-select required
+            @ionChange="assignRole(index, $event.target.value)"
+            :value="role[1]"
+            placeholder="">
+              <ion-select-option value="Not set" >Not set</ion-select-option>
+              <ion-select-option v-for="member in members" :key="member" :value="member" >{{member}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+
+
+        Pending Members: <br/>
         <ion-list>
           <ion-item v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
             <ion-button @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
@@ -39,10 +57,21 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: false,
-      thisproject: {},
+      thisproject: {
+        "roles":["test",1],
+        "members":["placeholder"]
+    },
       userisMember: false,
       userispendingMember: false,
-      userisBanned: false
+      userisBanned: false,
+    }
+  },
+  computed: {
+    roles: function(){
+      return this.thisproject.roles
+    },
+    members: function(){
+      return this.thisproject.members
     }
   },
   beforeMount: function(){
@@ -216,7 +245,6 @@ export default {
         }
       }
 
-      console.log(this.thisproject);
 
       fetch('/updateDB', {
       headers: {
@@ -337,6 +365,7 @@ export default {
 
       console.log(data);
 
+
       fetch('/updateDB', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -349,7 +378,25 @@ export default {
 
 
     })
-    }
+  },
+  assignRole: function(index, member){
+
+    this.thisproject.roles[index][1]=member;
+
+
+    console.log(this.thisproject);
+
+    fetch('/updateDB', {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      "Content-type" : "application/json"
+    },
+    method: 'POST',
+    body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+  })
+
+
+  }
   }
 
 };
