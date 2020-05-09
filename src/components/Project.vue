@@ -4,15 +4,31 @@
     <ion-content padding>
       This project: {{thisproject}} <br/>
 
+      <ion-list>
+        <ion-item v-for="role in roles" :key="role">
+          <ion-label>{{role[0]}}</ion-label>
+          <p>{{role[1]}}</p>
+        </ion-item>
+      </ion-list>
+
+      <ion-list>
+        <ion-item v-for="(update,index) in updates" :key="update">
+          <ion-label>{{update[1]}}</ion-label>
+          {{update[0]}}
+          <ion-button @click="removeUpdate(index)" v-if="userisMember==true">Update entfernen</ion-button>
+        </ion-item>
+      </ion-list>
+
 
 
       <div v-if="this.userisMember==true">
+
 
         <ion-list>
           <ion-item v-for="(role,index) in roles" :key="role">
             {{role[0]}}
             <ion-select required
-            @ionChange="assignRole(index, $event.target.value)"
+            @ionChange="assignRole(index, role[0], $event.target.value)"
             :value="role[1]"
             placeholder="">
               <ion-select-option value="Not set" >Not set</ion-select-option>
@@ -59,7 +75,8 @@ export default {
       userIsLoggedIn: false,
       thisproject: {
         "roles":["test",1],
-        "members":["placeholder"]
+        "members":["placeholder"],
+        "updates":["placeholder",1]
     },
       userisMember: false,
       userispendingMember: false,
@@ -72,6 +89,9 @@ export default {
     },
     members: function(){
       return this.thisproject.members
+    },
+    updates: function(){
+      return this.thisproject.updates
     }
   },
   beforeMount: function(){
@@ -379,12 +399,13 @@ export default {
 
     })
   },
-  assignRole: function(index, member){
+  assignRole: function(index, rolename, member){
 
     this.thisproject.roles[index][1]=member;
+    var now = new Date();
 
+    this.thisproject.updates.push([member + " ist " + rolename + ".", now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + now.getMinutes()])
 
-    console.log(this.thisproject);
 
     fetch('/updateDB', {
     headers: {
@@ -396,7 +417,21 @@ export default {
   })
 
 
-  }
+},
+removeUpdate: function(index){
+    this.thisproject.updates.splice(index,1);
+    fetch('/updateDB', {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      "Content-type" : "application/json"
+    },
+    method: 'POST',
+    body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+  })
+},
+manualUpdate: function(){
+
+}
   }
 
 };

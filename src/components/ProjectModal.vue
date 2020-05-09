@@ -96,6 +96,7 @@ export default {
       this.project.members = [this.project.creator];
       this.project.pendingmembers = [];
       this.project.bannedmembers = [];
+      this.project.updates = [];
 
       console.log(this.project);
 
