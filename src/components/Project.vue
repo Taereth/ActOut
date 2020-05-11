@@ -13,7 +13,7 @@
 
       <ion-list>
         <ion-item v-for="(update,index) in updates" :key="update">
-          <ion-label>{{update[1]}}</ion-label>
+          <ion-label>{{update[2]}} um {{update[1]}}</ion-label>
           {{update[0]}}
           <ion-button @click="removeUpdate(index)" v-if="userisMember==true">Update entfernen</ion-button>
         </ion-item>
@@ -22,6 +22,13 @@
 
 
       <div v-if="this.userisMember==true">
+
+        <ion-label>Update hinzufügen</ion-label>
+        <ion-input @input="update = $event.target.value"
+        :value="update"
+        name="update"
+        type="text"/>
+        <ion-button @click="manualUpdate">Update</ion-button>
 
 
         <ion-list>
@@ -81,6 +88,7 @@ export default {
       userisMember: false,
       userispendingMember: false,
       userisBanned: false,
+      update: ""
     }
   },
   computed: {
@@ -404,7 +412,7 @@ export default {
     this.thisproject.roles[index][1]=member;
     var now = new Date();
 
-    this.thisproject.updates.push([member + " ist " + rolename + ".", now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + now.getMinutes()])
+    this.thisproject.updates.push([member + " ist " + rolename + ".", now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + now.getMinutes(), this.currentuser.email])
 
 
     fetch('/updateDB', {
@@ -430,6 +438,24 @@ removeUpdate: function(index){
   })
 },
 manualUpdate: function(){
+
+
+  var now = new Date();
+
+  this.thisproject.updates.push([this.update, now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + ":" + now.getMinutes(), this.currentuser.email])
+
+
+  fetch('/updateDB', {
+  headers: {
+    'Accept': 'application/json, text/plain, */*',
+    "Content-type" : "application/json"
+  },
+  method: 'POST',
+  body: JSON.stringify({"id": this.thisproject._id, "payload": this.thisproject})
+})
+
+this.update=""
+
 
 }
   }

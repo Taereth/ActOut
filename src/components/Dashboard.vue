@@ -2,7 +2,24 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      {{currentuser.vorname}} haha
+
+      <ion-list>
+        <ion-item v-for="(update,index) in updates" :key="update">
+          <ion-label>{{update[1]}}</ion-label>
+          {{update[0]}}
+          <ion-button @click="removeUpdate(index)" >Update entfernen</ion-button>
+        </ion-item>
+      </ion-list>
+
+      <ion-label>Update hinzufügen</ion-label>
+      <ion-input @input="update = $event.target.value"
+      :value="update"
+      name="update"
+      type="text"/>
+      <ion-button @click="manualUpdate">Update</ion-button>
+
+
+
       <ion-img :src="profileImg"/>
       <br/>
       Friends:
@@ -30,10 +47,16 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      currentuser: {},
+      currentuser: {"updates":["placeholder",1]},
       userIsLoggedIn: false,
       Friendsdata: [{"email":"Loading"}],
-      profileImg: ""
+      profileImg: "",
+      update: ""
+    }
+  },
+  computed: {
+    updates: function(){
+        return this.currentuser.updates
     }
   },
   mounted: function(){
@@ -110,7 +133,46 @@ export default {
         this.profileImg = datajpg;
       })
 
-  }
+  },
+
+  manualUpdate: function(){
+
+
+    var now = new Date();
+
+    this.currentuser.updates.push([this.update, now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + ":" + now.getMinutes()])
+
+
+    fetch('/updateDB', {
+    headers: {
+      'Accept': 'application/json, text/plain, */*',
+      "Content-type" : "application/json"
+    },
+    method: 'POST',
+    body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+  })
+
+  this.update=""
+  var data = JSON.stringify(this.currentuser);
+  sessionStorage.setItem("User",data);
+
+
+},
+  removeUpdate: function(index){
+      this.currentuser.updates.splice(index,1);
+      fetch('/updateDB', {
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        "Content-type" : "application/json"
+      },
+      method: 'POST',
+      body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+    })
+
+    var data = JSON.stringify(this.currentuser);
+    sessionStorage.setItem("User",data);
+
+  },
 
   }
 

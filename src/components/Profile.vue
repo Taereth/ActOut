@@ -2,7 +2,15 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-      {{profileData.vorname}} haha
+
+
+      <ion-list>
+        <ion-item v-for="update in updates" :key="update">
+          <ion-label>{{update[1]}}</ion-label>
+          {{update[0]}}
+        </ion-item>
+      </ion-list>
+
       <ion-img :src="profileImg"/>
       <ion-button v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
       <ion-button v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
@@ -15,7 +23,6 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
-import Vue from 'vue'
 
 
 addIcons({
@@ -28,7 +35,7 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: false,
-      profileData: {},
+      profileData: {"updates":["placeholder",1]},
       profileImg: "",
       isFriend: false
     }
@@ -40,32 +47,12 @@ export default {
   components: {
     NavBar
   },
-
+  computed: {
+    updates: function(){
+      return this.profileData.updates
+    }
+  },
   methods: {
-    getUserData: function(email, key){
-
-      fetch("/getUserEntrybyEmail", {
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          "Content-type" : "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify( { "email" : email } ),
-      }).then(response=>{
-        if(response.status==200){
-        return response.json();}
-        else{
-          console.log("Access Denied.")
-        }
-      }).then((data)=>{
-
-        Vue.set(this.Friendsdata,key,data);
-        console.log(this.Friendsdata);
-        this.$forceUpdate();
-
-      })
-
-    },
     openUserPage: function(userid){
     console.log(userid)
     this.$router.push({ name: 'profiles', params: { id: userid },
@@ -100,7 +87,7 @@ export default {
         this.profileData = data;
         this.downloadUserImage();
         this.checkFriendstatus();
-        this.$forceUpdate();
+        console.log(this.profileData);
 
 
       })

@@ -388,7 +388,8 @@ app.post("/updateDB",jwtauth,function (req,res){
         "wohnort":payload.wohnort,
         "job":payload.job,
         "friends":payload.friends,
-        "projects":payload.projects
+        "projects":payload.projects,
+        "updates":payload.updates
       }
 
     }
