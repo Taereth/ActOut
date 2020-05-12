@@ -231,8 +231,6 @@ app.post("/getDBEntrybyID",jwtauth,function (req,res){
   function iterateFunc(doc) {
 
 
-
-
     res.json(doc);
 
     client.close();
@@ -493,6 +491,186 @@ app.post("/newproject", jwtauth, function (req,res){
       res.status(500).send({error: "DB Error"});
     }
 
+
+
+})
+
+app.post("/chatSetup",jwtauth, function (req,res){
+
+  var user1 = req.body['user1'].toString();
+  var user2 = req.body['user2'].toString();
+
+
+
+  function iterateFunc(doc) {
+
+
+    res.json({"ChatID":doc._id, "messages":doc.messages, "version":doc.version});
+
+    client.close();
+
+  }
+  function errorFunc(error) {
+    console.log(error);
+  }
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    var collection = db.collection("chats");
+
+
+    var cursor = collection.find({"user1": {$in: [user1,user2]},
+                                  "user2": {$in: [user1,user2]}
+
+   });
+
+
+
+    cursor.count(function(err, count) {
+    if(count == 1) {
+      cursor.forEach(iterateFunc,errorFunc);
+    }
+
+    else if(count == 0){
+
+      var object = {"user1": user1,
+                    "user2": user2,
+                    "messages": [],
+                    "version": 1
+    }
+
+      collection.insertOne(object, (err, result) =>{
+        if (err){
+          throw err;
+        }
+
+        console.log(result.insertedId)
+        res.json({"ChatID":result.insertedId, "messages":[], "version":1});
+
+
+      })
+
+
+
+      client.close();
+    }
+
+    else{
+      res.json({status:'DB Error'});
+      client.close();
+    }
+});
+
+
+  })
+
+
+
+})
+
+app.post("/chat",jwtauth, function (req,res){
+
+
+  var id = req.body['id'].toString();
+  var versionnr = req.body['version'];
+  var messages = req.body['messages'];
+
+
+
+  function iterateFunc(doc) {
+
+    console.log(doc.messages)
+
+
+    res.json({"ChatID":doc._id, "messages":doc.messages, "version":doc.version});
+
+    client.close();
+
+  }
+  function errorFunc(error) {
+    console.log(error);
+  }
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+    var collection = db.collection("chats");
+
+
+    var cursor = collection.find({ $and: [{_id: ObjectID(id)},{version: {$gt: versionnr } } ] })
+
+
+
+
+    cursor.count(function(err, count) {
+    if(count == 1) {
+      cursor.forEach(iterateFunc,errorFunc);
+    }
+
+    else if(count == 0){
+
+        res.json({"ChatID":id, "messages":messages, "version": versionnr});
+
+
+      client.close();
+    }
+
+    else{
+      res.json({status:'DB Error'});
+      client.close();
+    }
+});
+
+
+  })
+
+
+
+})
+
+app.post("/updateChatDB",jwtauth,function (req,res){
+
+
+  console.log(req.body);
+  var dbid = req.body.id;
+  var payload = req.body.payload;
+  var version = req.body.version;
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+
+    var collection = db.collection("chats")
+
+    var dbEntry = {
+      "messages":payload,
+      "version":version
+    }
+
+    collection.updateOne({_id: ObjectID(dbid)},{$set:
+      dbEntry
+    },{upsert: true}, (err, result) =>{
+      if (err){
+        throw err;
+      }
+      client.close();
+
+    })
+
+  })
 
 
 })

@@ -5,7 +5,10 @@
 
       Friends:
       <ion-list>
-        <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
+        <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/>
+          <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button>
+          <ion-button @click="chat(friend.id, friend.vorname, friend.nachname)">Chat</ion-button>
+        </ion-item>
       </ion-list>
 
     </ion-content>
@@ -17,6 +20,7 @@ import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
 import Vue from 'vue'
+import Modal from '@/components/ChatModal.vue'
 
 addIcons({
   "ios-add": add.ios,
@@ -74,7 +78,24 @@ export default {
     openUserPage: function(userid){
     console.log(userid)
     this.$router.push({ name: 'profiles', params: { id: userid }});
-  },
+    },
+    chat: function(id, vorname, nachname){
+      return this.$ionic.modalController
+      .create({
+        component: Modal,
+        componentProps:{
+          propsData: {
+            title: vorname + " " + nachname
+          },
+          data: {
+            friendsid: id
+          }
+        }
+      })
+      .then(m=>m.present())
+
+    }
+
 
   }
 
