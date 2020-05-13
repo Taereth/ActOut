@@ -4,7 +4,7 @@
     <ion-content padding>
       <ion-list>
         <ion-item v-for="project in myprojects" :key="project">
-          <ion-button @click="openProjectPage(project.id)">{{ project.name }}</ion-button>
+          <ion-button color="actoutprimary" @click="openProjectPage(project.id)">{{ project.name }}</ion-button>
           <ion-label color="danger" v-if="checkNewPendingMembers(project)">New Pending Member</ion-label>
         </ion-item>
       </ion-list>

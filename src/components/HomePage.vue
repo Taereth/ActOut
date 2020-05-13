@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="actoutprimary">
         <ion-title class="ion-text-center" >ActOut</ion-title>
       </ion-toolbar>
     </ion-header>
@@ -9,7 +9,7 @@
 
       <ion-list>
         <ion-item>
-          <ion-label position="stacked" color="primary">Email</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Email</ion-label>
           <ion-input required
           @input="user.email=$event.target.value"
           :value="user.email"
@@ -17,19 +17,21 @@
           type="text"
           spellcheck="false"
           autocapitalize="off"
+          color="actoutprimary"
           ></ion-input>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Password</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Password</ion-label>
           <ion-input required
           @input="user.password = $event.target.value"
           :value="user.password"
           name="password"
+          color="actoutprimary"
           type="password"></ion-input>
         </ion-item>
       </ion-list>
-    <ion-button @click="login"> LogIn </ion-button><br/>
-    <ion-button @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
+    <ion-button color="actoutprimary" @click="login"> LogIn </ion-button><br/>
+    <ion-button color="actoutprimary" @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
 
     </ion-content>
   </ion-page>
@@ -91,4 +93,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+ion-item{
+  --highlight-color-focused:#E13700;
+  --highlight-background:#E13700;
+  --color-activated:#E13700;
+}
+
+ion-label{
+  --highlight-color-focused:#E13700;
+  --highlight-background:#E13700;
+  --color-activated:#E13700;
+}
+
+item-label-stacked{
+  --highlight-color-focused:#E13700;
+  --highlight-background:#E13700;
+  --color-activated:#E13700;
+  color:#E13700;
+}
+
+
+
 </style>

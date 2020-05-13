@@ -5,23 +5,23 @@
 
     <ion-menu side="start" menu-id="first" content-id="main" id="firstmenu">
       <ion-header>
-        <ion-toolbar color="primary">
+        <ion-toolbar color="actoutprimary">
           <ion-title @click="Home">Start Menu</ion-title>
         </ion-toolbar>
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item><ion-button @click="Home">Dashboard</ion-button></ion-item>
-          <ion-item><ion-button @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
-          <ion-item><ion-button @click="Projects">Projekte verwalten</ion-button></ion-item>
-          <ion-item><ion-button @click="Friends">Freunde</ion-button></ion-item>
-          <ion-item><ion-button @click="Chats">Chats</ion-button></ion-item>
-          <ion-item><ion-button @click="Logout">Logout</ion-button></ion-item>
+          <ion-item><ion-button color="actoutprimary" @click="Home">Dashboard</ion-button></ion-item>
+          <ion-item><ion-button color="actoutprimary" @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
+          <ion-item><ion-button color="actoutprimary" @click="Projects">Projekte verwalten</ion-button></ion-item>
+          <ion-item><ion-button color="actoutprimary" @click="Friends">Freunde</ion-button></ion-item>
+          <ion-item><ion-button color="actoutprimary" @click="Chats">Chats</ion-button></ion-item>
+          <ion-item><ion-button color="actoutprimary" @click="Logout">Logout</ion-button></ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
     <div id="main">
-      <ion-toolbar color="primary">
+      <ion-toolbar color="actoutprimary">
         <ion-buttons slot="start">
           <ion-icon @click="openFirst" slot="icon-only" name="menu"/>
         </ion-buttons>

@@ -1,8 +1,7 @@
 <template>
   <ion-page>
     <NavBar/>
-    <ion-content padding>
-
+    <ion-content>
 
       <ion-grid>
         <ion-row>
@@ -40,7 +39,7 @@
         </ion-row>
         <ion-row>
 
-          <ion-col>
+
             <ion-list>
               <ion-item v-for="(update,index) in updates" :key="update">
                 <ion-label>{{update[1]}}</ion-label>
@@ -48,39 +47,21 @@
                 <ion-button @click="removeUpdate(index)" >Update entfernen</ion-button>
               </ion-item>
             </ion-list>
-          </ion-col>
-
-          <ion-col>
             <ion-label>Update hinzufügen</ion-label>
             <ion-input @input="update = $event.target.value"
             :value="update"
             name="update"
             type="text"/>
             <ion-button @click="manualUpdate">Update</ion-button>
-          </ion-col>
 
         </ion-row>
-
-
       </ion-grid>
 
+  </ion-content>
 
-
-
-
-
-
-
-
-      <br/>
-      Friends:
-      <ion-list>
-        <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
-      </ion-list>
-    </ion-content>
 
     <ion-footer>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="actoutprimary">
         Hello
       </ion-toolbar>
     </ion-footer>
