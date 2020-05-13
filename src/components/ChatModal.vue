@@ -143,6 +143,7 @@ export default {
 
         if(this.JSONArrayContainsString(this.currentuser.activeChats,this.friendsid) == false){
           this.currentuser.activeChats.push(this.friendsid);
+          sessionStorage.setItem("User",this.currentuser);
           fetch("/updateDBbyID", {
             headers: {
               'Accept': 'application/json, text/plain, */*',

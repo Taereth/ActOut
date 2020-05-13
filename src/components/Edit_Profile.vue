@@ -15,14 +15,6 @@
           ></ion-input>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Password</ion-label>
-          <ion-input required
-          @input="user.password = $event.target.value"
-          :value="user.password"
-          name="password"
-          type="password"></ion-input>
-          </ion-item>
-          <ion-item>
           <ion-label position="stacked" color="primary">Vorname</ion-label>
           <ion-input required
           @input="user.vorname=$event.target.value"

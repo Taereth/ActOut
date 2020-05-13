@@ -89,8 +89,12 @@ export default {
     this.$router.push({ name: 'project', params: { id: projectid }});
   },
   checkNewPendingMembers: function(project){
-    if(project.pendingmembers[0] != null){
-      return true;
+
+    if(project.pendingmembers != null){
+      if(project.pendingmembers[0] != null){
+        return true;
+      }
+
     }
 
   }

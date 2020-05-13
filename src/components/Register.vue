@@ -92,9 +92,7 @@
         </ion-item>
       </ion-list>
       <ion-button @click="newuser"> Registrieren </ion-button><br/>
-      <ion-button @click="uploadUserImage">Image</ion-button>
-      <ion-button @click="downloadUserImage">Image</ion-button>
-      <ion-img :src="testimg"/>
+
     </ion-content>
   </ion-page>
 </template>
@@ -117,7 +115,6 @@ export default {
     return {
       user: {},
       userimage: "",
-      testimg: ""
     }
     ;
   },
@@ -153,6 +150,8 @@ export default {
           body: JSON.stringify(this.user)
         })
 
+        this.$router.push({name:'home'})
+
       })
 
 
@@ -181,35 +180,6 @@ export default {
       })
 
   },
-  downloadUserImage: function(){
-
-    var data = {
-      filename : this.user.imageName
-    }
-
-    //Download File from AWS
-    fetch("/filedownload", {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: "POST",
-      body: JSON.stringify(data)
-    }).then(response=>{
-      return response.json();
-    }).then(data=>{
-
-      //transform incoming buffer into Base64 String and make img source
-      console.log(data.data);
-      var b64encoded = btoa(new Uint8Array(data.data).reduce(function (encoded, byte) {
-    return encoded + String.fromCharCode(byte);
-}, ''));
-      var datajpg = "data:image/jpg;base64," + b64encoded;
-      this.testimg = datajpg;
-      this.$forceUpdate;
-    })
-
-  }
   }
 };
 </script>

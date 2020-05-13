@@ -3,32 +3,88 @@
     <NavBar/>
     <ion-content padding>
 
-      <ion-list>
-        <ion-item v-for="(update,index) in updates" :key="update">
-          <ion-label>{{update[1]}}</ion-label>
-          {{update[0]}}
-          <ion-button @click="removeUpdate(index)" >Update entfernen</ion-button>
-        </ion-item>
-      </ion-list>
 
-      <ion-label>Update hinzufügen</ion-label>
-      <ion-input @input="update = $event.target.value"
-      :value="update"
-      name="update"
-      type="text"/>
-      <ion-button @click="manualUpdate">Update</ion-button>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card @click="openProjectSearch">
+              <img src="../assets/ProjectSearch.png"/>
+              <ion-card-title>Projekt finden</ion-card-title>
+            </ion-card>
+          </ion-col>
+
+          <ion-col>
+            <ion-card @click="openUserSearch">
+              <img src="../assets/ProjectSearch.png"/>
+              <ion-card-title>Benutzer finden</ion-card-title>
+            </ion-card>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+
+          <ion-col>
+            <ion-card @click="openProjects">
+              <img src="../assets/ProjectSearch.png"/>
+              <ion-card-title>Meine Projekte</ion-card-title>
+            </ion-card>
+          </ion-col>
+
+          <ion-col>
+            <ion-card @click="openFriends">
+              <img src="../assets/ProjectSearch.png"/>
+              <ion-card-title>Meine Connections</ion-card-title>
+            </ion-card>
+          </ion-col>
+
+        </ion-row>
+        <ion-row>
+
+          <ion-col>
+            <ion-list>
+              <ion-item v-for="(update,index) in updates" :key="update">
+                <ion-label>{{update[1]}}</ion-label>
+                {{update[0]}}
+                <ion-button @click="removeUpdate(index)" >Update entfernen</ion-button>
+              </ion-item>
+            </ion-list>
+          </ion-col>
+
+          <ion-col>
+            <ion-label>Update hinzufügen</ion-label>
+            <ion-input @input="update = $event.target.value"
+            :value="update"
+            name="update"
+            type="text"/>
+            <ion-button @click="manualUpdate">Update</ion-button>
+          </ion-col>
+
+        </ion-row>
+
+
+      </ion-grid>
 
 
 
-      <ion-img :src="profileImg"/>
+
+
+
+
+
+
       <br/>
       Friends:
       <ion-list>
         <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
       </ion-list>
-      <ion-button @click="openProjectSearch">Projekt suchen</ion-button>
-      <ion-button @click="openUserSearch">Benutzer suchen</ion-button>
     </ion-content>
+
+    <ion-footer>
+      <ion-toolbar color="primary">
+        Hello
+      </ion-toolbar>
+    </ion-footer>
+
   </ion-page>
 </template>
 
@@ -51,7 +107,7 @@ export default {
       currentuser: {"updates":["placeholder",1]},
       userIsLoggedIn: false,
       Friendsdata: [{"email":"Loading"}],
-      profileImg: "",
+      profileImg: "../assets/noImage.png",
       update: ""
     }
   },
@@ -60,10 +116,12 @@ export default {
         return this.currentuser.updates
     }
   },
-  mounted: function(){
-
+  beforeMount: function(){
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
     this.downloadUserImage();
+  },
+  mounted: function(){
+
 
     for(var i = 0 ; i < this.currentuser.friends.length ; i++){
       console.log(this.currentuser.friends[i]);
@@ -110,6 +168,12 @@ export default {
   },
     openUserSearch: function(){
     this.$router.push({ name: 'searchusers'});
+  },
+    openFriends: function(){
+    this.$router.push({ name: 'friends'});
+  },
+    openProjects: function(){
+    this.$router.push({ name: 'projects'});
   },
     downloadUserImage: function(){
 

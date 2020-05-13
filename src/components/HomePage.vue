@@ -30,13 +30,7 @@
       </ion-list>
     <ion-button @click="login"> LogIn </ion-button><br/>
     <ion-button @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
-    <ion-button @click="hash">Hash</ion-button>
 
-      <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-        <ion-fab-button @click="test">
-          <ion-icon name="add" />
-        </ion-fab-button>
-      </ion-fab>
     </ion-content>
   </ion-page>
 </template>
@@ -47,8 +41,6 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 
-//Password hashing library
-const bcrypt = require('bcryptjs');
 
 addIcons({
   "ios-add": add.ios,
@@ -87,38 +79,12 @@ export default {
 
         data = JSON.stringify(data.user);
         sessionStorage.setItem("User",data);
-        console.log(sessionStorage.getItem("User"));
-        console.log(JSON.parse(sessionStorage.getItem("User")));
         this.$router.push({ name: 'dashboard' });
 
 
       })
 
     },
-    hash: function(){
-      console.log("hash function");
-
-      var pass = this.user.password;
-      var rounds = 10;
-      bcrypt.hash(pass, rounds, (err,hash)=>{
-        if (err) {
-          console.log(err);
-          return
-        }
-        bcrypt.compare("Ok", hash, (err, res) => {
-    if (err) {
-      console.error(err)
-      return
-    }
-    console.log(res) //true or false
-  })
-      })
-
-
-
-
-
-    }
   }
 };
 </script>
