@@ -128,6 +128,7 @@ export default {
       this.user.friends = [];
       this.user.projects = [];
       this.user.updates = [];
+      this.user.activeChats = [];
 
       //Upload Image to AWS, then save Imagename in User and update MongoDB with the new user
 

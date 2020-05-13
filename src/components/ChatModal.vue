@@ -84,7 +84,7 @@ export default {
         "version": this.version
       }
 
-      console.log(payload);
+
 
       fetch('/updateChatDB', {
       headers: {
@@ -99,9 +99,6 @@ export default {
 
     },
     chat: function(){
-
-      console.log(this.chatID);
-      console.log(this.version);
 
       var payload = {
         "id": this.chatID,
@@ -120,7 +117,6 @@ export default {
         return response.json()
       }).then(data=>{
 
-        console.log(data);
         this.messagesList = data.messages
         this.chatID = data.ChatID
         this.version = data.version
@@ -141,14 +137,75 @@ export default {
         return response.json()
       }).then(data=>{
 
-        console.log(data);
         this.messagesList = data.messages
         this.chatID = data.ChatID
         this.version = data.version
+
+        if(this.JSONArrayContainsString(this.currentuser.activeChats,this.friendsid) == false){
+          this.currentuser.activeChats.push(this.friendsid);
+          fetch("/updateDBbyID", {
+            headers: {
+              'Accept': 'application/json, text/plain, */*',
+              "Content-type" : "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify( { "payload" : this.currentuser} ),
+          })
+
+        }
+
+
+        fetch("/getDBEntrybyID", {
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            "Content-type" : "application/json"
+          },
+          method: "POST",
+          body: JSON.stringify( { "id" : this.friendsid } ),
+        }).then(response=>{
+          return response.json()
+        }).then(data=>{
+
+
+
+          if(this.JSONArrayContainsString(data.activeChats,this.currentuser.id) == false){
+            data.activeChats.push(this.currentuser.id);
+            fetch("/updateDBbyID", {
+              headers: {
+                'Accept': 'application/json, text/plain, */*',
+                "Content-type" : "application/json"
+              },
+              method: "POST",
+              body: JSON.stringify( { "payload" : data} ),
+            })
+
+          }
+
+
+
+
+        })
+
+
       })
 
 
     },
+    JSONArrayContainsString: function(arr, string){
+      //Check whether JSON array contains a string
+
+
+
+
+      for(var i=0; i<arr.length; i++){
+        if(arr[i]==string){
+          return true;
+        }
+      }
+
+      return false;
+
+    }
 
   }
 }

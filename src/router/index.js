@@ -94,6 +94,24 @@ let router = new IonicVueRouter({
                 requiresAuth: true
             }
       },
+      {
+        path: "/searchusers",
+        name: "searchusers",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/AllUsers"),
+        meta: {
+                requiresAuth: true
+            }
+      },
+      {
+        path: "/chats",
+        name: "chats",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/Chats"),
+        meta: {
+                requiresAuth: true
+            }
+      },
 
   ]
 });

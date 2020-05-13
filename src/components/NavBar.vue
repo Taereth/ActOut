@@ -14,6 +14,7 @@
           <ion-item><ion-button @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
           <ion-item><ion-button @click="Projects">Projekte verwalten</ion-button></ion-item>
           <ion-item><ion-button @click="Friends">Freunde</ion-button></ion-item>
+          <ion-item><ion-button @click="Chats">Chats</ion-button></ion-item>
           <ion-item><ion-button @click="Logout">Logout</ion-button></ion-item>
         </ion-list>
       </ion-content>
@@ -70,6 +71,9 @@ export default{
     },
     Projects: function() {
       this.$router.push({ name: 'projects', params: { id: this.currentuser.id }});
+    },
+    Chats: function() {
+      this.$router.push({ name: 'chats' });
     }
   }
 

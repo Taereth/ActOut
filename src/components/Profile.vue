@@ -14,6 +14,7 @@
       <ion-img :src="profileImg"/>
       <ion-button v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
       <ion-button v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
+      <ion-button @click="chat(profileData.id, profileData.vorname, profileData.nachname)">Chat</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -22,7 +23,8 @@
 
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
-import NavBar from '@/components/NavBar.vue'
+import NavBar from '@/components/NavBar.vue';
+import Modal from '@/components/ChatModal.vue'
 
 
 addIcons({
@@ -168,6 +170,22 @@ export default {
     if(friends.includes(JSON.stringify(this.profileData.email))){
       this.isFriend=true;
     }
+
+  },
+  chat: function(id, vorname, nachname){
+    return this.$ionic.modalController
+    .create({
+      component: Modal,
+      componentProps:{
+        propsData: {
+          title: vorname + " " + nachname
+        },
+        data: {
+          friendsid: id
+        }
+      }
+    })
+    .then(m=>m.present())
 
   },
   JSONArrayContainsCurrentProfile: function(arr){

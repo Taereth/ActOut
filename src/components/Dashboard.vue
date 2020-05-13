@@ -27,6 +27,7 @@
         <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/> <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button></ion-item>
       </ion-list>
       <ion-button @click="openProjectSearch">Projekt suchen</ion-button>
+      <ion-button @click="openUserSearch">Benutzer suchen</ion-button>
     </ion-content>
   </ion-page>
 </template>
@@ -106,6 +107,9 @@ export default {
   },
     openProjectSearch: function(){
     this.$router.push({ name: 'searchprojects'});
+  },
+    openUserSearch: function(){
+    this.$router.push({ name: 'searchusers'});
   },
     downloadUserImage: function(){
 

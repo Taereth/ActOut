@@ -8,10 +8,8 @@
       type="text"/>
       <ion-button @click="search">Search</ion-button>
       <ion-list>
-        <div v-for="project in activeProjects" :key="project.name">
-          <ion-item v-if="checkemail!=project.creator">
-            {{project.name}}<ion-button @click="openProjectPage(project.id)">Projektseite besuchen</ion-button>
-          </ion-item>
+        <div v-for="user in activeUsers" :key="user">
+            {{user.vorname}} {{user.nachname}}<ion-button @click="openUserPage(user.id)">Profil besuchen</ion-button>
       </div>
       </ion-list>
     </ion-content>
@@ -35,16 +33,14 @@ export default {
     return{
       currentuser: {},
       user: {},
-      myprojects: [],
-      newPendingMembers: false,
-      checkemail: "",
+      userList: [],
       searchinput: "",
       searchbar: ""
     }
   },
   computed: {
-    activeProjects: function() {
-      return this.myprojects.filter(this.isinSearch);
+    activeUsers: function() {
+      return this.userList.filter(this.isinSearch);
     }
   },
   beforeMount: function(){
@@ -52,10 +48,9 @@ export default {
 
 
     this.currentuser=JSON.parse(sessionStorage.getItem("User"));
-    this.checkemail=this.currentuser.email;
 
-    //get all project data
-    this.allprojects();
+    //get all user data
+    this.allusers();
 
 
 
@@ -67,12 +62,12 @@ export default {
     NavBar
   },
   methods: {
-    isinSearch: function(project){
-      return project.name.includes(this.searchinput);
+    isinSearch: function(user){
+      return user.vorname.includes(this.searchinput) || user.nachname.includes(this.searchinput);
     },
-    allprojects: function(){
+    allusers: function(){
 
-      fetch('/allprojects', {
+      fetch('/allusers', {
       headers: {
         'Accept': 'application/json, text/plain, */*',
         "Content-type" : "application/json"
@@ -84,18 +79,24 @@ export default {
       return response.json();
     }).then(data=>{
 
+      console.log(data);
+
+      console.log("Email Comparison: " + data.email + this.currentuser.email)
+
 
       for(var i = 0; i<data.length; i++){
-        if(data[i].creator != this.currentuser.email){
-          this.myprojects.push(data[i]);
+        if(data[i].email != this.currentuser.email){
+          this.userList.push(data[i]);
         }
       }
+
+      console.log(this.userList)
 
     })
 
   },
-  openProjectPage: function(projectid){
-    this.$router.push({ name: 'project', params: { id: projectid }});
+  openUserPage: function(id){
+    this.$router.push({ name: 'profiles', params: { id: id }});
   },
   search: function(){
 

@@ -387,13 +387,80 @@ app.post("/updateDB",jwtauth,function (req,res){
         "job":payload.job,
         "friends":payload.friends,
         "projects":payload.projects,
-        "updates":payload.updates
+        "updates":payload.updates,
+        "activeChats":payload.activeChats
       }
 
     }
 
 
     collection.updateOne({_id: new ObjectID(dbid)},{$set:
+      dbEntry
+    },{upsert: true}, (err, result) =>{
+      if (err){
+        throw err;
+      }
+      client.close();
+
+    })
+
+  })
+
+
+})
+
+app.post("/updateDBbyID",jwtauth,function (req,res){
+
+  var payload = req.body.payload;
+  var id= req.body.payload.id;
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
+    if (err) {
+      throw err;
+    }
+
+    const db = client.db(dbName);
+
+    var collection;
+
+    var dbEntry;
+
+
+    if(id.startsWith("P")){
+      collection = db.collection("projects")
+      dbEntry = {
+        "id":id,
+        "creator":payload.creator,
+        "name":payload.name,
+        "members":payload.members,
+        "details":payload.details,
+        "pendingmembers":payload.pendingmembers,
+        "bannedmembers":payload.bannedmembers,
+        "roles":payload.roles,
+        "updates":payload.updates
+      }
+    }
+    else{
+      collection = db.collection("users");
+      dbEntry = {
+        "id":id,
+        "email":payload.email,
+        "vorname":payload.vorname,
+        "nachname":payload.nachname,
+        "gender":payload.gender,
+        "wohnort":payload.wohnort,
+        "job":payload.job,
+        "friends":payload.friends,
+        "projects":payload.projects,
+        "updates":payload.updates,
+        "activeChats":payload.activeChats
+      }
+
+    }
+
+
+    collection.updateOne({id: id},{$set:
       dbEntry
     },{upsert: true}, (err, result) =>{
       if (err){
@@ -422,6 +489,7 @@ app.get("/allusers", jwtauth, function (req,res){
 	var cursor = collection.find()
 
 	let users = await cursor.toArray()
+
     res.json(users);
 
     client.close()
@@ -473,6 +541,31 @@ app.post("/allprojects", jwtauth, function (req,res){
 
 	var userprojects = await cursor.toArray()
     res.json(userprojects);
+
+    client.close();
+
+  })
+
+
+})
+
+app.post("/allusers", jwtauth, function (req,res){
+
+  var user = req.body.email;
+
+  var userlist=[];
+
+
+  MongoClient.connect(uri, { useNewUrlParser: true }, async (err, client) => {
+    if (err) throw err;
+
+    const db = client.db(dbName)
+    const collection = db.collection("users")
+
+	var cursor = collection.find()
+
+	var userlist = await cursor.toArray()
+    res.json(userlist);
 
     client.close();
 
@@ -584,7 +677,6 @@ app.post("/chat",jwtauth, function (req,res){
 
   function iterateFunc(doc) {
 
-    console.log(doc.messages)
 
 
     res.json({"ChatID":doc._id, "messages":doc.messages, "version":doc.version});
@@ -640,7 +732,6 @@ app.post("/chat",jwtauth, function (req,res){
 app.post("/updateChatDB",jwtauth,function (req,res){
 
 
-  console.log(req.body);
   var dbid = req.body.id;
   var payload = req.body.payload;
   var version = req.body.version;
@@ -684,7 +775,6 @@ app.post('/fileupload', multer.single("file"), (req, res) => {
   }
 
   var filename = "U"+Date.now().toString()+path.extname(req.file.originalname);
-  console.log(req.file);
 
   var base64data = new Buffer(req.file.buffer, 'binary');
 
