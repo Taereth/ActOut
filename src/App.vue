@@ -37,6 +37,15 @@ item-label-stacked{
   --highlight-background:#E13700;
   --color-activated:#E13700;
   color:#E13700;
+
+  .ion-color-actoutprimary {
+    --ion-color-base: var(--ion-color-primary, #E13700) !important;
+    --ion-color-base-rgb: var(--ion-color-primary-rgb, 225,55,0) !important;
+    --ion-color-contrast: var(--ion-color-primary-contrast, #ffffff) !important;
+    --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb, 255, 255, 255) !important;
+    --ion-color-shade: var(--ion-color-primary-shade, #c63000) !important;
+    --ion-color-tint: var(--ion-color-primary-tint, #e44b1a) !important;
+  }
 }
 
 </style>
