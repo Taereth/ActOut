@@ -2,12 +2,10 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
-
-      Aktive Chats
       <ion-list>
         <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/>
-          <ion-button @click="openUserPage(friend.id)">Visit Profile</ion-button>
-          <ion-button @click="chat(friend.id, friend.vorname, friend.nachname)">Chat</ion-button>
+          <ion-button color="actoutprimary" @click="openUserPage(friend.id)">Visit Profile</ion-button>
+          <ion-button color="actoutprimary" @click="chat(friend.id, friend.vorname, friend.nachname)">Chat</ion-button>
         </ion-item>
       </ion-list>
 

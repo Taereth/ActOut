@@ -3,7 +3,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="actoutprimary">
         <ion-buttons slot="start">
             <ion-button @click="closeModal">Close</ion-button>
         </ion-buttons>
@@ -19,13 +19,14 @@
         </ion-item>
       </ion-list>
 
-
-      <ion-label>Nachricht schreiben</ion-label>
-      <ion-input @input="chatmessage = $event.target.value"
+      <ion-item style="align-items: center;justify-content: center;">
+      <ion-input
+      @input="chatmessage = $event.target.value"
       :value="chatmessage"
       name="chatmessage"
       type="text"/>
-      <ion-button @click="writeMessage">Senden</ion-button>
+      <ion-button color="actoutprimary" @click="writeMessage">Senden</ion-button>
+      </ion-item>
 
     </ion-content>
   </ion-page>

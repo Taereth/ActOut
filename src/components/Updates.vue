@@ -2,56 +2,30 @@
   <ion-page>
     <NavBar/>
     <ion-content>
-
       <ion-grid>
         <ion-row>
-          <ion-col>
-            <ion-card color="actoutsecondary" @click="openProjectSearch">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Projekt finden</ion-card-title>
-            </ion-card>
-          </ion-col>
 
-          <ion-col>
-            <ion-card color="actoutsecondary" @click="openUserSearch">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Benutzer finden</ion-card-title>
-            </ion-card>
-          </ion-col>
 
-        </ion-row>
-        <ion-row>
-
-          <ion-col>
-            <ion-card color="actoutsecondary" @click="openProjects">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Meine Projekte</ion-card-title>
-            </ion-card>
-          </ion-col>
-
-          <ion-col>
-            <ion-card color="actoutsecondary" @click="openFriends">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Connections</ion-card-title>
-            </ion-card>
-          </ion-col>
-
-        </ion-row>
-        <ion-row style="align-items: center;justify-content: center;">
-
-            <ion-text color="actoutblack">Update hinzufügen</ion-text>
-
-        </ion-row>
-        <ion-row style="align-items: center;justify-content: center;">
-          <ion-item color="actoutsecondary">
+            <ion-list>
+              <ion-item color="actoutsecondary" v-for="(update,index) in updates" :key="update">
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                    <ion-label color="actoutprimary" style="color:#E13700;">{{update[1]}}</ion-label>
+                    <ion-text>{{update[0]}}</ion-text>
+                    </ion-col>
+                    <ion-col>
+                    <ion-button color="actoutprimary" @click="removeUpdate(index)" >Update entfernen</ion-button>
+                  </ion-col>
+                  </ion-row>
+                </ion-grid>
+              </ion-item>
+            </ion-list>
+            <ion-label>Update hinzufügen</ion-label>
             <ion-input @input="update = $event.target.value"
             :value="update"
             name="update"
-            type="text" />
-          </ion-item>
-        </ion-row>
-        <ion-row style="align-items: center;justify-content: center;">
-
+            type="text"/>
             <ion-button color="actoutprimary" @click="manualUpdate">Update</ion-button>
 
         </ion-row>
@@ -232,6 +206,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 
 ion-item{
   --highlight-color-focused:#E13700;

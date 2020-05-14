@@ -112,6 +112,15 @@ let router = new IonicVueRouter({
                 requiresAuth: true
             }
       },
+      {
+        path: "/updates",
+        name: "updates",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/Updates"),
+        meta: {
+                requiresAuth: true
+            }
+      },
 
   ]
 });

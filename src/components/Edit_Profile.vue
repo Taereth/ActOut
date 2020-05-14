@@ -4,7 +4,7 @@
     <ion-content padding>
       <ion-list>
         <ion-item>
-          <ion-label position="stacked" color="primary">Email</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Email</ion-label>
           <ion-input required
           @input="user.email=$event.target.value"
           :value="user.email"
@@ -15,7 +15,7 @@
           ></ion-input>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Vorname</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Vorname</ion-label>
           <ion-input required
           @input="user.vorname=$event.target.value"
           :value="user.vorname"
@@ -25,7 +25,7 @@
           autocapitalize="on"></ion-input>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Nachname</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Nachname</ion-label>
           <ion-input required
           @input="user.nachname=$event.target.value"
           :value="user.nachname"
@@ -35,7 +35,7 @@
           autocapitalize="on"></ion-input>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Geschlecht</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Geschlecht</ion-label>
           <ion-select required
           @ionChange="user.gender=$event.target.value"
           :value="user.gender"
@@ -46,7 +46,7 @@
           </ion-select>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Wohnort</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Wohnort</ion-label>
           <ion-input required
           @input="user.wohnort=$event.target.value"
           :value="user.wohnort"
@@ -56,7 +56,7 @@
           autocapitalize="on"></ion-input>
           </ion-item>
           <ion-item>
-          <ion-label position="stacked" color="primary">Du bist ein/e</ion-label>
+          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Du bist ein/e</ion-label>
           <ion-select required multiple="true" cancel-text="Nah" ok-text="Okay!"
           @ionChange="user.job=$event.target.value"
           :value="user.job" >
@@ -66,7 +66,7 @@
           </ion-select>
         </ion-item>
       </ion-list>
-      <ion-button @click="update"> Update </ion-button><br/>
+      <ion-button color="actoutprimary" @click="update"> Update </ion-button><br/>
     </ion-content>
   </ion-page>
 </template>
@@ -127,4 +127,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
+
 </style>

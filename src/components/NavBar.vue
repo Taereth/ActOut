@@ -12,10 +12,11 @@
       <ion-content>
         <ion-list>
           <ion-item><ion-button color="actoutprimary" @click="Home">Dashboard</ion-button></ion-item>
-          <ion-item><ion-button color="actoutprimary" @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
+          <ion-item><ion-button color="actoutsecondary" @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
           <ion-item><ion-button color="actoutprimary" @click="Projects">Projekte verwalten</ion-button></ion-item>
-          <ion-item><ion-button color="actoutprimary" @click="Friends">Freunde</ion-button></ion-item>
+          <ion-item><ion-button color="actoutsecondary" @click="Friends">Freunde</ion-button></ion-item>
           <ion-item><ion-button color="actoutprimary" @click="Chats">Chats</ion-button></ion-item>
+          <ion-item><ion-button color="actoutsecondary" @click="Updates">Updates verwalten</ion-button></ion-item>
           <ion-item><ion-button color="actoutprimary" @click="Logout">Logout</ion-button></ion-item>
         </ion-list>
       </ion-content>
@@ -76,6 +77,9 @@ export default{
     },
     Chats: function() {
       this.$router.push({ name: 'chats' });
+    },
+    Updates: function() {
+      this.$router.push({ name: 'updates' });
     },
     Home: function() {
       this.$router.push({ name: 'dashboard' });

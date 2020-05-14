@@ -17,7 +17,7 @@
           type="text"
           spellcheck="false"
           autocapitalize="off"
-          color="actoutprimary"
+          color="actoutblack"
           ></ion-input>
           </ion-item>
           <ion-item>
@@ -26,12 +26,12 @@
           @input="user.password = $event.target.value"
           :value="user.password"
           name="password"
-          color="actoutprimary"
-          type="password"></ion-input>
+          type="password"
+          color="actoutblack"></ion-input>
         </ion-item>
       </ion-list>
     <ion-button color="actoutprimary" @click="login"> LogIn </ion-button><br/>
-    <ion-button color="actoutprimary" @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
+    <ion-button color="actoutsecondary" @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
 
     </ion-content>
   </ion-page>
