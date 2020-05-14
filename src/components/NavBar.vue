@@ -5,9 +5,6 @@
 
     <ion-menu side="start" menu-id="first" content-id="main" id="firstmenu">
       <ion-header>
-        <ion-toolbar color="actoutprimary">
-          <ion-title @click="Home">Start Menu</ion-title>
-        </ion-toolbar>
       </ion-header>
       <ion-content>
         <ion-list>
@@ -27,7 +24,7 @@
           <ion-icon @click="openFirst" slot="icon-only" name="menu"/>
         </ion-buttons>
         <ion-avatar style="padding:8px" @click="EditProfile" slot="end">
-          <ion-img decoding="sync" :src="profileImg"/>
+          <ion-img v-if="profileImg!='../assets/noImage.png'" decoding="sync" :src="profileImg"/>
         </ion-avatar>
         <ion-title class="ion-text-center"> Actout </ion-title>
       </ion-toolbar>
@@ -55,7 +52,16 @@ export default{
   },
   beforeMount: function(){
       this.currentuser=JSON.parse(sessionStorage.getItem("User"));
-      this.downloadUserImage();
+
+      console.log()
+
+      if(this.currentuser.profileImg){
+        this.profileImg=this.currentuser.profileImg;
+      }
+      if(this.profileImg=="../assets/noImage.png"){
+        this.downloadUserImage();
+      }
+
   },
   methods: {
     openFirst: function() {
@@ -108,6 +114,8 @@ export default{
     }, ''));
         var datajpg = "data:image/jpg;base64," + b64encoded;
         this.profileImg = datajpg;
+        this.currentuser.profileImg = datajpg;
+        sessionStorage.setItem("User",JSON.stringify(this.currentuser))
       })
 
   },
