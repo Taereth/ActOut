@@ -150,9 +150,10 @@ export default {
           body: JSON.stringify(this.user)
         })
 
-        this.$router.push({name:'home'})
 
       })
+
+      this.$router.push({name:'home'})
 
 
 

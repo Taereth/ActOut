@@ -3,10 +3,19 @@
     <NavBar/>
     <ion-content padding>
       <ion-list>
-        <ion-item v-for="friend in Friendsdata" :key="friend"> {{friend.vorname}} {{friend.nachname}} <br/>
-          <ion-button color="actoutprimary" @click="openUserPage(friend.id)">Visit Profile</ion-button>
-          <ion-button color="actoutprimary" @click="chat(friend.id, friend.vorname, friend.nachname)">Chat</ion-button>
-        </ion-item>
+        <div v-for="(friend,index) in Friendsdata" :key="friend">
+          <ion-item :color="setColor(index)">
+            <ion-grid>
+            <ion-row>
+              <ion-text color="actoutblack"> {{friend.vorname}} {{friend.nachname}} </ion-text>
+            </ion-row>
+            <ion-row>
+              <ion-button color="actoutblack" @click="openUserPage(friend.id)">Visit Profile</ion-button>
+              <ion-button color="actoutblack" @click="chat(friend.id, friend.vorname, friend.nachname)">Chat</ion-button>
+            </ion-row>
+          </ion-grid>
+          </ion-item>
+        </div>
       </ion-list>
 
     </ion-content>
@@ -72,6 +81,13 @@ export default {
 
       })
 
+    },
+    setColor: function(index){
+      if(index%2==0){
+        return "actoutsecondary"
+      }else {
+        return "actouttertiary"
+      }
     },
     openUserPage: function(userid){
     console.log(userid)

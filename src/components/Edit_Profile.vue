@@ -3,8 +3,8 @@
     <NavBar/>
     <ion-content padding>
       <ion-list>
-        <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Email</ion-label>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" >Email</ion-label>
           <ion-input required
           @input="user.email=$event.target.value"
           :value="user.email"
@@ -13,9 +13,9 @@
           spellcheck="false"
           autocapitalize="off"
           ></ion-input>
-          </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Vorname</ion-label>
+        </ion-item>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" >Vorname</ion-label>
           <ion-input required
           @input="user.vorname=$event.target.value"
           :value="user.vorname"
@@ -23,9 +23,9 @@
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-input>
-          </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Nachname</ion-label>
+        </ion-item>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" >Nachname</ion-label>
           <ion-input required
           @input="user.nachname=$event.target.value"
           :value="user.nachname"
@@ -33,9 +33,9 @@
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-input>
-          </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Geschlecht</ion-label>
+        </ion-item>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" >Geschlecht</ion-label>
           <ion-select required
           @ionChange="user.gender=$event.target.value"
           :value="user.gender"
@@ -44,9 +44,9 @@
             <ion-select-option value="f">Weiblich</ion-select-option>
             <ion-select-option value="o">Anderes</ion-select-option>
           </ion-select>
-          </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Wohnort</ion-label>
+        </ion-item>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" >Wohnort</ion-label>
           <ion-input required
           @input="user.wohnort=$event.target.value"
           :value="user.wohnort"
@@ -54,9 +54,9 @@
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-input>
-          </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Du bist ein/e</ion-label>
+        </ion-item>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutprimary" >Du bist ein/e</ion-label>
           <ion-select required multiple="true" cancel-text="Nah" ok-text="Okay!"
           @ionChange="user.job=$event.target.value"
           :value="user.job" >
@@ -66,7 +66,9 @@
           </ion-select>
         </ion-item>
       </ion-list>
-      <ion-button color="actoutprimary" @click="update"> Update </ion-button><br/>
+      <ion-row style="align-items: center;justify-content: center;">
+      <ion-button color="actoutblack" @click="update"> Update </ion-button><br/>
+      </ion-row>
     </ion-content>
   </ion-page>
 </template>

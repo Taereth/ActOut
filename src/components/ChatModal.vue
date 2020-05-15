@@ -3,7 +3,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="actoutprimary">
+      <ion-toolbar color="actoutblack">
         <ion-buttons slot="start">
             <ion-button @click="closeModal">Close</ion-button>
         </ion-buttons>
@@ -12,23 +12,40 @@
     </ion-header>
     <ion-content padding>
 
-      <ion-list>
-        <ion-item v-for="message in messages" :key="message">
-          <ion-label>{{message[0]}} um {{message[1]}}</ion-label>
-          {{message[2]}}
-        </ion-item>
+      <ion-list style="overflow-y:auto;" id="chatwindow" >
+        <div v-for="message in messages" :key="message" >
+          <ion-row :style="setStyle(message[0])">
+          <ion-item :color="setColor(message[0])" style="border-radius: 20px !important;
+padding-left: 10px;
+padding-right: 10px;
+padding-bottom: 5px;
+padding-top: 5px;">
+            <ion-text> {{message[2]}} </ion-text>
+            <ion-label position="stacked" color="actoutprimary" style="color:#49274A; justify-content: flex-end;" :style="setStyle(message[0])" >{{message[1]}}</ion-label>
+          </ion-item>
+        </ion-row>
+        </div>
       </ion-list>
 
-      <ion-item style="align-items: center;justify-content: center;">
+
+
+
+    </ion-content>
+
+    <ion-footer style="background-color:#49274A;">
+      <ion-item ion-fixed color="actoutwhite" style="align-items: center;justify-content: center;">
       <ion-input
       @input="chatmessage = $event.target.value"
       :value="chatmessage"
       name="chatmessage"
       type="text"/>
-      <ion-button color="actoutprimary" @click="writeMessage">Senden</ion-button>
       </ion-item>
+      <ion-row ion-fixed style="align-items: center;justify-content: center;background-color:#49274A;">
+        <ion-button color="actoutprimary" @click="writeMessage">Senden</ion-button>
+      </ion-row>
 
-    </ion-content>
+    </ion-footer>
+
   </ion-page>
 </template>
 
@@ -46,7 +63,8 @@ export default {
       messagesList: ["placeholder", "placholder", "placeholder"],
       chatmessage: "",
       version: "",
-      chatting: ""
+      chatting: "",
+      scrolled: false
     }
   },
   mounted: function() {
@@ -55,6 +73,12 @@ export default {
     this.currentuser=JSON.parse(sessionStorage.getItem("User"));
     this.chatSetup();
 
+    console.log(document.getElementById("chatwindow"));
+
+    /*document.getElementById("chatwindow").addEventListener("scroll", function(){
+      this.scrolled = true;
+    })
+    */
     this.chatting = setInterval(() => {
         this.chat();
     }, 5000);
@@ -71,9 +95,32 @@ export default {
       clearInterval(this.chatting);
       this.$ionic.modalController.dismiss();
     },
+    setColor: function(user){
+
+      if(user==this.currentuser.vorname + " " + this.currentuser.nachname){
+        console.log("yo");
+        return "actoutsecondary"
+      }else{
+        return "actouttertiary"
+      }
+
+    },
+    setStyle: function(user){
+
+      if(user==this.currentuser.vorname + " " + this.currentuser.nachname){
+        return "align-items: right;justify-content: flex-end;"
+      }else{
+        return "align-items: left;justify-content: flex-start;"
+      }
+
+    },
     writeMessage: function() {
 
       var now = new Date();
+
+      if(this.messagesList.length >= 20){
+        this.messagesList.splice(0,1);
+      }
 
       this.messagesList.push([this.currentuser.vorname + " " + this.currentuser.nachname, now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + ":" + now.getMinutes(), this.chatmessage])
 
@@ -121,6 +168,13 @@ export default {
         this.messagesList = data.messages
         this.chatID = data.ChatID
         this.version = data.version
+
+        if(!this.scrolled){
+          var element = document.getElementById("chatwindow");
+          element.scrollTop = element.scrollHeight;
+        }
+
+
       })
 
 

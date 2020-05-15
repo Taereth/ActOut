@@ -8,22 +8,22 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item><ion-button color="actoutprimary" @click="Home">Dashboard</ion-button></ion-item>
-          <ion-item><ion-button color="actoutsecondary" @click="EditProfile">Profil bearbeiten</ion-button></ion-item>
-          <ion-item><ion-button color="actoutprimary" @click="Projects">Projekte verwalten</ion-button></ion-item>
-          <ion-item><ion-button color="actoutsecondary" @click="Friends">Freunde</ion-button></ion-item>
-          <ion-item><ion-button color="actoutprimary" @click="Chats">Chats</ion-button></ion-item>
-          <ion-item><ion-button color="actoutsecondary" @click="Updates">Updates verwalten</ion-button></ion-item>
-          <ion-item><ion-button color="actoutprimary" @click="Logout">Logout</ion-button></ion-item>
+          <ion-item color="actouttertiary" @click="Home">Dashboard</ion-item>
+          <ion-item color="actoutsecondary" @click="EditProfile">Profil bearbeiten</ion-item>
+          <ion-item color="actouttertiary" @click="Projects">Projekte verwalten</ion-item>
+          <ion-item color="actoutsecondary" @click="Friends">Freunde</ion-item>
+          <ion-item color="actouttertiary" @click="Chats">Chats</ion-item>
+          <ion-item color="actoutsecondary" @click="Updates">Updates verwalten></ion-item>
+          <ion-item color="actouttertiary" @click="Logout">Logout</ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>
     <div id="main">
-      <ion-toolbar color="actoutprimary">
+      <ion-toolbar color="actoutblack">
         <ion-buttons slot="start">
           <ion-icon @click="openFirst" slot="icon-only" name="menu"/>
         </ion-buttons>
-        <ion-avatar style="padding:8px" @click="EditProfile" slot="end">
+        <ion-avatar  style="padding:8px" @click="EditProfile" slot="end">
           <ion-img v-if="profileImg!='../assets/noImage.png'" decoding="sync" :src="profileImg"/>
         </ion-avatar>
         <ion-title class="ion-text-center"> Actout </ion-title>

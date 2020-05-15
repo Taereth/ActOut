@@ -1,15 +1,15 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="actoutprimary">
+      <ion-toolbar color="actoutblack">
         <ion-title class="ion-text-center" >ActOut</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
 
       <ion-list>
-        <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Email</ion-label>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Email</ion-label>
           <ion-input required
           @input="user.email=$event.target.value"
           :value="user.email"
@@ -20,8 +20,8 @@
           color="actoutblack"
           ></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="actoutprimary" style="color:#E13700;">Password</ion-label>
+          <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Password</ion-label>
           <ion-input required
           @input="user.password = $event.target.value"
           :value="user.password"
@@ -29,9 +29,13 @@
           type="password"
           color="actoutblack"></ion-input>
         </ion-item>
+        <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" @click="login">
+          <ion-text class="ion-text-center" >LogIn</ion-text>
+        </ion-item>
+        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary" @click="$router.push({name: 'signup'})">
+          <ion-text class="ion-text-center" >SignUp</ion-text>
+        </ion-item>
       </ion-list>
-    <ion-button color="actoutprimary" @click="login"> LogIn </ion-button><br/>
-    <ion-button color="actoutsecondary" @click="$router.push({name: 'signup'})"> Sign Up </ion-button><br/>
 
     </ion-content>
   </ion-page>
@@ -93,25 +97,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-ion-item{
-  --highlight-color-focused:#E13700;
-  --highlight-background:#E13700;
-  --color-activated:#E13700;
-}
-
-ion-label{
-  --highlight-color-focused:#E13700;
-  --highlight-background:#E13700;
-  --color-activated:#E13700;
-}
-
-item-label-stacked{
-  --highlight-color-focused:#E13700;
-  --highlight-background:#E13700;
-  --color-activated:#E13700;
-  color:#E13700;
-}
 
 
 

@@ -3,7 +3,7 @@ import App from './App.vue'
 
 import Ionic from "@ionic/vue"
 import "@ionic/core/css/core.css"
-//import "@ionic/core/css/ionic.bundle.css"
+import "@ionic/core/css/ionic.bundle.css"
 
 import router from "./router"
 

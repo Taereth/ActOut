@@ -3,16 +3,18 @@
     <NavBar/>
     <ion-content padding>
       <ion-list>
-        <ion-item v-for="project in myprojects" :key="project">
-          <ion-button color="actoutprimary" @click="openProjectPage(project.id)">{{ project.name }}</ion-button>
-          <ion-label color="danger" v-if="checkNewPendingMembers(project)">New Pending Member</ion-label>
-        </ion-item>
+        <div v-for="(project,index) in myprojects" :key="project">
+          <ion-item :color="setColor(index)" @click="openProjectPage(project.id)">
+            <ion-text color="actoutblack">{{ project.name }}</ion-text>
+            <ion-badge slot="end" color="danger" v-if="checkNewPendingMembers(project)">{{ project.pendingmembers.length }}</ion-badge>
+          </ion-item>
+        </div>
       </ion-list>
     </ion-content>
 
     <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button @click="openProjectModal">
-        <ion-icon color="tertiary" name="add" />
+      <ion-fab-button color="actoutblack" @click="openProjectModal">
+        <img src="../assets/add.svg"/>
       </ion-fab-button>
     </ion-fab>
 
@@ -76,6 +78,13 @@ export default {
       this.myprojects = data;
     })
 
+  },
+  setColor: function(index){
+    if(index%2==0){
+      return "actoutsecondary"
+    }else {
+      return "actouttertiary"
+    }
   },
   openProjectModal: function(){
     return this.$ionic.modalController
