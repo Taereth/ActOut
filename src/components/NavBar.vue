@@ -13,7 +13,7 @@
           <ion-item color="actouttertiary" @click="Projects">Projekte verwalten</ion-item>
           <ion-item color="actoutsecondary" @click="Friends">Freunde</ion-item>
           <ion-item color="actouttertiary" @click="Chats">Chats</ion-item>
-          <ion-item color="actoutsecondary" @click="Updates">Updates verwalten></ion-item>
+          <ion-item color="actoutsecondary" @click="Updates">Updates verwalten</ion-item>
           <ion-item color="actouttertiary" @click="Logout">Logout</ion-item>
         </ion-list>
       </ion-content>

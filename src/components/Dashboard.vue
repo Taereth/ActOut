@@ -60,11 +60,7 @@
   </ion-content>
 
 
-    <ion-footer>
-      <ion-toolbar color="actoutprimary">
-        Hello
-      </ion-toolbar>
-    </ion-footer>
+
 
   </ion-page>
 </template>

@@ -12,7 +12,7 @@
     </ion-header>
     <ion-content padding>
 
-      <ion-list style="overflow-y:auto;" id="chatwindow" >
+      <ion-list style="overflow-y:auto;" v-ref="chatwindow" ref="chatwindow">
         <div v-for="message in messages" :key="message" >
           <ion-row :style="setStyle(message[0])">
           <ion-item :color="setColor(message[0])" style="border-radius: 20px !important;
@@ -73,12 +73,19 @@ export default {
     this.currentuser=JSON.parse(sessionStorage.getItem("User"));
     this.chatSetup();
 
-    console.log(document.getElementById("chatwindow"));
+    this.$nextTick(function() {
 
-    /*document.getElementById("chatwindow").addEventListener("scroll", function(){
+      var element = this.$refs.chatwindow;
+      element.scrollTop = -element.scrollHeight;
+
+    this.$refs.chatwindow.addEventListener("click", function(){
       this.scrolled = true;
+      console.log("clicked");
     })
-    */
+
+  })
+
+
     this.chatting = setInterval(() => {
         this.chat();
     }, 5000);
@@ -170,8 +177,15 @@ export default {
         this.version = data.version
 
         if(!this.scrolled){
-          var element = document.getElementById("chatwindow");
-          element.scrollTop = element.scrollHeight;
+
+          this.$nextTick(function(){
+            var element = this.$refs.chatwindow;
+
+            console.log(element.scrollTop);
+            console.log(element.scrollHeight);
+            element.scrollTop = element.scrollHeight;
+            console.log(element.scrollTop);         
+          })
         }
 
 

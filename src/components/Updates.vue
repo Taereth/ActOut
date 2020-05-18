@@ -6,27 +6,21 @@
         <ion-row>
 
 
-            <ion-list>
+            <ion-list style="overfflow-y:auto;">
               <ion-item color="actoutsecondary" v-for="(update,index) in updates" :key="update">
                 <ion-grid>
                   <ion-row>
                     <ion-col>
-                    <ion-label color="actoutprimary" style="color:#E13700;">{{update[1]}}</ion-label>
+                    <ion-label color="actoutprimary">{{update[1]}}</ion-label>
                     <ion-text>{{update[0]}}</ion-text>
                     </ion-col>
                     <ion-col>
-                    <ion-button color="actoutprimary" @click="removeUpdate(index)" >Update entfernen</ion-button>
+                    <ion-button color="actoutblack" @click="removeUpdate(index)" >Update entfernen</ion-button>
                   </ion-col>
                   </ion-row>
                 </ion-grid>
               </ion-item>
             </ion-list>
-            <ion-label>Update hinzufügen</ion-label>
-            <ion-input @input="update = $event.target.value"
-            :value="update"
-            name="update"
-            type="text"/>
-            <ion-button color="actoutprimary" @click="manualUpdate">Update</ion-button>
 
         </ion-row>
       </ion-grid>
@@ -35,8 +29,16 @@
 
 
     <ion-footer>
-      <ion-toolbar color="actoutprimary">
-        Hello
+      <ion-toolbar style="background-color:#49274A;" color="actoutblack">
+        <ion-item ion-fixed color="actoutwhite" style="align-items: center;justify-content: center;">
+          <ion-input @input="update = $event.target.value"
+          :value="update"
+          name="update"
+          type="text"/>
+        </ion-item>
+        <ion-row ion-fixed style="align-items: center;justify-content: center;background-color:#49274A;">
+          <ion-button color="actoutprimary" @click="manualUpdate">Update</ion-button>
+        </ion-row>
       </ion-toolbar>
     </ion-footer>
 
