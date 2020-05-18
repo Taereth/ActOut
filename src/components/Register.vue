@@ -126,6 +126,24 @@ export default {
       this.user.projects = [];
       this.user.updates = [];
       this.user.activeChats = [];
+      this.user.age = "";
+      this.user.augenfarbe = "";
+      this.user.haarfarbe = "";
+      this.user.groesse = "";
+      this.user.sprachen = [];
+      this.user.fahrausweis = false;
+      this.user.website = "";
+      this.user.showreel = "";
+      this.user.agentur = "";
+      this.user.hobbies = [];
+      this.user.specialskills = [];
+      this.user.ausbildung = [];
+      this.user.actoutprojects = [];
+      this.user.theater = [];
+      this.user.film = [];
+      this.user.anderes = [];
+      this.user.description = "";
+
 
       //Upload Image to AWS, then save Imagename in User and update MongoDB with the new user
 

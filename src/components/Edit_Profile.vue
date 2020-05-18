@@ -70,6 +70,9 @@
       <ion-button color="actoutblack" @click="update"> Update </ion-button><br/>
       </ion-row>
     </ion-content>
+    <ion-footer>
+    <EditTabs/>
+  </ion-footer>
   </ion-page>
 </template>
 <script>
@@ -77,6 +80,7 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
+import EditTabs from '@/components/EditTabs.vue'
 
 addIcons({
   "ios-add": add.ios,
@@ -101,7 +105,8 @@ export default {
 
   },
   components: {
-    NavBar
+    NavBar,
+    EditTabs
   },
   methods: {
     update: function(){

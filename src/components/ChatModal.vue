@@ -10,23 +10,24 @@
         <ion-title>{{title}}</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content padding ref="container">
 
-      <ion-list style="overflow-y:auto;" v-ref="chatwindow" ref="chatwindow">
-        <div v-for="message in messages" :key="message" >
-          <ion-row :style="setStyle(message[0])">
-          <ion-item :color="setColor(message[0])" style="border-radius: 20px !important;
-padding-left: 10px;
-padding-right: 10px;
-padding-bottom: 5px;
-padding-top: 5px;">
-            <ion-text> {{message[2]}} </ion-text>
-            <ion-label position="stacked" color="actoutprimary" style="color:#49274A; justify-content: flex-end;" :style="setStyle(message[0])" >{{message[1]}}</ion-label>
-          </ion-item>
-        </ion-row>
-        </div>
-      </ion-list>
-
+      <div @click="scroll()">
+        <ion-list>
+          <div v-for="message in messages" :key="message" >
+            <ion-row :style="setStyle(message[0])">
+            <ion-item :color="setColor(message[0])" style="border-radius: 20px !important;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;">
+              <ion-text> {{message[2]}} </ion-text>
+              <ion-label position="stacked" color="actoutprimary" style="color:#49274A; justify-content: flex-end;" :style="setStyle(message[0])" >{{message[1]}}</ion-label>
+            </ion-item>
+          </ion-row>
+          </div>
+        </ion-list>
+    </div>
 
 
 
@@ -73,17 +74,12 @@ export default {
     this.currentuser=JSON.parse(sessionStorage.getItem("User"));
     this.chatSetup();
 
-    this.$nextTick(function() {
 
-      var element = this.$refs.chatwindow;
-      element.scrollTop = -element.scrollHeight;
 
-    this.$refs.chatwindow.addEventListener("click", function(){
-      this.scrolled = true;
-      console.log("clicked");
-    })
-
-  })
+    setTimeout(()=> {
+      var element = this.$refs.container;
+      element.scrollToBottom();
+  },50)
 
 
     this.chatting = setInterval(() => {
@@ -98,6 +94,9 @@ export default {
     }
   },
   methods: {
+    scroll: function(){
+      this.scrolled = true;
+    },
     closeModal: function() {
       clearInterval(this.chatting);
       this.$ionic.modalController.dismiss();
@@ -172,20 +171,20 @@ export default {
         return response.json()
       }).then(data=>{
 
-        this.messagesList = data.messages
+        if(this.messagesList != data.messages){
+          this.messagesList = data.messages
+        }
+
         this.chatID = data.ChatID
         this.version = data.version
 
         if(!this.scrolled){
 
-          this.$nextTick(function(){
-            var element = this.$refs.chatwindow;
+          setTimeout(()=>{
+            var element = this.$refs.container;
+            element.scrollToBottom();
+          },50)
 
-            console.log(element.scrollTop);
-            console.log(element.scrollHeight);
-            element.scrollTop = element.scrollHeight;
-            console.log(element.scrollTop);         
-          })
         }
 
 

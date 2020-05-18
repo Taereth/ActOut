@@ -388,7 +388,24 @@ app.post("/updateDB",jwtauth,function (req,res){
         "friends":payload.friends,
         "projects":payload.projects,
         "updates":payload.updates,
-        "activeChats":payload.activeChats
+        "activeChats":payload.activeChats,
+        "age":payload.age,
+        "augenfarbe":payload.augenfarbe,
+        "haarfarbe":payload.haarfarbe,
+        "groesse":payload.groesse,
+        "sprachen":payload.sprachen,
+        "fahrausweis":payload.fahrausweis,
+        "website":payload.website,
+        "showreel":payload.showreel,
+        "agentur":payload.agentur,
+        "hobbies":payload.hobbies,
+        "specialskills":payload.specialskills,
+        "ausbildung":payload.ausbildung,
+        "acoutprojects":payload.actoutprojects,
+        "theater":payload.theater,
+        "film":payload.film,
+        "anderes":payload.anderes,
+        "description":payload.description
       }
 
     }
@@ -454,7 +471,24 @@ app.post("/updateDBbyID",jwtauth,function (req,res){
         "friends":payload.friends,
         "projects":payload.projects,
         "updates":payload.updates,
-        "activeChats":payload.activeChats
+        "activeChats":payload.activeChats,
+        "age":payload.age,
+        "augenfarbe":payload.augenfarbe,
+        "haarfarbe":payload.haarfarbe,
+        "groesse":payload.groesse,
+        "sprachen":payload.sprachen,
+        "fahrausweis":payload.fahrausweis,
+        "website":payload.website,
+        "showreel":payload.showreel,
+        "agentur":payload.agentur,
+        "hobbies":payload.hobbies,
+        "specialskills":payload.specialskills,
+        "ausbildung":payload.ausbildung,
+        "acoutprojects":payload.actoutprojects,
+        "theater":payload.theater,
+        "film":payload.film,
+        "anderes":payload.anderes,
+        "description":payload.description
       }
 
     }

@@ -50,10 +50,28 @@ let router = new IonicVueRouter({
               }
       },
       {
-        path: "/profiles/:id/edit",
+        path: "/edit",
         name: "editProfile",
         component: () =>
           import(/* webpackChunkName: "new-item" */ "@/components/Edit_Profile"),
+        meta: {
+                requiresAuth: true
+            }
+      },
+      {
+        path: "/skills",
+        name: "skills",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/Skills"),
+        meta: {
+                requiresAuth: true
+            }
+      },
+      {
+        path: "/previousexperiences",
+        name: "previousexperiences",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/PreviousExperiences"),
         meta: {
                 requiresAuth: true
             }
@@ -146,5 +164,10 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+
+const originalPush = router.push;
+router.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+};
 
 export default router;

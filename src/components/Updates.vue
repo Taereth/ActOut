@@ -15,7 +15,7 @@
                     <ion-text>{{update[0]}}</ion-text>
                     </ion-col>
                     <ion-col>
-                    <ion-button color="actoutblack" @click="removeUpdate(index)" >Update entfernen</ion-button>
+                    <ion-button color="actouttertiary" @click="removeUpdate(index)" >Update entfernen</ion-button>
                   </ion-col>
                   </ion-row>
                 </ion-grid>

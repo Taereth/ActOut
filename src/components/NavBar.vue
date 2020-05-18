@@ -73,7 +73,7 @@ export default{
       this.$router.push({ name: 'home' });
     },
     EditProfile: function() {
-      this.$router.push({ name: 'editProfile', params: { id: this.currentuser.id }});
+      this.$router.push({ name: 'editProfile'});
     },
     Friends: function() {
       this.$router.push({ name: 'friends', params: { id: this.currentuser.id }});
