@@ -6,7 +6,7 @@
         <ion-row>
 
 
-            <ion-list style="overfflow-y:auto;">
+            <ion-list style="overflow-y:auto;">
               <ion-item color="actoutsecondary" v-for="(update,index) in updates" :key="update">
                 <ion-grid>
                   <ion-row>

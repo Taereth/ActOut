@@ -3,7 +3,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="actoutblack">
         <ion-buttons slot="start">
             <ion-button @click="closeModal">Close</ion-button>
         </ion-buttons>
@@ -12,8 +12,8 @@
     </ion-header>
     <ion-content padding>
       <ion-list>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Projektname</ion-label>
+          <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Projektname</ion-label>
           <ion-input required
           @input="project.name=$event.target.value"
           :value="project.name"
@@ -22,8 +22,8 @@
           spellcheck="false"
           autocapitalize="on"></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Details</ion-label>
+          <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Details</ion-label>
           <ion-input required
           @input="project.details=$event.target.value"
           :value="project.details"
@@ -32,8 +32,8 @@
           spellcheck="false"
           autocapitalize="on"></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Paid</ion-label>
+          <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Bezahlt</ion-label>
             <ion-toggle required
             @ionChange="togglePaid"
             :value="project.paid"
@@ -42,17 +42,17 @@
             checked=false>
           </ion-toggle>
           </ion-item>
-              <ion-item v-for="role in roles" :key="role">
+              <ion-item color="actouttertiary" v-for="role in roles" :key="role">
                 <ion-input
                 @input="role[0]=$event.target.value"
                 :value="role[0]"
                 name="role">
               </ion-input><br/>
-            <ion-button @click="removeRole(role)">Remove Role</ion-button>
+            <ion-button color="actoutblack" @click="removeRole(role)">Remove Role</ion-button>
                </ion-item>
-            <ion-button @click="addRole">Add Role</ion-button>
+            <ion-button color="actouttertiary" @click="addRole">Add Role</ion-button>
       </ion-list>
-      <ion-button @click="newproject"> Neues Projekt hinzufügen </ion-button><br/>
+      <ion-button color="actoutblack" @click="newproject"> Neues Projekt hinzufügen </ion-button><br/>
     </ion-content>
   </ion-page>
 </template>

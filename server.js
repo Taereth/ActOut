@@ -57,8 +57,8 @@ const ObjectID = mongodb.ObjectID;
 
 //make requests readable for Server
 
-app.use(bodyParser.urlencoded())
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 //Fallback
 
@@ -401,7 +401,7 @@ app.post("/updateDB",jwtauth,function (req,res){
         "hobbies":payload.hobbies,
         "specialskills":payload.specialskills,
         "ausbildung":payload.ausbildung,
-        "acoutprojects":payload.actoutprojects,
+        "actoutprojects":payload.actoutprojects,
         "theater":payload.theater,
         "film":payload.film,
         "anderes":payload.anderes,
@@ -484,7 +484,7 @@ app.post("/updateDBbyID",jwtauth,function (req,res){
         "hobbies":payload.hobbies,
         "specialskills":payload.specialskills,
         "ausbildung":payload.ausbildung,
-        "acoutprojects":payload.actoutprojects,
+        "actoutprojects":payload.actoutprojects,
         "theater":payload.theater,
         "film":payload.film,
         "anderes":payload.anderes,

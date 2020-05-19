@@ -130,13 +130,13 @@ export default {
       this.user.augenfarbe = "";
       this.user.haarfarbe = "";
       this.user.groesse = "";
-      this.user.sprachen = [];
+      this.user.sprachen = "";
       this.user.fahrausweis = false;
       this.user.website = "";
       this.user.showreel = "";
       this.user.agentur = "";
-      this.user.hobbies = [];
-      this.user.specialskills = [];
+      this.user.hobbies = "";
+      this.user.specialskills = "";
       this.user.ausbildung = [];
       this.user.actoutprojects = [];
       this.user.theater = [];
