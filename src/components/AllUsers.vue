@@ -2,14 +2,21 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
+      <ion-item color="actoutwhite">
       <ion-input @input="searchbar = $event.target.value"
       :value="searchbar"
       name="searchinput"
       type="text"/>
-      <ion-button @click="search">Search</ion-button>
-      <ion-list>
-        <div v-for="user in activeUsers" :key="user">
-            {{user.vorname}} {{user.nachname}}<ion-button @click="openUserPage(user.id)">Profil besuchen</ion-button>
+      <ion-button color="actoutblack" @click="search">Suchen</ion-button>
+    </ion-item>
+      <ion-list style="height:80vh;overflow-y:auto">
+        <div v-for="(user,index) in activeUsers" :key="user">
+          <ion-item :color="setColor(index)">
+
+            <ion-text color="actoutblack"> {{user.vorname}} {{user.nachname}} </ion-text>
+
+            <ion-button color="actoutblack" @click="openUserPage(user.id)">Profil besuchen</ion-button>
+          </ion-item>
       </div>
       </ion-list>
     </ion-content>
@@ -64,6 +71,13 @@ export default {
   methods: {
     isinSearch: function(user){
       return user.vorname.includes(this.searchinput) || user.nachname.includes(this.searchinput);
+    },
+    setColor: function(index){
+      if(index%2==0){
+        return "actoutsecondary"
+      }else {
+        return "actouttertiary"
+      }
     },
     allusers: function(){
 

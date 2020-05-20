@@ -7,15 +7,13 @@
         <ion-row>
           <ion-col>
             <ion-card color="actoutsecondary" @click="openProjectSearch">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Projekt finden</ion-card-title>
+              <img src="../assets/Projekt-suchen.png"/>
             </ion-card>
           </ion-col>
 
           <ion-col>
             <ion-card color="actoutsecondary" @click="openUserSearch">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Benutzer finden</ion-card-title>
+              <img src="../assets/Benutzer-suchen.png"/>
             </ion-card>
           </ion-col>
 
@@ -24,26 +22,24 @@
 
           <ion-col>
             <ion-card color="actoutsecondary" @click="openProjects">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Meine Projekte</ion-card-title>
+              <img src="../assets/Deine-Projekte.png"/>
             </ion-card>
           </ion-col>
 
           <ion-col>
             <ion-card color="actoutsecondary" @click="openFriends">
-              <img src="../assets/ProjectSearch.png"/>
-              <ion-card-title>Connections</ion-card-title>
+              <img src="../assets/Connections.png"/>
             </ion-card>
           </ion-col>
 
         </ion-row>
         <ion-row style="align-items: center;justify-content: center;">
 
-            <ion-text color="actoutblack">Update hinzufügen</ion-text>
+            <ion-text color="actoutsecondary">Was gibts neues?</ion-text>
 
         </ion-row>
         <ion-row style="align-items: center;justify-content: center;">
-          <ion-item color="actoutsecondary">
+          <ion-item color="actouttertiary">
             <ion-input @input="update = $event.target.value"
             :value="update"
             name="update"
@@ -52,7 +48,7 @@
         </ion-row>
         <ion-row style="align-items: center;justify-content: center;">
 
-            <ion-button color="actoutprimary" @click="manualUpdate">Update</ion-button>
+            <ion-button color="actoutblack" @click="manualUpdate">Update</ion-button>
 
         </ion-row>
       </ion-grid>

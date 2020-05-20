@@ -58,6 +58,8 @@
 </template>
 
 <script>
+
+
 export default {
   name: 'Modal',
   props: {
@@ -67,6 +69,7 @@ export default {
     return {
       project: {"roles": ["test",1]},
       currentuser: "",
+      vue: ""
     }
   },
   computed: {
@@ -129,6 +132,12 @@ export default {
     var data = JSON.stringify(this.currentuser);
     sessionStorage.setItem("User",data);
 
+    this.closeModal();
+    
+
+
+
+
   },
   //sets project paid variable
   togglePaid: function(){
@@ -154,7 +163,7 @@ export default {
       }
     }
 
-  }
+  },
   }
 }
 </script>

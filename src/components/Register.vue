@@ -1,7 +1,7 @@
 <template>
   <ion-page>
     <ion-header>
-      <ion-toolbar color="primary">
+      <ion-toolbar color="actoutblack">
         <ion-buttons slot="start">
           <ion-back-button default-href="/">Back</ion-back-button>
         </ion-buttons>
@@ -10,8 +10,8 @@
     </ion-header>
     <ion-content padding>
       <ion-list>
-        <ion-item>
-          <ion-label position="stacked" color="primary">Email</ion-label>
+        <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Email</ion-label>
           <ion-input required
           @input="user.email=$event.target.value"
           :value="user.email"
@@ -21,16 +21,16 @@
           autocapitalize="off"
           ></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Password</ion-label>
+          <ion-item color="actouttertiary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Password</ion-label>
           <ion-input required
           @input="user.password = $event.target.value"
           :value="user.password"
           name="password"
           type="password"></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Vorname</ion-label>
+          <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Vorname</ion-label>
           <ion-input required
           @input="user.vorname=$event.target.value"
           :value="user.vorname"
@@ -39,8 +39,8 @@
           spellcheck="false"
           autocapitalize="on"></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Nachname</ion-label>
+          <ion-item color="actouttertiary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Nachname</ion-label>
           <ion-input required
           @input="user.nachname=$event.target.value"
           :value="user.nachname"
@@ -49,8 +49,8 @@
           spellcheck="false"
           autocapitalize="on"></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Geschlecht</ion-label>
+          <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Geschlecht</ion-label>
           <ion-select required
           @ionChange="user.gender=$event.target.value"
           :value="user.gender"
@@ -60,8 +60,8 @@
             <ion-select-option value="o">Anderes</ion-select-option>
           </ion-select>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Wohnort</ion-label>
+          <ion-item color="actouttertiary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Wohnort</ion-label>
           <ion-input required
           @input="user.wohnort=$event.target.value"
           :value="user.wohnort"
@@ -70,8 +70,8 @@
           spellcheck="false"
           autocapitalize="on"></ion-input>
           </ion-item>
-          <ion-item>
-          <ion-label position="stacked" color="primary">Du bist ein/e</ion-label>
+          <ion-item color="actoutsecondary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Du bist ein/e</ion-label>
           <ion-select required multiple="true" cancel-text="Nah" ok-text="Okay!"
           @ionChange="user.job=$event.target.value"
           :value="user.job" >
@@ -80,8 +80,8 @@
            <ion-select-option value="crew">Crewmitglied</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-item>
-          <ion-label position="stacked" color="primary">Profilbild</ion-label>
+        <ion-item color="actouttertiary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Profilbild</ion-label>
           <input
         type="file"
         id="imageupload"
@@ -91,7 +91,7 @@
         >
         </ion-item>
       </ion-list>
-      <ion-button @click="newuser"> Registrieren </ion-button><br/>
+      <ion-button color="actoutblack" @click="newuser"> Registrieren </ion-button><br/>
 
     </ion-content>
   </ion-page>

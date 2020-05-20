@@ -2,15 +2,20 @@
   <ion-page>
     <NavBar/>
     <ion-content padding>
+      <ion-item color="actoutwhite">
       <ion-input @input="searchbar = $event.target.value"
       :value="searchbar"
       name="searchinput"
       type="text"/>
-      <ion-button @click="search">Search</ion-button>
-      <ion-list>
-        <div v-for="project in activeProjects" :key="project.name">
-          <ion-item v-if="checkemail!=project.creator">
-            {{project.name}}<ion-button @click="openProjectPage(project.id)">Projektseite besuchen</ion-button>
+      <ion-button color="actoutblack" @click="search">Suchen</ion-button>
+    </ion-item>
+      <ion-list style="height:80vh; overflow-y:auto">
+        <div v-for="(project,index) in activeProjects" :key="project.name">
+          <ion-item :color="setColor(index)" v-if="checkemail!=project.creator">
+
+            <ion-text color="actoutblack">{{project.name}}</ion-text>
+
+            <ion-button color="actoutblack" @click="openProjectPage(project.id)">Projektseite besuchen</ion-button>
           </ion-item>
       </div>
       </ion-list>
@@ -69,6 +74,13 @@ export default {
   methods: {
     isinSearch: function(project){
       return project.name.includes(this.searchinput);
+    },
+    setColor: function(index){
+      if(index%2==0){
+        return "actoutsecondary"
+      }else {
+        return "actouttertiary"
+      }
     },
     allprojects: function(){
 

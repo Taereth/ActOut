@@ -43,6 +43,11 @@ export default {
       newPendingMembers: false
     }
   },
+  computed: {
+    projectlist: function(){
+      return this.myprojects;
+    }
+  },
   beforeMount: function(){
 
     this.currentuser=JSON.parse(sessionStorage.getItem("User"));
@@ -86,12 +91,20 @@ export default {
       return "actouttertiary"
     }
   },
-  openProjectModal: function(){
-    return this.$ionic.modalController
+  openProjectModal: async function(){
+
+    var modal = await this.$ionic.modalController
     .create({
       component: Modal
     })
-    .then(m=>m.present())
+
+    await modal.present();
+
+    await modal.onDidDismiss();
+
+    await this.userprojects();
+
+
 
   },
   openProjectPage: function(projectid){
