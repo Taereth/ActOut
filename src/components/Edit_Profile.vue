@@ -111,8 +111,6 @@ export default {
   methods: {
     update: function(){
 
-      console.log(this.currentuser._id);
-      console.log(this.user);
 
       fetch('/updateDB', {
       headers: {
@@ -122,6 +120,10 @@ export default {
       method: 'POST',
       body: JSON.stringify({"id": this.currentuser._id, "payload": this.user})
     })
+
+    this.currentuser=this.user;
+    sessionStorage.setItem("User",JSON.stringify(this.currentuser));
+    this.$forceUpdate();
 
     }
   }

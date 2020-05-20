@@ -4,7 +4,7 @@
     <ion-content padding>
       <ion-list>
         <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Alter</ion-label>
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Spielalter</ion-label>
           <ion-input required
           @input="user.age=$event.target.value"
           :value="user.age"
@@ -20,6 +20,16 @@
           @input="user.augenfarbe=$event.target.value"
           :value="user.augenfarbe"
           name="augenfarbe"
+          type="text"
+          spellcheck="false"
+          autocapitalize="on"></ion-input>
+        </ion-item>
+        <ion-item color="actoutwhite">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Grösse</ion-label>
+          <ion-input required
+          @input="user.groesse=$event.target.value"
+          :value="user.groesse"
+          name="groesse"
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-input>

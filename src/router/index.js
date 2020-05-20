@@ -77,6 +77,15 @@ let router = new IonicVueRouter({
             }
       },
       {
+        path: "/description",
+        name: "description",
+        component: () =>
+          import(/* webpackChunkName: "new-item" */ "@/components/Description"),
+        meta: {
+                requiresAuth: true
+            }
+      },
+      {
         path: "/profiles/:id/friends",
         name: "friends",
         component: () =>

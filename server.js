@@ -62,6 +62,9 @@ app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
 //Fallback
 
+app.get('*', function(req,res) {
+  res.redirect("https://"+req.headers.host + req.url)
+})
 
 app.listen(port);
 console.log('server started '+ port);

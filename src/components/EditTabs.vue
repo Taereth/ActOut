@@ -11,12 +11,17 @@
             </ion-col>
             <ion-col>
               <ion-item @click="Skills" color="actouttertiary">
-                Skills
+                Du
               </ion-item>
             </ion-col>
             <ion-col>
               <ion-item @click="Previous" color="actoutsecondary">
                 Erfahrungen
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item @click="Description" color="actouttertiary">
+                Beschreibung
               </ion-item>
             </ion-col>
           </ion-row>
@@ -60,6 +65,9 @@ export default {
     },
     Previous: function(){
       this.$router.push({ name: 'previousexperiences'});
+    },
+    Description: function(){
+      this.$router.push({ name: 'description'});
     }
 
   }

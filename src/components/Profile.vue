@@ -4,17 +4,159 @@
     <ion-content padding>
 
 
-      <ion-list>
-        <ion-item v-for="update in updates" :key="update">
-          <ion-label>{{update[1]}}</ion-label>
-          {{update[0]}}
-        </ion-item>
-      </ion-list>
 
-      <ion-img :src="profileImg"/>
-      <ion-button v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
-      <ion-button v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
-      <ion-button @click="chat(profileData.id, profileData.vorname, profileData.nachname)">Chat</ion-button>
+
+
+  <ion-slides pager="true" :options="slideOpts">
+    <ion-slide>
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <ion-item color="actoutsecondary" v-for="update in updates" :key="update">
+              <ion-label position="stacked" color="actoutblack" style="color:#49274A;">{{update[1]}}</ion-label>
+              <ion-text color="actoutblack">{{update[0]}}</ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col size="8">
+          <ion-grid>
+            <ion-row>
+              <ion-img :src="profileImg"/>
+            </ion-row>
+            <ion-row>
+              <ion-button color="actoutblack" v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
+              <ion-button color="actoutblack" v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
+              <ion-button color="actoutblack" @click="chat(profileData.id, profileData.vorname, profileData.nachname)">Chat</ion-button>
+            </ion-row>
+          </ion-grid>
+        </ion-col>
+      </ion-row>
+    </ion-slide>
+    <ion-slide>
+      <ion-grid>
+        <ion-row style="align-items: center;justify-content: center;">
+          <ion-item color="actoutwhite">
+            <ion-text color="actoutblack">Profil</ion-text>
+          </ion-item>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Geschlecht</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.gender}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Spielalter</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.age}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Grösse</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.groesse}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Augenfarbe</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.augenfarbe}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Haarfarbe</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.haarfarbe}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Sprachen</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.sprachen}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Fahrausweis</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.fahrausweis}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Spezielle Fähigkeiten</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.specialskills}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Hobbies</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-item color="actouttertiary" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack">{{profileData.hobbies}}</ion-text>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-slide>
+    <ion-slide>
+      <h1>Slide 3</h1>
+    </ion-slide>
+  </ion-slides>
+
+
+
+
     </ion-content>
   </ion-page>
 </template>
@@ -213,4 +355,17 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+ion-content{
+  --ion-background-color:#FFFCF2;
+}
+
+ion-col{
+  --ion-grid-column-padding:0px;
+}
+/*ion-grid{
+  padding:0px;
+  --ion-grid-padding:0px;
+}
+*/
 </style>
