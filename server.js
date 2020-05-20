@@ -43,8 +43,7 @@ const s3 = new AWS.S3({
 
 app.use(cookieParser());
 
-console.log(process.env);
-console.log(process.env.MONGODB_PASS);
+
 //mongoDB Setup
 
 const mongodb = require('mongodb');
@@ -60,10 +59,18 @@ const ObjectID = mongodb.ObjectID;
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
-//Fallback
+//HTTPS redirect
 
-app.get('*', function(req,res) {
+app.use('*', function(req,res) {
   res.redirect("https://"+req.headers.host + req.url)
+})
+
+app.use('/', function(req,res) {
+  res.redirect("https://"+req.headers.host + req.url)
+})
+
+app.use('/', (req, res) => {
+  console.log(req.headers)
 })
 
 app.listen(port);
@@ -101,7 +108,7 @@ function jwtauth(req, res, next){
 
 app.get("/test", function (req,res){
   res.json({status: 'testing', 'bibel': 'bobel'});
-  console.log("bah");
+
 })
 
 
@@ -133,7 +140,7 @@ app.post("/checklogin",function (req,res){
 
 
 
-  console.log(uri);
+
 
   var theemail = req.body['email'];
 
@@ -679,7 +686,7 @@ app.post("/chatSetup",jwtauth, function (req,res){
           throw err;
         }
 
-        console.log(result.insertedId)
+
         res.json({"ChatID":result.insertedId, "messages":[], "version":1});
 
 
@@ -825,7 +832,7 @@ app.post('/fileupload', multer.single("file"), (req, res) => {
 
 app.post('/filedownload', jwtauth, (req,res) =>{
 
-  console.log(req.body.filename);
+
 
   const params = {
     Bucket: 'pbaactout',
