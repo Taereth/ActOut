@@ -1,10 +1,12 @@
 // server.js
 const express = require('express');
+const helmet = require('helmet')
 const path = require('path');
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 const multiparty = require('multiparty-express');
 app = express();
+app.use(helmet());
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
 app.use(history({
@@ -59,19 +61,9 @@ const ObjectID = mongodb.ObjectID;
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
-//HTTPS redirect
+//HTTPHeaders
 
-app.use('*', function(req,res) {
-  res.redirect("https://"+req.headers.host + req.url)
-})
 
-app.use('/', function(req,res) {
-  res.redirect("https://"+req.headers.host + req.url)
-})
-
-app.use('/', (req, res) => {
-  console.log(req.headers)
-})
 
 app.listen(port);
 console.log('server started '+ port);
