@@ -6,9 +6,13 @@ const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 const multiparty = require('multiparty-express');
 const httpsRedirect = require('express-https-redirect');
+const frameguard = require('frameguard');
+const referrerPolicy = require('referrer-policy')
 app = express();
 app.use('/', httpsRedirect());
 app.use(helmet());
+app.use(referrerPolicy({ policy: 'no-referrer' }))
+app.use(frameguard({ action: 'deny' }))
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
 app.use(history({
