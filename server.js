@@ -1,19 +1,18 @@
 // server.js
 const express = require('express');
-const helmet = require('helmet')
+const helmet = require('helmet');
+const frameguard = require('frameguard');
 const path = require('path');
 const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 const multiparty = require('multiparty-express');
 const httpsRedirect = require('express-https-redirect');
-
-
-
 app = express();
-
 app.use('/', httpsRedirect());
-app.disable('x-powered-by');
 app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
+app.use(helmet());
+app.use(frameguard({ action: 'deny' }));
+
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
 app.use(history({
