@@ -7,6 +7,7 @@ const history = require('connect-history-api-fallback');
 const multiparty = require('multiparty-express');
 const httpsRedirect = require('express-https-redirect');
 app = express();
+
 app.use('/', httpsRedirect());
 app.use(helmet());
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
