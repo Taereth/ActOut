@@ -10,13 +10,24 @@ const httpsRedirect = require('express-https-redirect');
 const referrerPolicy = require('referrer-policy');
 const noSniff = require('dont-sniff-mimetype')
 const hsts = require('hsts')
-const sslRedirect = require('heroku-ssl-redirect');
-
 app = express();
-app.use(sslRedirect());
-//app.use('/', httpsRedirect());
-var enforce = require('express-sslify');
-//app.use(enforce.HTTPS());
+app.use('/', httpsRedirect());
+
+
+
+/*
+
+REACTIVATE FOR FORCED REDIRECT, doesnt work while on localhost
+
+var forceSSL = function (req, res, next) {
+  if (req.headers['x-forwarded-proto'] !== 'https') {
+    return res.redirect(['https://', req.get('Host'), req.url].join(''));
+  }
+  return next();
+};
+
+app.use(forceSSL);
+*/
 
 app.use(noSniff());
 app.use(referrerPolicy({ policy: 'no-referrer' }));
