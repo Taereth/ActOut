@@ -7,9 +7,16 @@ const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 const multiparty = require('multiparty-express');
 const httpsRedirect = require('express-https-redirect');
+const referrerPolicy = require('referrer-policy');
+const noSniff = require('dont-sniff-mimetype')
+const hsts = require('hsts')
 app = express();
 app.use('/', httpsRedirect());
-app.use(helmet.referrerPolicy({ policy: 'same-origin' }));
+app.use(noSniff());
+app.use(referrerPolicy({ policy: 'no-referrer' }));
+app.use(hsts({
+  maxAge: 5184000
+}))
 app.use(helmet());
 app.use(frameguard({ action: 'deny' }));
 
