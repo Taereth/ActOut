@@ -13,8 +13,8 @@ const hsts = require('hsts')
 const sslRedirect = require('heroku-ssl-redirect');
 
 app = express();
-app.use(sslRedirect());
-//app.use('/', httpsRedirect());
+//app.use(sslRedirect());
+app.use('/', sslRedirect());
 var enforce = require('express-sslify');
 //app.use(enforce.HTTPS());
 
