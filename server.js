@@ -9,19 +9,6 @@ const httpsRedirect = require('express-https-redirect');
 const frameguard = require('frameguard');
 const referrerPolicy = require('referrer-policy')
 app = express();
-app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF],
-        'script-src': [SELF, INLINE ],
-        'style-src': [SELF, INLINE],
-        'img-src': ['data:', SELF],
-        'worker-src': [NONE],
-        'block-all-mixed-content': true,
-        'frame-ancestors': [SELF],
-        'base-uri': [SELF]
-    }
-}));
-
 app.use('/', httpsRedirect());
 app.use(helmet());
 app.use(referrerPolicy({ policy: 'no-referrer' }))
