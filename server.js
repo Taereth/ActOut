@@ -6,22 +6,10 @@ const serveStatic = require('serve-static');
 const history = require('connect-history-api-fallback');
 const multiparty = require('multiparty-express');
 const httpsRedirect = require('express-https-redirect');
-const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+
 
 
 app = express();
-app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF],
-        'script-src': [SELF, INLINE ],
-        'style-src': [SELF, INLINE],
-        'img-src': ['data:', SELF],
-        'worker-src': [NONE],
-        'block-all-mixed-content': true,
-        'frame-ancestors': [SELF],
-        'base-uri': [SELF]
-    }
-}));
 
 app.use('/', httpsRedirect());
 app.disable('x-powered-by');
