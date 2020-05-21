@@ -28,6 +28,7 @@
     "frameguard": "^3.1.0",
     "fs": "0.0.1-security",
     "helmet": "^3.22.0",
+    "heroku-ssl-redirect": "0.0.4",
     "hsts": "^2.2.0",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.5.5",
