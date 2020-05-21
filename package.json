@@ -23,6 +23,7 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.1.7-alpha.3",
     "express-https-redirect": "^1.0.0",
+    "frameguard": "^3.1.0",
     "fs": "0.0.1-security",
     "helmet": "^3.22.0",
     "jsonwebtoken": "^8.5.1",
