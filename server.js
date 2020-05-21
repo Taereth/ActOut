@@ -10,10 +10,12 @@ const httpsRedirect = require('express-https-redirect');
 const referrerPolicy = require('referrer-policy');
 const noSniff = require('dont-sniff-mimetype')
 const hsts = require('hsts')
+const sslRedirect = require('heroku-ssl-redirect');
+app.use(sslRedirect());
 app = express();
 //app.use('/', httpsRedirect());
 var enforce = require('express-sslify');
-app.use(enforce.HTTPS());
+//app.use(enforce.HTTPS());
 
 app.use(noSniff());
 app.use(referrerPolicy({ policy: 'no-referrer' }));
