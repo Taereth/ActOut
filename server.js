@@ -11,8 +11,9 @@ const referrerPolicy = require('referrer-policy');
 const noSniff = require('dont-sniff-mimetype')
 const hsts = require('hsts')
 const sslRedirect = require('heroku-ssl-redirect');
-app.use(sslRedirect());
+
 app = express();
+app.use(sslRedirect());
 //app.use('/', httpsRedirect());
 var enforce = require('express-sslify');
 //app.use(enforce.HTTPS());
