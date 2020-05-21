@@ -11,16 +11,9 @@ const referrerPolicy = require('referrer-policy');
 const noSniff = require('dont-sniff-mimetype')
 const hsts = require('hsts')
 app = express();
-app.use('/', httpsRedirect());
-
-var forceSSL = function (req, res, next) {
-  if (req.headers['x-forwarded-proto'] !== 'https') {
-    return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  return next();
-};
-
-app.use(forceSSL);
+//app.use('/', httpsRedirect());
+var enforce = require('express-sslify');
+app.use(enforce.HTTPS());
 
 app.use(noSniff());
 app.use(referrerPolicy({ policy: 'no-referrer' }));
