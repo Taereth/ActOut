@@ -39,11 +39,13 @@ item-label-stacked{
 
 
 ion-content{
-  --ion-background-color:#94618E;
+  background: rgb(148,97,142);
+  background: linear-gradient(0deg, rgba(148,97,142,1) 0%, rgba(223,178,218,1) 100%);
+  --ion-background-color: linear-gradient(0deg, rgba(148,97,142,1) 0%, rgba(223,178,218,1) 100%);
 }
 
 :root {
-  --ion-color-actoutprimary: #94618E;
+  --ion-color-actoutprimary: linear-gradient(0deg, rgba(148,97,142,1) 0%, rgba(223,178,218,1) 100%);
   --ion-color-actoutprimary-rgb: 148,97,142;
   --ion-color-actoutprimary-contrast: #ffffff;
   --ion-color-actoutprimary-contrast-rgb: 255,255,255;
@@ -61,7 +63,7 @@ ion-content{
 }
 
 :root {
-  --ion-color-actoutsecondary: #F4DECB;
+  --ion-color-actoutsecondary: linear-gradient(0deg, rgba(244,222,203,1) 0%, rgba(255,246,239,1) 100%);
   --ion-color-actoutsecondary-rgb: 244,222,203;
   --ion-color-actoutsecondary-contrast: #000000;
   --ion-color-actoutsecondary-contrast-rgb: 0,0,0;
@@ -79,7 +81,7 @@ ion-content{
 }
 
 :root {
-  --ion-color-actouttertiary: #F8EEE7;
+  --ion-color-actouttertiary: linear-gradient(0deg, rgba(248,238,231,1) 0%, rgba(255,255,255,1) 100%);
   --ion-color-actouttertiary-rgb: 248,238,231;
   --ion-color-actouttertiary-contrast: #000000;
   --ion-color-actouttertiary-contrast-rgb: 0,0,0;
@@ -97,7 +99,7 @@ ion-content{
 }
 
 :root {
-  --ion-color-actoutblack: #49274A;
+  --ion-color-actoutblack: linear-gradient(0deg, rgba(73,39,74,1) 0%, rgba(145,90,147,1) 100%);
   --ion-color-actoutblack-rgb: 73,39,74;
   --ion-color-actoutblack-contrast: #ffffff;
   --ion-color-actoutblack-contrast-rgb: 255,255,255;

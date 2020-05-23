@@ -3,42 +3,74 @@
     <NavBar/>
     <ion-content padding>
 
+      <ion-grid>
+
+      <ion-row>
+
+        <ion-img :src="profileImg"/>
 
 
+      </ion-row>
+      <ion-row>
+        <ion-col style="align-items: center;justify-content: center;">
+          <ion-item>
+            <ion-button color="actoutblack" v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
+            <ion-button color="actoutblack" v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
+          </ion-item>
+        </ion-col>
+        <ion-col style="align-items: center;justify-content: center;">
+          <ion-item>
+            <ion-button color="actoutblack" @click="chat(profileData.id, profileData.vorname, profileData.nachname)">Chat</ion-button>
+          </ion-item>
+        </ion-col>
+      </ion-row>
 
+    </ion-grid>
 
   <ion-slides pager="true" :options="slideOpts">
     <ion-slide>
-      <ion-row>
-        <ion-col>
-          <ion-list>
-            <ion-item color="actoutsecondary" v-for="update in updates" :key="update">
-              <ion-label position="stacked" color="actoutblack" style="color:#49274A;">{{update[1]}}</ion-label>
-              <ion-text color="actoutblack">{{update[0]}}</ion-text>
-            </ion-item>
-          </ion-list>
-        </ion-col>
-        <ion-col size="8">
-          <ion-grid>
-            <ion-row>
-              <ion-img :src="profileImg"/>
-            </ion-row>
-            <ion-row>
-              <ion-button color="actoutblack" v-if="isFriend == false" @click="addFriend"> Follow </ion-button>
-              <ion-button color="actoutblack" v-if="isFriend == true" @click="removeFriend"> Unfollow </ion-button>
-              <ion-button color="actoutblack" @click="chat(profileData.id, profileData.vorname, profileData.nachname)">Chat</ion-button>
-            </ion-row>
-          </ion-grid>
-        </ion-col>
-      </ion-row>
+
+      <ion-list>
+
+
+
+        <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary">
+          <ion-text class="ion-text-center" color="actoutblack">{{profileData.vorname}} {{profileData.nachname}}</ion-text>
+          <ion-text class="ion-text-center" color="actoutblack">{{profileData.job}}</ion-text>
+        </ion-item>
+
+
+
+        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary">
+          <ion-text class="ion-text-center" color="actoutblack">{{profileData.email}}</ion-text>
+        </ion-item>
+
+
+
+        <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary">
+          <ion-text class="ion-text-center" color="actoutblack" >{{profileData.website}}</ion-text>
+        </ion-item>
+
+
+
+        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary">
+          <ion-text class="ion-text-center" color="actoutblack">{{profileData.agentur}}</ion-text>
+        </ion-item>
+
+
+    </ion-list>
+
+    </ion-slide>
+    <ion-slide>
+      <ion-list style="align-items: center;justify-content: center;">
+        <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" v-for="update in updates" :key="update">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">{{update[1]}}</ion-label>
+          <ion-text color="actoutblack">{{update[0]}}</ion-text>
+        </ion-item>
+      </ion-list>
     </ion-slide>
     <ion-slide>
       <ion-grid>
-        <ion-row style="align-items: center;justify-content: center;">
-          <ion-item color="actoutwhite">
-            <ion-text color="actoutblack">Profil</ion-text>
-          </ion-item>
-        </ion-row>
         <ion-row>
           <ion-col>
             <ion-item color="actoutsecondary">
@@ -150,7 +182,82 @@
       </ion-grid>
     </ion-slide>
     <ion-slide>
-      <h1>Slide 3</h1>
+
+      <ion-grid>
+
+        <ion-row>
+
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Ausbildung</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-list>
+            <ion-item color="actouttertiary" v-for="ausbildung in profileData.ausbildung" :key="ausbildung" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack" >{{ausbildung[0]}} {{ausbildung[1]}}</ion-text>
+            </ion-item>
+            </ion-list>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Film</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-list>
+            <ion-item color="actouttertiary" v-for="film in profileData.film" :key="film" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack" >{{film[0]}}({{film[1]}}) als {{film[2]}}</ion-text>
+            </ion-item>
+          </ion-list>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Theater</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-list>
+            <ion-item color="actouttertiary" v-for="theater in profileData.theater" :key="theater" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack" >{{theater[0]}}({{theater[1]}}) als {{theater[2]}}</ion-text>
+            </ion-item>
+          </ion-list>
+          </ion-col>
+
+        </ion-row>
+
+        <ion-row>
+
+          <ion-col>
+            <ion-item color="actoutsecondary">
+              <ion-text color="actoutblack">Anderes</ion-text>
+            </ion-item>
+          </ion-col>
+          <ion-col>
+            <ion-list>
+            <ion-item color="actouttertiary" v-for="anderes in profileData.anderes" :key="anderes" style="align-items: right;justify-content: flex-end;">
+              <ion-text color="actoutblack" >{{anderes[0]}}({{anderes[1]}}) als {{anderes[2]}}\n</ion-text>
+            </ion-item>
+          </ion-list>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-grid>
+
+
+
+
     </ion-slide>
   </ion-slides>
 
@@ -179,7 +286,8 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: false,
-      profileData: {"updates":["placeholder",1]},
+      profileData: {"updates":["placeholder",1],
+                    "showreel":""},
       profileImg: "",
       isFriend: false
     }
@@ -232,6 +340,7 @@ export default {
         this.downloadUserImage();
         this.checkFriendstatus();
         console.log(this.profileData);
+
 
 
       })
@@ -356,16 +465,9 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
-ion-content{
-  --ion-background-color:#FFFCF2;
-}
 
 ion-col{
   --ion-grid-column-padding:0px;
 }
-/*ion-grid{
-  padding:0px;
-  --ion-grid-padding:0px;
-}
-*/
+
 </style>

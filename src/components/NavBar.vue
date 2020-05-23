@@ -8,13 +8,13 @@
       </ion-header>
       <ion-content>
         <ion-list>
-          <ion-item color="actouttertiary" @click="Home">Dashboard</ion-item>
+          <ion-item color="actoutsecondary" @click="Home">Dashboard</ion-item>
           <ion-item color="actoutsecondary" @click="EditProfile">Profil bearbeiten</ion-item>
-          <ion-item color="actouttertiary" @click="Projects">Projekte verwalten</ion-item>
+          <ion-item color="actoutsecondary" @click="Projects">Projekte verwalten</ion-item>
           <ion-item color="actoutsecondary" @click="Friends">Freunde</ion-item>
-          <ion-item color="actouttertiary" @click="Chats">Chats</ion-item>
+          <ion-item color="actoutsecondary" @click="Chats">Chats</ion-item>
           <ion-item color="actoutsecondary" @click="Updates">Updates verwalten</ion-item>
-          <ion-item color="actouttertiary" @click="Logout">Logout</ion-item>
+          <ion-item color="actoutsecondary" @click="Logout">Logout</ion-item>
         </ion-list>
       </ion-content>
     </ion-menu>

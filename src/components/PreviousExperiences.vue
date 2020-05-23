@@ -280,6 +280,7 @@ export default {
       this.user.ausbildung.push(newAusbildung);
       this.ausbildunginput = "";
       this.ausbildungzeitraum = "";
+      this.update();
     },
     AddFilm: function(){
       var newFilm = [this.filminput, this.filmzeitraum, this.filmrolle];
@@ -287,6 +288,7 @@ export default {
       this.filminput = "";
       this.filmzeitraum = "";
       this.filmrolle = "";
+      this.update();
     },
     AddTheater: function(){
       var newTheater = [this.theaterinput, this.theaterzeitraum, this.theaterrolle];
@@ -294,6 +296,7 @@ export default {
       this.theaterinput = "";
       this.theaterzeitraum = "";
       this.theaterrolle = "";
+      this.update();
     },
     AddAnderes: function(){
       var newAnderes = [this.anderesinput, this.andereszeitraum, this.anderesrolle];
@@ -301,27 +304,32 @@ export default {
       this.anderesinput = "";
       this.andereszeitraum = "";
       this.anderesrolle = "";
+      this.update();
     },
 
 
     removeAusbildung: function(index){
 
       this.user.ausbildung.splice(index,1);
+      this.update();
 
     },
     removeFilm: function(index){
 
       this.user.film.splice(index,1);
+      this.update();
 
     },
     removeTheater: function(index){
 
       this.user.theater.splice(index,1);
+      this.update();
 
     },
     removeAnderes: function(index){
 
       this.user.anderes.splice(index,1);
+      this.update();
 
     }
   }

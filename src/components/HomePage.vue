@@ -5,7 +5,7 @@
         <ion-title class="ion-text-center" >ActOut</ion-title>
       </ion-toolbar>
     </ion-header>
-    <ion-content padding>
+    <ion-content>
 
       <ion-list>
         <ion-item color="actoutwhite">
