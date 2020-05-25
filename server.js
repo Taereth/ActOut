@@ -11,6 +11,9 @@ const referrerPolicy = require('referrer-policy');
 const noSniff = require('dont-sniff-mimetype')
 const hsts = require('hsts')
 const sslRedirect = require('heroku-ssl-redirect');
+const csp = require('helmet-csp')
+
+
 
 app = express();
 //app.use(sslRedirect());
@@ -25,6 +28,18 @@ app.use(hsts({
 }))
 app.use(helmet());
 app.use(frameguard({ action: 'deny' }));
+
+app.use(csp({
+  directives: {
+    defaultSrc: ["'self'"],
+    styleSrc: ["'self'", "'unsafe-inline'"],
+    imgSrc: ["'self'", "data:"],
+    objectSrc: ["'self'"],
+    baseUri: ["'self'"],
+    scriptSrc: ["'self'", "'unsafe-inline'"],
+    frameAncestors: ["'self'"]
+  }
+}))
 
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
