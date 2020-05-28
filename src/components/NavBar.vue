@@ -26,7 +26,9 @@
         <ion-avatar  style="padding:8px" @click="EditProfile" slot="end">
           <ion-img v-if="profileImg!='../assets/noImage.png'" decoding="sync" :src="profileImg"/>
         </ion-avatar>
-        <ion-title class="ion-text-center"> Actout </ion-title>
+        <div class="titleicon">
+         <img src="../assets/ActoutLogo.svg" width="60px" />
+       </div>
       </ion-toolbar>
   </div>
 

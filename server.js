@@ -41,6 +41,8 @@ app.use(csp({
   }
 }))
 
+
+
 const staticFileMiddleware = express.static(path.join(__dirname + '/dist'))
 app.use(staticFileMiddleware);
 app.use(history({
@@ -164,9 +166,6 @@ app.post("/newuser",function (req,res){
 //Checking whether Email and Password are in the MongoDB, if they are, returns Email and Password to the Client
 
 app.post("/checklogin",function (req,res){
-
-
-
 
 
   var theemail = req.body['email'];
@@ -364,7 +363,7 @@ app.post("/getUserEntrybyEmail",jwtauth,function (req,res){
     }
 
     else if(count == 0){
-      res.json({status:'No Id Found'});
+      res.json(JSON.stringify({status:'No Id Found'}));
       client.close();
     }
 

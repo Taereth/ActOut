@@ -16,6 +16,13 @@ export default {
 
 <style>
 
+.titleicon {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    text-align:center;
+}
 
 ion-item{
   --highlight-color-focused:#49274A;

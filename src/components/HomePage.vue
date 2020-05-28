@@ -2,7 +2,9 @@
   <ion-page>
     <ion-header>
       <ion-toolbar color="actoutblack">
-        <ion-title class="ion-text-center" >ActOut</ion-title>
+
+         <img src="../assets/ActoutLogo.svg" />
+
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -37,6 +39,8 @@
         </ion-item>
       </ion-list>
 
+      <ion-text v-if="isMobile == false" color="actoutwhite">Developer Anmerkung: <br/> Diese Anwendung befindet sich in Entwicklung und ist zurzeit primär für Mobilebenutzer gedacht.</ion-text>
+
     </ion-content>
   </ion-page>
 </template>
@@ -59,7 +63,13 @@ export default {
   },
   data() {
     return {
-      user: {}
+      user: {},
+      isMobile: false
+    }
+  },
+  beforeMount: function(){
+    if(this.mobileCheck()==true){
+      this.isMobile = true;
     }
   },
   methods: {
@@ -91,6 +101,24 @@ export default {
       })
 
     },
+    mobileCheck: function(){
+      const toMatch = [
+        /Android/i,
+        /webOS/i,
+        /iPhone/i,
+        /iPad/i,
+        /iPod/i,
+        /BlackBerry/i,
+        /Windows Phone/i
+    ];
+
+    return toMatch.some((toMatchItem) => {
+
+        console.log(navigator.userAgent);
+        return navigator.userAgent.match(toMatchItem);
+    });
+
+    }
   }
 };
 </script>
