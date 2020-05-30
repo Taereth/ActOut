@@ -74,6 +74,7 @@ export default {
     this.currentuser=this.user;
     sessionStorage.setItem("User",JSON.stringify(this.currentuser));
     this.$forceUpdate();
+    this.$router.push({ name: 'editProfile' });
 
     }
   }

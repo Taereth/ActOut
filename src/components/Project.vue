@@ -1,38 +1,128 @@
 <template>
   <ion-page>
     <NavBar/>
-    <ion-content padding>
-      This project: {{thisproject}} <br/>
+    <ion-content v-if="this.userisMember==false">
 
+<div v-if="this.userisMember==false">
+
+  <ion-slides>
+
+    <ion-slide v-if="updates[0] != null">
       <ion-list>
-        <ion-item v-for="role in roles" :key="role">
-          <ion-label>{{role[0]}}</ion-label>
-          <p>{{role[1]}}</p>
-        </ion-item>
-      </ion-list>
+      <ion-item color="actoutwhite" v-for="(update,index) in updates" :key="update">
+        <ion-label position="stacked">{{update[2]}} um {{update[1]}}</ion-label>
+        <br/>
+        <ion-text>{{update[0]}}</ion-text>
+        <ion-button @click="removeUpdate(index)" v-if="userisMember==true">Update entfernen</ion-button>
+      </ion-item>
+    </ion-list>
+    </ion-slide>
 
-      <ion-list>
-        <ion-item v-for="(update,index) in updates" :key="update">
-          <ion-label>{{update[2]}} um {{update[1]}}</ion-label>
-          {{update[0]}}
-          <ion-button @click="removeUpdate(index)" v-if="userisMember==true">Update entfernen</ion-button>
-        </ion-item>
-      </ion-list>
+    <ion-slide>
+
+  <ion-list>
+
+  <ion-item color="actouttertiary">
+    <ion-label position="stacked">Details</ion-label>
+    <br/>
+    <ion-text>{{thisproject.details}}</ion-text>
+  </ion-item>
+
+  <ion-item color="actoutsecondary">
+
+        <ion-grid>
+        <div v-for="role in roles" :key="role">
+          <ion-row >
+            <ion-col color="actoutsecondary">
+          <ion-text>{{role[0]}}</ion-text>
+          </ion-col>
+          <ion-col color="actouttertiary">
+          <ion-text>{{role[1]}}</ion-text>
+        </ion-col>
+          </ion-row>
+        </div>
+      </ion-grid>
+
+  </ion-item>
+
+</ion-list>
+
+</ion-slide>
+
+<ion-slide>
 
 
+<ion-list>
+
+  <ion-item color="actoutsecondary">
+    <ion-label position="stacked">Bewerbung</ion-label>
+    <br/>
+  <ion-text color="actoutblack">Rolle:</ion-text>
+  <ion-select required
+  @ionChange="applicationrole = $event.target.value"
+  :value=thisproject.roles[0][0]
+  placeholder="">
+    <ion-select-option v-for="role in roles" :key="role" :value="role[0]" >{{role[0]}}</ion-select-option>
+  </ion-select>
+</ion-item>
+<ion-item color="actoutsecondary">
+<div v-if="this.userisMember==false && this.userispendingMember==false && this.userisBanned == false"><ion-button color="actoutblack" @click="ApplyForProject">Für Projekt bewerben</ion-button></div>
+<ion-label v-if="this.userisBanned" > You have been banned from applying to this project.</ion-label>
+<div v-if="this.userispendingMember==true && this.userisMember==false"><ion-button color="actoutblack" @click="RetractFromProject">Projektbewerbung zurückziehen</ion-button></div>
+</ion-item>
+
+</ion-list>
+
+</ion-slide>
+
+</ion-slides>
+
+</div>
+
+</ion-content>
+<ion-content v-if="this.userisMember==true">
 
       <div v-if="this.userisMember==true">
 
-        <ion-label>Update hinzufügen</ion-label>
-        <ion-input @input="update = $event.target.value"
-        :value="update"
-        name="update"
-        type="text"/>
-        <ion-button @click="manualUpdate">Update</ion-button>
+        <ion-slides>
+
+          <ion-slide>
+
+            <ion-list>
+
+              <ion-item color="actoutsecondary">
+              <ion-label position="stacked">Update hinzufügen</ion-label>
+              <ion-input @input="update = $event.target.value"
+              :value="update"
+              name="update"
+              type="text"/>
+              <ion-button color="actoutblack" @click="manualUpdate">Update</ion-button>
+
+            </ion-item>
+
+
+            <ion-item color="actoutwhite" v-for="(update,index) in updates" :key="update">
+              <ion-label position="stacked">{{update[2]}} um {{update[1]}}</ion-label>
+              <br/>
+              <ion-text>{{update[0]}}</ion-text>
+              <ion-button color="actoutblack" @click="removeUpdate(index)" v-if="userisMember==true">Update entfernen</ion-button>
+            </ion-item>
+
+
+          </ion-list>
+
+          <br/>
+
+
+
+    </ion-slide>
+
+    <ion-slide>
 
 
         <ion-list>
-          <ion-item v-for="(role,index) in roles" :key="role">
+          <ion-text position="stacked">Rollenzuweisung</ion-text>
+          <ion-item color="actoutwhite" v-for="(role,index) in roles" :key="role">
             {{role[0]}}
             <ion-select required
             @ionChange="assignRole(index, role[0], $event.target.value)"
@@ -44,22 +134,62 @@
           </ion-item>
         </ion-list>
 
+      </ion-slide>
 
-        Pending Members: <br/>
+      <ion-slide>
+
+        <ion-label position="stacked">Bewerbungen</ion-label> <br/>
+
         <ion-list>
-          <ion-item v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
-            <ion-button @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
+          <ion-item v-if="this.thisproject.pendingmembers[0]==null" color="actoutsecondary">
+            <ion-text>
+              Keine Bewerbungen
+            </ion-text>
+          </ion-item>
+          <ion-item color="actoutsecondary" v-for="pendingmember in this.thisproject.pendingmembers" :key="pendingmember">
+            <ion-grid>
+              <ion-row>
+            <ion-button color="actoutblack" @click="openUserPage(pendingmember[0])">{{pendingmember[0]}}</ion-button>
             <br/>
-            <ion-button v-if="JSONArrayContainsCurrentUser(pendingmember[1]) == false || JSONArrayContainsCurrentUser(pendingmember[2]) == true" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
-            <ion-button v-if="JSONArrayContainsCurrentUser(pendingmember[2]) == false || JSONArrayContainsCurrentUser(pendingmember[1]) == true" @click="DisapproveMember(pendingmember)">Disapprove Member</ion-button>
-            {{pendingmember[1].length}} Votes
+            <ion-text> bewirbt sich für {{pendingmember[3]}}</ion-text>
+            </ion-row>
+            <br/>
+            <ion-row>
+            <ion-button color="actoutblack" v-if="JSONArrayContainsCurrentUser(pendingmember[1]) == false || JSONArrayContainsCurrentUser(pendingmember[2]) == true" @click="ApproveMember(pendingmember)">Approve Member</ion-button>
+            </ion-row>
+            <ion-row>
+            <ion-button color="actoutblack" v-if="JSONArrayContainsCurrentUser(pendingmember[2]) == false || JSONArrayContainsCurrentUser(pendingmember[1]) == true" @click="DisapproveMember(pendingmember)">Disapprove Member</ion-button>
+            </ion-row>
+            <ion-row style="align-items: center;justify-content: center;">
+              <ion-text>{{pendingmember[1].length}} Votes</ion-text>
+            </ion-row>
+            </ion-grid>
           </ion-item>
         </ion-list>
+
+      </ion-slide>
+
+
+      <ion-slide>
+        <ion-list>
+        <ion-item color="actouttertiary">
+          <ion-title>Details</ion-title>
+        </ion-item>
+        <ion-item color="actoutsecondary">
+        <ion-text>{{thisproject.details}}</ion-text>
+        </ion-item>
+        </ion-list>
+      </ion-slide>
+
+
+      </ion-slides>
+
+
       </div>
       <br/>
-      <div v-if="this.userisMember==false && this.userispendingMember==false && this.userisBanned == false"><ion-button @click="ApplyForProject">Für Projekt bewerben</ion-button></div>
-      <ion-label v-if="this.userisBanned" > You have been banned from applying to this project.</ion-label>
-      <div v-if="this.userispendingMember==true && this.userisMember==false"><ion-button @click="RetractFromProject">Projektbewerbung zurückziehen</ion-button></div>
+
+
+
     </ion-content>
   </ion-page>
 </template>
@@ -88,7 +218,8 @@ export default {
       userisMember: false,
       userispendingMember: false,
       userisBanned: false,
-      update: ""
+      update: "",
+      applicationrole: ""
     }
   },
   computed: {
@@ -175,7 +306,7 @@ export default {
 
       //Push Current User into pending members of the project
 
-      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, [], []]);
+      this.thisproject.pendingmembers==this.thisproject.pendingmembers.push([this.currentuser.email, [], [], this.applicationrole]);
       this.userispendingMember=true;
 
       fetch('/updateDB', {
@@ -469,4 +600,8 @@ this.update=""
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+ion-slide{
+  display: block;
+}
 </style>

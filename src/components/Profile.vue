@@ -27,7 +27,7 @@
 
     </ion-grid>
 
-  <ion-slides pager="true" :options="slideOpts">
+  <ion-slides :options="slideOpts">
     <ion-slide>
 
       <ion-list>
@@ -47,13 +47,13 @@
 
 
 
-        <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary">
+        <ion-item v-if="profileData.website!=''" style="align-items: center;justify-content: center;" color="actoutsecondary">
           <ion-text class="ion-text-center" color="actoutblack" >{{profileData.website}}</ion-text>
         </ion-item>
 
 
 
-        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary">
+        <ion-item v-if="profileData.agentur!=''" style="align-items: center;justify-content: center;" color="actouttertiary">
           <ion-text class="ion-text-center" color="actoutblack">{{profileData.agentur}}</ion-text>
         </ion-item>
 
@@ -71,7 +71,7 @@
     </ion-slide>
     <ion-slide>
       <ion-grid>
-        <ion-row>
+        <ion-row v-if="profileData.gender!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Geschlecht</ion-text>
@@ -83,7 +83,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.age!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Spielalter</ion-text>
@@ -95,7 +95,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.groesse!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Grösse</ion-text>
@@ -107,7 +107,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.augenfarbe!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Augenfarbe</ion-text>
@@ -119,7 +119,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.haarfarbe!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Haarfarbe</ion-text>
@@ -131,7 +131,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.sprachen!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Sprachen</ion-text>
@@ -143,7 +143,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.fahrausweis!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Fahrausweis</ion-text>
@@ -155,7 +155,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.specialskills!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Spezielle Fähigkeiten</ion-text>
@@ -167,7 +167,7 @@
             </ion-item>
           </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row v-if="profileData.hobbies!=''">
           <ion-col>
             <ion-item color="actoutsecondary">
               <ion-text color="actoutblack">Hobbies</ion-text>
@@ -194,6 +194,9 @@
           </ion-col>
           <ion-col>
             <ion-list>
+            <ion-item color="actouttertiary" v-if="profileData.ausbildung[0]==null" >
+              <ion-text> Keine Ausbildung </ion-text>
+            </ion-item>
             <ion-item color="actouttertiary" v-for="ausbildung in profileData.ausbildung" :key="ausbildung" style="align-items: right;justify-content: flex-end;">
               <ion-text color="actoutblack" >{{ausbildung[0]}} {{ausbildung[1]}}</ion-text>
             </ion-item>
@@ -211,6 +214,9 @@
           </ion-col>
           <ion-col>
             <ion-list>
+              <ion-item color="actouttertiary" v-if="profileData.film[0]==null" >
+                <ion-text> Keine Filmerfahrung </ion-text>
+              </ion-item>
             <ion-item color="actouttertiary" v-for="film in profileData.film" :key="film" style="align-items: right;justify-content: flex-end;">
               <ion-text color="actoutblack" >{{film[0]}}({{film[1]}}) als {{film[2]}}</ion-text>
             </ion-item>
@@ -228,6 +234,9 @@
           </ion-col>
           <ion-col>
             <ion-list>
+              <ion-item color="actouttertiary" v-if="profileData.theater[0]==null" >
+                <ion-text> Keine Theatererfahrung </ion-text>
+              </ion-item>
             <ion-item color="actouttertiary" v-for="theater in profileData.theater" :key="theater" style="align-items: right;justify-content: flex-end;">
               <ion-text color="actoutblack" >{{theater[0]}}({{theater[1]}}) als {{theater[2]}}</ion-text>
             </ion-item>
@@ -245,6 +254,9 @@
           </ion-col>
           <ion-col>
             <ion-list>
+              <ion-item color="actouttertiary" v-if="profileData.anderes[0]==null" >
+                <ion-text> Keine andere Erfahrung </ion-text>
+              </ion-item>
             <ion-item color="actouttertiary" v-for="anderes in profileData.anderes" :key="anderes" style="align-items: right;justify-content: flex-end;">
               <ion-text color="actoutblack" >{{anderes[0]}}({{anderes[1]}}) als {{anderes[2]}}\n</ion-text>
             </ion-item>
@@ -468,6 +480,10 @@ export default {
 
 ion-col{
   --ion-grid-column-padding:0px;
+}
+
+ion-slide{
+  display: block;
 }
 
 </style>

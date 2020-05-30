@@ -3,7 +3,7 @@
     <ion-header>
       <ion-toolbar color="actoutblack">
 
-         <img src="../assets/ActoutLogo.svg" />
+         <img src="../assets/ActoutLogo.svg" style="height: 50vh;" />
 
       </ion-toolbar>
     </ion-header>
@@ -33,6 +33,9 @@
         </ion-item>
         <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" @click="login">
           <ion-text class="ion-text-center" >LogIn</ion-text>
+        </ion-item>
+        <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" @click="forgottenpassword">
+          <ion-text class="ion-text-center" >Passwort vergessen</ion-text>
         </ion-item>
         <ion-item style="align-items: center;justify-content: center;" color="actouttertiary" @click="$router.push({name: 'signup'})">
           <ion-text class="ion-text-center" >SignUp</ion-text>
@@ -71,6 +74,7 @@ export default {
     if(this.mobileCheck()==true){
       this.isMobile = true;
     }
+
   },
   methods: {
 
@@ -100,6 +104,16 @@ export default {
 
       })
 
+    },
+    forgottenpassword: function(){
+      return this.$ionic.alertController
+        .create({
+          cssClass: 'alertDanger',
+          header: 'Passwort vergessen',
+          message: 'Diese Funktion ist noch nicht implementiert.',
+          buttons: ['OK'],
+        })
+        .then(a => a.present())
     },
     mobileCheck: function(){
       const toMatch = [

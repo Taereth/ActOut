@@ -24,13 +24,14 @@
           </ion-item>
           <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Details</ion-label>
-          <ion-input required
+          <ion-textarea
+          rows="20"
           @input="project.details=$event.target.value"
           :value="project.details"
           name="details"
           type="text"
           spellcheck="false"
-          autocapitalize="on"></ion-input>
+          autocapitalize="on"></ion-textarea>
           </ion-item>
           <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Bezahlt</ion-label>
@@ -133,7 +134,7 @@ export default {
     sessionStorage.setItem("User",data);
 
     this.closeModal();
-    
+
 
 
 

@@ -186,7 +186,7 @@
 
       </ion-list>
       <ion-row style="align-items: center;justify-content: center;">
-      <ion-button color="actoutblack" @click="update"> Update </ion-button><br/>
+      <ion-button color="actoutblack" @click="gotoNext"> Update </ion-button><br/>
       </ion-row>
     </ion-content>
     <ion-footer>
@@ -274,6 +274,9 @@ export default {
     sessionStorage.setItem("User",JSON.stringify(this.currentuser));
     this.$forceUpdate();
 
+  },
+  gotoNext: function(){
+    this.$router.push({ name: 'description' });
   },
     AddAusbildung: function(){
       var newAusbildung = [this.ausbildunginput, this.ausbildungzeitraum];
