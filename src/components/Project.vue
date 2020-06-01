@@ -75,6 +75,7 @@
 
 </ion-slide>
 
+
 </ion-slides>
 
 </div>
@@ -181,12 +182,25 @@
         </ion-list>
       </ion-slide>
 
+      <ion-slide>
 
-      </ion-slides>
+        <ion-list>
+          <ion-item color="actouttertiary">
+            <ion-title>Mitglieder</ion-title>
+          </ion-item>
+        <ion-item color="actoutsecondary" v-for="member in this.thisproject.members" :key="member">
+          <ion-button color="actoutblack" @click="openUserPage(member)">{{member}}</ion-button>
+        </ion-item>
+
+      </ion-list>
+
+      </ion-slide>
+
+
+  </ion-slides>
 
 
       </div>
-      <br/>
 
 
 

@@ -292,8 +292,11 @@ export default {
         .then(a => a.present())
     },
     validateEmail: function(inputText){
-        var mailformat = /^w+([.-]?w+)*@w+([.-]?w+)*(.w{2,3})+$/;
-        if(inputText.match(mailformat))
+
+        console.log(inputText)
+
+        var mailformat = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+        if(mailformat.test(inputText)==true)
         {
           return true;
         }
