@@ -27,7 +27,7 @@
 
     </ion-grid>
 
-  <ion-slides :options="slideOpts">
+  <ion-slides :options="slideOpts" slidesPerView="1">
     <ion-slide>
 
       <ion-list>

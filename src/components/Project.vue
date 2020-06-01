@@ -1,11 +1,11 @@
 <template>
-  <ion-page>
+  <ion-page v-if="loaded">
     <NavBar/>
     <ion-content v-if="this.userisMember==false">
 
-<div v-if="this.userisMember==false">
+<div>
 
-  <ion-slides>
+  <ion-slides slidesPerView="1">
 
     <ion-slide v-if="updates[0] != null">
       <ion-list>
@@ -85,7 +85,7 @@
 
       <div v-if="this.userisMember==true">
 
-        <ion-slides>
+        <ion-slides slidesPerView="1">
 
           <ion-slide>
 
@@ -233,7 +233,8 @@ export default {
       userispendingMember: false,
       userisBanned: false,
       update: "",
-      applicationrole: ""
+      applicationrole: "",
+      loaded: false
     }
   },
   computed: {
@@ -289,6 +290,7 @@ export default {
         this.checkUserMembership();
         this.checkBannedUser();
 
+        this.loaded = true
 
       })
     },
