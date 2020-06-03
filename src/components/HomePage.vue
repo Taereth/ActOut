@@ -37,7 +37,7 @@
         <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" @click="forgottenpassword">
           <ion-text class="ion-text-center" >Passwort vergessen</ion-text>
         </ion-item>
-        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary" @click="$router.push({name: 'signup'})">
+        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary" @click="signup">
           <ion-text class="ion-text-center" >SignUp</ion-text>
         </ion-item>
       </ion-list>
@@ -114,6 +114,9 @@ export default {
           buttons: ['OK'],
         })
         .then(a => a.present())
+    },
+    signup: function(){
+      this.$router.push({name: 'signup'});
     },
     mobileCheck: function(){
       const toMatch = [

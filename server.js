@@ -36,7 +36,7 @@ app.use(csp({
     imgSrc: ["'self'", "data:"],
     objectSrc: ["'self'"],
     baseUri: ["'self'"],
-    scriptSrc: ["'self'", "'unsafe-inline'"],
+    scriptSrc: ["'self'"],
     frameAncestors: ["'self'"]
   }
 }))
