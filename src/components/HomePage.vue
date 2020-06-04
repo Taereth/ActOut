@@ -16,7 +16,7 @@
           @input="user.email=$event.target.value.toLowerCase()"
           :value="user.email"
           name="email"
-          type="text"
+          type="email"
           spellcheck="false"
           autocapitalize="off"
           color="actoutblack"
