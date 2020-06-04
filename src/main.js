@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
+import Popover from 'vue-js-popover'
+
+Vue.use(Popover)
 
 import Ionic from "@ionic/vue"
 import "@ionic/core/css/core.css"

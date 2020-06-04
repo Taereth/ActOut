@@ -99,6 +99,10 @@
         >
         </ion-item>
       </ion-list>
+
+
+    <!-- Insert ReCaptcha here -->
+
       <ion-button color="actoutblack" @click="newuser"> Registrieren </ion-button><br/>
 
     </ion-content>

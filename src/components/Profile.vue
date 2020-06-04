@@ -1,7 +1,12 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Durchforste {{profileData.vorname}}s Profil.
+        Swipe für mehr Inhalt.
+      </popover>
 
       <ion-grid>
 

@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Hier findest du alle Projekte zu denen du gehörst.
+      </popover>
       <ion-list>
         <div v-for="(project,index) in myprojects" :key="project">
           <ion-item :color="setColor(index)" @click="openProjectPage(project.id)">

@@ -5,6 +5,8 @@
 
          <img src="../assets/ActoutLogo.svg" style="height: 50vh;" />
 
+
+
       </ion-toolbar>
     </ion-header>
     <ion-content>
@@ -44,7 +46,7 @@
       </ion-list>
 
       <ion-text v-if="isMobile == false" color="actoutwhite">Developer Anmerkung: <br/> Diese Anwendung befindet sich in Entwicklung und ist zurzeit primär für Mobilebenutzer gedacht.</ion-text>
-
+      
     </ion-content>
   </ion-page>
 </template>

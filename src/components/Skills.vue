@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Editier hier dein Profil.
+      </popover>
       <ion-list>
         <ion-item color="actoutwhite">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Spielalter</ion-label>

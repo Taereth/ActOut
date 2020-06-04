@@ -1,7 +1,13 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Suche nach Usern.
+        Entwicklernotiz: Bis jetzt nur nach Namen suchbar.
+        Geplant ist, nach Suchkriterien filtern zu können.
+      </popover>
       <ion-item color="actoutwhite">
       <ion-input @input="searchbar = $event.target.value"
       :value="searchbar"

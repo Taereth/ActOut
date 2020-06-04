@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Beschreib dich hier völlig frei.
+      </popover>
       <ion-row style="align-items: center;justify-content: center;">
 
           <ion-text color="actoutsecondary">Beschreibe dich hier.</ion-text>

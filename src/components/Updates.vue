@@ -1,7 +1,12 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content>
+      <popover name="info">
+        Hier kannst du all deine Statusupdates verwalten.
+        Achtung! Jedes Mitglied kann sehen was du schreibst.
+      </popover>
       <ion-grid>
         <ion-row>
 

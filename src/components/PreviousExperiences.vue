@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Beschreib hier deine Erfahrungen und Ausbildungen.
+      </popover>
       <ion-list>
 
         <ion-item color="actoutwhite">
@@ -211,10 +215,10 @@ export default {
     return{
       currentuser: {},
       userIsLoggedIn: true,
-      user: {"ausbildung":["placeholder","xxx"],
-              "film":["placeholder","xxx"],
-              "anderes":["placeholder","xxx"],
-              "theater":["placeholder","xxx"]
+      user: {"ausbildung":["",""],
+              "film":["",""],
+              "anderes":["",""],
+              "theater":["",""]
             },
       ausbildunginput: "",
       ausbildungzeitraum: "",

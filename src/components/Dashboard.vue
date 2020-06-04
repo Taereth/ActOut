@@ -1,7 +1,10 @@
 <template>
   <ion-page>
-    <NavBar/>
+    <NavBar />
     <ion-content>
+      <popover name="info">
+        Suche nach Projekten und bewirb dich oder finde neue Bekanntschaften. 
+      </popover>
 
       <ion-grid>
         <ion-row>
@@ -81,7 +84,7 @@ export default {
       userIsLoggedIn: false,
       Friendsdata: [{"email":"Loading"}],
       profileImg: "../assets/noImage.png",
-      update: ""
+      update: "",
     }
   },
   computed: {

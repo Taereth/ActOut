@@ -1,19 +1,12 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Editier hier dein Profil.
+      </popover>
       <ion-list>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" >Email</ion-label>
-          <ion-input required
-          @input="user.email=$event.target.value"
-          :value="user.email"
-          name="email"
-          type="text"
-          spellcheck="false"
-          autocapitalize="off"
-          ></ion-input>
-        </ion-item>
         <ion-item color="actoutwhite">
           <ion-label position="stacked" color="actoutblack" >Vorname</ion-label>
           <ion-input required

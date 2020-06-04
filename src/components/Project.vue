@@ -1,7 +1,12 @@
 <template>
   <ion-page v-if="loaded">
     <NavBar/>
+
     <ion-content v-if="this.userisMember==false">
+      <popover name="info">
+        Gefällt dir dieses Projekt? Dann bewirb dich!
+        Swipe für mehr Inhalt.
+      </popover>
 
 <div>
 
@@ -85,6 +90,10 @@
 
 </ion-content>
 <ion-content v-if="this.userisMember==true">
+  <popover name="info">
+    Gefällt dir dieses Projekt? Dann bewirb dich!
+    Swipe für mehr Inhalt.
+  </popover>
 
       <div v-if="this.userisMember==true">
 

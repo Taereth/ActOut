@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Hier findest du all deine Freunde.
+      </popover>
       <ion-list>
         <div v-for="(friend,index) in Friendsdata" :key="friend">
           <ion-item :color="setColor(index)">

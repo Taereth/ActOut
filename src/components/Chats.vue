@@ -1,7 +1,11 @@
 <template>
   <ion-page>
     <NavBar/>
+
     <ion-content padding>
+      <popover name="info">
+        Hier sind deine aktiven Chats.
+      </popover>
       <ion-list>
         <div v-for="(friend,index) in Friendsdata" :key="friend">
         <ion-item :color="setColor(index)" @click="chat(friend.id, friend.vorname, friend.nachname)">

@@ -23,13 +23,32 @@
         <ion-buttons slot="start">
           <ion-icon @click="openFirst" slot="icon-only" name="menu"/>
         </ion-buttons>
-        <ion-avatar  style="padding:8px" @click="EditProfile" slot="end">
-          <ion-img v-if="profileImg!='../assets/noImage.png'" decoding="sync" :src="profileImg"/>
-        </ion-avatar>
         <div class="titleicon">
          <img src="../assets/ActoutLogo.svg" width="60px" />
        </div>
+
+       <ion-item id="helpbox" style="--inner-padding-bottom: 0px;
+         --inner-padding-end: 0px;
+         --min-width: 0px;
+         --min-height: 0px;
+         --padding-top: 0px;
+         --padding-bottom: 0px;
+         --padding-start: 0px;
+         width: fit-content;
+         --padding-end: 0px;
+         --background: transparent;
+         height: fit-content;
+         --color: transparent;" lines="none" color="transparent" v-popover:info.right>
+            <img width="30px" src="../assets/help-circle-outline.svg"/>
+        </ion-item>
+
+        <ion-avatar style="padding:8px" @click="EditProfile" slot="end">
+          <ion-img v-if="profileImg!='../assets/noImage.png'" decoding="sync" :src="profileImg"/>
+        </ion-avatar>
+
       </ion-toolbar>
+
+
   </div>
 
     <ion-menu-controller></ion-menu-controller>
@@ -50,6 +69,11 @@ export default{
     return{
       currentuser: "",
       profileImg: "../assets/noImage.png",
+    }
+  },
+  props: function(){
+    return{
+      helpmessage: ""
     }
   },
   beforeMount: function(){
@@ -121,6 +145,17 @@ export default{
       })
 
   },
+  help: function(){
+    console.log("in function");
+    return this.$ionic.alertController
+      .create({
+        cssClass: 'alertDanger',
+        header: 'Hilfe',
+        message: this.helpmessage,
+        buttons: ['OK'],
+      })
+      .then(a => a.present())
+  },
   }
 
 }
@@ -129,4 +164,6 @@ export default{
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
 </style>
