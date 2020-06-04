@@ -29,6 +29,7 @@
           :value="user.password"
           name="password"
           type="password"
+          v-on:keyup.enter="login"
           color="actoutblack"></ion-input>
         </ion-item>
         <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" @click="login">
@@ -111,6 +112,16 @@ export default {
           cssClass: 'alertDanger',
           header: 'Passwort vergessen',
           message: 'Diese Funktion ist noch nicht implementiert.',
+          buttons: ['OK'],
+        })
+        .then(a => a.present())
+    },
+    wrongpassword: function(){
+      return this.$ionic.alertController
+        .create({
+          cssClass: 'alertDanger',
+          header: 'Falsches Passwort',
+          message: 'Diese Emailadresse oder das Passwort sind inkorrekt.',
           buttons: ['OK'],
         })
         .then(a => a.present())

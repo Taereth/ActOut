@@ -27,7 +27,7 @@
 
     </ion-grid>
 
-  <ion-slides :options="slideOpts" slidesPerView="1">
+  <ion-slides pager="true" :options="slideOpts" slidesPerView="1">
     <ion-slide>
 
       <ion-list>
@@ -62,7 +62,7 @@
 
     </ion-slide>
     <ion-slide>
-      <ion-list style="align-items: center;justify-content: center;">
+      <ion-list style="align-items: center;justify-content: center; height: 40vh; overflow-y:auto;">
         <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary" v-for="update in updates" :key="update">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">{{update[1]}}</ion-label>
           <ion-text color="actoutblack">{{update[0]}}</ion-text>
@@ -272,6 +272,8 @@
 
     </ion-slide>
   </ion-slides>
+
+  <ion-text color="actoutwhite">Swipe um mehr zu entdecken</ion-text>
 
 
 

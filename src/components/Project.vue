@@ -5,10 +5,12 @@
 
 <div>
 
-  <ion-slides slidesPerView="1">
+  <ion-text color="actoutwhite">{{this.thisproject.name}}</ion-text>
+
+  <ion-slides pager="true" slidesPerView="1">
 
     <ion-slide v-if="updates[0] != null">
-      <ion-list>
+      <ion-list style="height: 70vh; overflow-y:auto;">
       <ion-item color="actoutwhite" v-for="(update,index) in updates" :key="update">
         <ion-label position="stacked">{{update[2]}} um {{update[1]}}</ion-label>
         <br/>
@@ -78,6 +80,8 @@
 
 </ion-slides>
 
+<ion-text color="actoutwhite">Swipe um mehr zu entdecken</ion-text>
+
 </div>
 
 </ion-content>
@@ -85,11 +89,24 @@
 
       <div v-if="this.userisMember==true">
 
-        <ion-slides slidesPerView="1">
+        <ion-text color="actoutwhite">{{this.thisproject.name}}</ion-text>
+
+        <ion-slides pager="true" slidesPerView="1">
+
+          <ion-slide>
+            <ion-list>
+            <ion-item color="actouttertiary">
+              <ion-title>Details</ion-title>
+            </ion-item>
+            <ion-item color="actoutsecondary">
+            <ion-text>{{thisproject.details}}</ion-text>
+            </ion-item>
+            </ion-list>
+          </ion-slide>
 
           <ion-slide>
 
-            <ion-list>
+            <ion-list style="height: 70vh; overflow-y:auto;">
 
               <ion-item color="actoutsecondary">
               <ion-label position="stacked">Update hinzufügen</ion-label>
@@ -172,17 +189,6 @@
 
 
       <ion-slide>
-        <ion-list>
-        <ion-item color="actouttertiary">
-          <ion-title>Details</ion-title>
-        </ion-item>
-        <ion-item color="actoutsecondary">
-        <ion-text>{{thisproject.details}}</ion-text>
-        </ion-item>
-        </ion-list>
-      </ion-slide>
-
-      <ion-slide>
 
         <ion-list>
           <ion-item color="actouttertiary">
@@ -198,6 +204,8 @@
 
 
   </ion-slides>
+
+  <ion-text color="actoutwhite">Swipe um mehr zu entdecken</ion-text>
 
 
       </div>
