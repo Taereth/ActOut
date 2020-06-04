@@ -36,9 +36,11 @@
 
         <ion-item style="align-items: center;justify-content: center;" color="actoutsecondary">
           <ion-text class="ion-text-center" color="actoutblack">{{profileData.vorname}} {{profileData.nachname}}</ion-text>
-          <ion-text class="ion-text-center" color="actoutblack">{{profileData.job}}</ion-text>
         </ion-item>
 
+        <ion-item style="align-items: center;justify-content: center;" color="actouttertiary">
+          <ion-text class="ion-text-center" color="actoutblack">{{profileData.job}}</ion-text>
+        </ion-item>
 
 
         <ion-item style="align-items: center;justify-content: center;" color="actouttertiary">

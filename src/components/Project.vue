@@ -5,7 +5,6 @@
 
 <div>
 
-  <ion-text color="actoutwhite">{{this.thisproject.name}}</ion-text>
 
   <ion-slides pager="true" slidesPerView="1">
 
@@ -25,7 +24,7 @@
   <ion-list>
 
   <ion-item color="actouttertiary">
-    <ion-label position="stacked">Details</ion-label>
+    <ion-label position="stacked">{{this.thisproject.name}}</ion-label>
     <br/>
     <ion-text>{{thisproject.details}}</ion-text>
   </ion-item>
@@ -96,7 +95,7 @@
           <ion-slide>
             <ion-list>
             <ion-item color="actouttertiary">
-              <ion-title>Details</ion-title>
+              <ion-title>{{this.thisproject.name}}</ion-title>
             </ion-item>
             <ion-item color="actoutsecondary">
             <ion-text>{{thisproject.details}}</ion-text>

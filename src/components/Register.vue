@@ -13,7 +13,7 @@
         <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Email<ion-text v-if="emailcheck==true" slot="end" color="danger"> fehlt.</ion-text></ion-label>
           <ion-input required
-          @input="user.email=$event.target.value"
+          @input="user.email=$event.target.value.toLowerCase()"
           :value="user.email"
           name="email"
           type="text"
@@ -27,6 +27,14 @@
           @input="user.password = $event.target.value"
           :value="user.password"
           name="password"
+          type="password"></ion-input>
+          </ion-item>
+          <ion-item color="actouttertiary">
+          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Password wiederholen<ion-text v-if="passworddoublecheck==true" slot="end" color="danger"> Achtung! </ion-text></ion-label>
+          <ion-input required
+          @input="secondpassword = $event.target.value"
+          :value="secondpassword"
+          name="secondpassword"
           type="password"></ion-input>
           </ion-item>
           <ion-item color="actoutsecondary">
@@ -55,9 +63,9 @@
           @ionChange="user.gender=$event.target.value"
           :value="user.gender"
           placeholder="">
-            <ion-select-option value="m">Männlich</ion-select-option>
-            <ion-select-option value="f">Weiblich</ion-select-option>
-            <ion-select-option value="o">Anderes</ion-select-option>
+            <ion-select-option value="Männlich">Männlich</ion-select-option>
+            <ion-select-option value="Weiblich">Weiblich</ion-select-option>
+            <ion-select-option value="Anderes">Anderes</ion-select-option>
           </ion-select>
           </ion-item>
           <ion-item color="actouttertiary">
@@ -72,7 +80,7 @@
           </ion-item>
           <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Bezeichnung<ion-text v-if="jobcheck==true" slot="end" color="danger"> fehlt.</ion-text></ion-label>
-          <ion-select required multiple="true" cancel-text="Nah" ok-text="Okay!"
+          <ion-select required multiple="true" cancel-text="Zurück" ok-text="Okay"
           @ionChange="user.job=$event.target.value"
           :value="user.job" >
            <ion-select-option value="actor">Schauspieler/in</ion-select-option>
@@ -128,12 +136,28 @@ export default {
       wohnortcheck: false,
       gendercheck: false,
       imagecheck: false,
-      jobcheck: false
+      jobcheck: false,
+      passworddoublecheck: false,
+      secondpassword: ""
     }
     ;
   },
   methods: {
+    checksecondPassword: function(){
+      if(this.user.password != this.secondpassword){
+        this.passworddoublecheck = true;
+      }else{
+        this.passworddoublecheck = false;
+      }
+    },
     newuser: function(){
+
+      this.checksecondPassword();
+      if(this.passworddoublecheck == true){
+        this.presentAlert('Passwörter stimmen nicht überein.');
+        return
+      }
+
       //Assign user a unique id
       this.user.id = Date.now().toString();
       this.user.friends = [];

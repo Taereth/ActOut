@@ -13,7 +13,7 @@
         <ion-item color="actoutwhite">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Email</ion-label>
           <ion-input required
-          @input="user.email=$event.target.value"
+          @input="user.email=$event.target.value.toLowerCase()"
           :value="user.email"
           name="email"
           type="text"
@@ -83,6 +83,7 @@ export default {
     //and if successful allows entry
 
     login: function(){
+
       fetch("/checklogin", {
         headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -94,7 +95,8 @@ export default {
         if(response.status==200){
         return response.json();}
         else{
-          console.log("Access Denied.")
+
+          throw new Error('Access Denied.');
         }
       }).then((data)=>{
 
@@ -102,7 +104,9 @@ export default {
         sessionStorage.setItem("User",data);
         this.$router.push({ name: 'dashboard' });
 
-
+      }).catch(error=>{
+        console.log(error.message);
+        this.wrongpassword();
       })
 
     },

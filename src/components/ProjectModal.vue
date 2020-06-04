@@ -5,7 +5,7 @@
     <ion-header>
       <ion-toolbar color="actoutblack">
         <ion-buttons slot="start">
-            <ion-button @click="closeModal">Close</ion-button>
+            <ion-button @click="closeModal">Schliessen</ion-button>
         </ion-buttons>
         <ion-title>{{title}}</ion-title>
       </ion-toolbar>
@@ -49,9 +49,9 @@
                 :value="role[0]"
                 name="role">
               </ion-input><br/>
-            <ion-button color="actoutblack" @click="removeRole(role)">Remove Role</ion-button>
+            <ion-button color="actoutblack" @click="removeRole(role)">Rolle entfernen</ion-button>
                </ion-item>
-            <ion-button color="actouttertiary" @click="addRole">Add Role</ion-button>
+            <ion-button color="actouttertiary" @click="addRole">Rolle hinzufügen</ion-button>
       </ion-list>
       <ion-button color="actoutblack" @click="newproject"> Neues Projekt hinzufügen </ion-button><br/>
     </ion-content>
@@ -86,7 +86,7 @@ export default {
     this.currentuser=JSON.parse(sessionStorage.getItem("User"));
     this.project.paid = false;
     this.project.roles = [];
-    this.project.roles.push(["Creator", this.currentuser.email]);
+    this.project.roles.push(["Neue Rolle", "Nicht zugewiesen"]);
     console.log(this.project.roles);
   },
   methods: {
@@ -151,7 +151,7 @@ export default {
   },
   //Add a new role to the project and the template
   addRole: function(){
-    this.project.roles.push(["New Role", "Not set"]);
+    this.project.roles.push(["Neue Rolle", "Nicht zugewiesen"]);
     console.log(this.project.roles);
   },
   //Remove role from project and template
