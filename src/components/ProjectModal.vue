@@ -5,14 +5,14 @@
     <ion-header>
       <ion-toolbar color="actoutblack">
         <ion-buttons slot="start">
-            <ion-button @click="closeModal">Schliessen</ion-button>
+          <ion-button @click="closeModal">Schliessen</ion-button>
         </ion-buttons>
         <ion-title>{{title}}</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content padding>
       <ion-list>
-          <ion-item color="actoutsecondary">
+        <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Projektname</ion-label>
           <ion-input required
           @input="project.name=$event.target.value"
@@ -21,8 +21,8 @@
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-input>
-          </ion-item>
-          <ion-item color="actoutsecondary">
+        </ion-item>
+        <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Details</ion-label>
           <ion-textarea
           rows="15"
@@ -32,30 +32,30 @@
           type="text"
           spellcheck="false"
           autocapitalize="on"></ion-textarea>
-          </ion-item>
-          <ion-item color="actoutsecondary">
+        </ion-item>
+        <ion-item color="actoutsecondary">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Bezahlt</ion-label>
-            <ion-toggle required
-            @ionChange="togglePaid"
-            :value="project.paid"
-            name="paid"
-            placeholder=""
-            checked=false>
-          </ion-toggle>
-          </ion-item>
-              <ion-item color="actouttertiary" v-for="role in roles" :key="role">
-                <ion-input
-                @input="role[0]=$event.target.value"
-                :value="role[0]"
-                name="role">
-              </ion-input><br/>
-            <ion-button color="actoutblack" @click="removeRole(role)">Rolle entfernen</ion-button>
-               </ion-item>
-            <ion-button color="actouttertiary" @click="addRole">Rolle hinzufügen</ion-button>
-      </ion-list>
-      <ion-button color="actoutblack" @click="newproject"> Neues Projekt hinzufügen </ion-button><br/>
-    </ion-content>
-  </ion-page>
+          <ion-toggle required
+          @ionChange="togglePaid"
+          :value="project.paid"
+          name="paid"
+          placeholder=""
+          checked=false>
+        </ion-toggle>
+      </ion-item>
+      <ion-item color="actouttertiary" v-for="role in roles" :key="role">
+        <ion-input
+        @input="role[0]=$event.target.value"
+        :value="role[0]"
+        name="role">
+      </ion-input><br/>
+      <ion-button color="actoutblack" @click="removeRole(role)">Rolle entfernen</ion-button>
+    </ion-item>
+    <ion-button color="actouttertiary" @click="addRole">Rolle hinzufügen</ion-button>
+  </ion-list>
+  <ion-button color="actoutblack" @click="newproject"> Neues Projekt hinzufügen </ion-button><br/>
+</ion-content>
+</ion-page>
 </template>
 
 <script>
@@ -68,15 +68,13 @@ export default {
   },
   data() {
     return {
-      project: {"roles": ["test",1]},
-      currentuser: "",
-      vue: ""
+      project: {"roles": ["test",1]}, //project data to be sent to the server
+      currentuser: "", //active user
     }
   },
   computed: {
     //Compute Roles to be displayed
     roles: function(){
-      console.log(this.project.roles);
       return this.project.roles
     }
   },
@@ -87,9 +85,9 @@ export default {
     this.project.paid = false;
     this.project.roles = [];
     this.project.roles.push(["Neue Rolle", "Nicht zugewiesen"]);
-    console.log(this.project.roles);
   },
   methods: {
+    //close this modal
     closeModal: function() {
       this.$ionic.modalController.dismiss();
     },
@@ -102,69 +100,68 @@ export default {
       this.project.bannedmembers = [];
       this.project.updates = [];
 
-      console.log(this.project);
+
 
       fetch('/newproject', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'POST',
-      body: JSON.stringify(this.project)
-    }).then(response=>{
-      console.log(response);
-      response.json();
-    }).then(data=>{
-      console.log(data);
-    })
-    this.currentuser.projects.push(this.project.id);
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: 'POST',
+        body: JSON.stringify(this.project)
+      }).then(response=>{
 
-    console.log(this.currentuser);
+        response.json();
+      }).then(data=>{
+        console.log(data);
+      })
+      this.currentuser.projects.push(this.project.id);
+
 
       fetch('/updateDB', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'POST',
-      body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
-    })
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: 'POST',
+        body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+      })
 
-    var data = JSON.stringify(this.currentuser);
-    sessionStorage.setItem("User",data);
+      var data = JSON.stringify(this.currentuser);
+      sessionStorage.setItem("User",data);
 
-    this.closeModal();
-
-
+      this.closeModal();
 
 
 
-  },
-  //sets project paid variable
-  togglePaid: function(){
-    console.log(this.project.paid)
-    if (this.project.paid == false){
-      this.project.paid = true;
-    }else if(this.project.paid == true){
-      this.project.paid = false;
-    }
-  },
-  //Add a new role to the project and the template
-  addRole: function(){
-    this.project.roles.push(["Neue Rolle", "Nicht zugewiesen"]);
-    console.log(this.project.roles);
-  },
-  //Remove role from project and template
-  removeRole: function(role){
 
-    for(var i=0; i<this.project.roles.length; i++){
-      if(this.project.roles[i] == role){
-        this.project.roles.splice(i,1);
-        break
+
+    },
+    //sets project paid variable
+    togglePaid: function(){
+
+      if (this.project.paid == false){
+        this.project.paid = true;
+      }else if(this.project.paid == true){
+        this.project.paid = false;
       }
-    }
+    },
+    //Add a new role to the project and the template
+    addRole: function(){
+      this.project.roles.push(["Neue Rolle", "Nicht zugewiesen"]);
 
-  },
+    },
+    //Remove role from project and template
+    removeRole: function(role){
+
+      for(var i=0; i<this.project.roles.length; i++){
+        if(this.project.roles[i] == role){
+          this.project.roles.splice(i,1);
+          break
+        }
+      }
+
+    },
   }
 }
 </script>

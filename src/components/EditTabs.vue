@@ -1,31 +1,29 @@
 <template>
-
-
-
-        <ion-toolbar color="actoutblack">
-          <ion-row>
-            <ion-col>
-              <ion-item @click="Personal" color="actoutsecondary">
-                Persönliches
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item @click="Skills" color="actouttertiary">
-                Du
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item @click="Previous" color="actoutsecondary">
-                Erfahrungen
-              </ion-item>
-            </ion-col>
-            <ion-col>
-              <ion-item @click="Description" color="actouttertiary">
-                Beschreibung
-              </ion-item>
-            </ion-col>
-          </ion-row>
-        </ion-toolbar>
+  <!-- Navigation Tool, inserted in Edit Area-->
+  <ion-toolbar color="actoutblack">
+    <ion-row>
+      <ion-col>
+        <ion-item @click="Personal" color="actoutsecondary">
+          Persönliches
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item @click="Skills" color="actouttertiary">
+          Du
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item @click="Previous" color="actoutsecondary">
+          Erfahrungen
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item @click="Description" color="actouttertiary">
+          Beschreibung
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
 
 
 </template>
@@ -42,7 +40,7 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      currentuser: ""
+      currentuser: "" //active User
     }
   },
   beforeMount: function(){
@@ -56,16 +54,19 @@ export default {
 
   },
   methods: {
+    //Opens editProfile page
     Personal: function(){
-      console.log("hello");
       this.$router.push({ name: 'editProfile'});
     },
+    //Opens Skills page
     Skills: function(){
       this.$router.push({ name: 'skills'});
     },
+    //Opens Experiences page
     Previous: function(){
       this.$router.push({ name: 'previousexperiences'});
     },
+    //Opens Description page
     Description: function(){
       this.$router.push({ name: 'description'});
     }

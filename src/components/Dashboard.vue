@@ -2,8 +2,15 @@
   <ion-page>
     <NavBar />
     <ion-content>
-      <popover name="info">
-        Suche nach Projekten und bewirb dich oder finde neue Bekanntschaften. 
+      <popover name="info" style="
+        border-top-left-radius:0px;
+        border-top-right-radius:0px;
+        border-bottom-left-radius:0px;
+        border-bottom-right-radius:5px;
+        left:0px;
+        top:0px;
+      ">
+        Suche nach Projekten und bewirb dich oder finde neue Bekanntschaften.
       </popover>
 
       <ion-grid>
@@ -38,7 +45,7 @@
         </ion-row>
         <ion-row style="align-items: center;justify-content: center;">
 
-            <ion-text color="actoutsecondary">Was gibts neues?</ion-text>
+          <ion-text color="actoutsecondary">Was gibts neues?</ion-text>
 
         </ion-row>
         <ion-row style="align-items: center;justify-content: center;">
@@ -51,12 +58,12 @@
         </ion-row>
         <ion-row style="align-items: center;justify-content: center;">
 
-            <ion-button color="actoutblack" @click="manualUpdate">Update</ion-button>
+          <ion-button color="actoutblack" @click="manualUpdate">Update</ion-button>
 
         </ion-row>
       </ion-grid>
 
-  </ion-content>
+    </ion-content>
 
 
 
@@ -69,7 +76,6 @@
 import { add } from "ionicons/icons";
 import { addIcons } from "ionicons";
 import NavBar from '@/components/NavBar.vue'
-import Vue from 'vue'
 
 
 addIcons({
@@ -80,143 +86,69 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      currentuser: {"updates":["placeholder",1]},
-      userIsLoggedIn: false,
-      Friendsdata: [{"email":"Loading"}],
-      profileImg: "../assets/noImage.png",
-      update: "",
+      currentuser: {"updates":["placeholder",1]}, //Active user
+      update: "", //update input content
     }
   },
   computed: {
     updates: function(){
-        return this.currentuser.updates
+      return this.currentuser.updates //returns this active users updates
     }
   },
   beforeMount: function(){
     this.currentuser = JSON.parse(sessionStorage.getItem("User"));
-    this.downloadUserImage();
-  },
-  mounted: function(){
-
-
-    for(var i = 0 ; i < this.currentuser.friends.length ; i++){
-      console.log(this.currentuser.friends[i]);
-      this.getUserData(this.currentuser.friends[i], i);
-    }
-
-
   },
   components: {
     NavBar
   },
 
   methods: {
-    getUserData: function(email, key){
-
-      fetch("/getUserEntrybyEmail", {
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          "Content-type" : "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify( { "email" : email } ),
-      }).then(response=>{
-        if(response.status==200){
-        return response.json();}
-        else{
-          console.log("Access Denied.")
-        }
-      }).then((data)=>{
-
-        Vue.set(this.Friendsdata,key,data);
-        console.log(this.Friendsdata);
-        this.$forceUpdate();
-
-      })
-
-    },
+    //open User page of corresponding id
     openUserPage: function(userid){
-    console.log(userid)
-    this.$router.push({ name: 'profiles', params: { id: userid }});
-  },
+
+      this.$router.push({ name: 'profiles', params: { id: userid }});
+    },
+    //open Projectsearch page
     openProjectSearch: function(){
-    this.$router.push({ name: 'searchprojects'});
-  },
+      this.$router.push({ name: 'searchprojects'});
+    },
+    //open Usersearch page
     openUserSearch: function(){
-    this.$router.push({ name: 'searchusers'});
-  },
+      this.$router.push({ name: 'searchusers'});
+    },
+    //open Friends page
     openFriends: function(){
-    this.$router.push({ name: 'friends'});
-  },
+      this.$router.push({ name: 'friends'});
+    },
+    //open ProjectSummary page
     openProjects: function(){
-    this.$router.push({ name: 'projects'});
-  },
-    downloadUserImage: function(){
+      this.$router.push({ name: 'projects'});
+    },
 
-      var data = {
-        filename : this.currentuser.imageName
-      }
+    //Adds update bar content to this users updates and adds date to it
+    manualUpdate: function(){
 
-      //Download File from AWS
-      fetch("/filedownload", {
+
+      var now = new Date();
+
+      this.currentuser.updates.push([this.update, now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + ":" + now.getMinutes()])
+
+
+      fetch('/updateDB', {
         headers: {
           'Accept': 'application/json, text/plain, */*',
           "Content-type" : "application/json"
         },
-        method: "POST",
-        body: JSON.stringify(data)
-      }).then(response=>{
-        return response.json();
-      }).then(data=>{
-
-        //transform incoming buffer into Base64 String and make img source
-        var b64encoded = btoa(new Uint8Array(data.data).reduce(function (encoded, byte) {
-      return encoded + String.fromCharCode(byte);
-    }, ''));
-        var datajpg = "data:image/jpg;base64," + b64encoded;
-        this.profileImg = datajpg;
+        method: 'POST',
+        body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
       })
 
-  },
-
-  manualUpdate: function(){
-
-
-    var now = new Date();
-
-    this.currentuser.updates.push([this.update, now.getDate() + "." + now.getMonth() + "." + now.getFullYear().toString().slice(-2) + " um " + now.getHours() + ":" + now.getMinutes()])
+      this.update=""
+      var data = JSON.stringify(this.currentuser);
+      sessionStorage.setItem("User",data);
 
 
-    fetch('/updateDB', {
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      "Content-type" : "application/json"
     },
-    method: 'POST',
-    body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
-  })
-
-  this.update=""
-  var data = JSON.stringify(this.currentuser);
-  sessionStorage.setItem("User",data);
-
-
-},
-  removeUpdate: function(index){
-      this.currentuser.updates.splice(index,1);
-      fetch('/updateDB', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'POST',
-      body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
-    })
-
-    var data = JSON.stringify(this.currentuser);
-    sessionStorage.setItem("User",data);
-
-  },
 
   }
 
@@ -227,6 +159,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
 
 ion-item{
   --highlight-color-focused:#E13700;

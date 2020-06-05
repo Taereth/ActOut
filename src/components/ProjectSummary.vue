@@ -3,7 +3,14 @@
     <NavBar/>
 
     <ion-content padding>
-      <popover name="info">
+      <popover name="info" style="
+        border-top-left-radius:0px;
+        border-top-right-radius:0px;
+        border-bottom-left-radius:0px;
+        border-bottom-right-radius:5px;
+        left:0px;
+        top:0px;
+      ">
         Hier findest du alle Projekte zu denen du gehörst.
       </popover>
       <ion-list>
@@ -41,15 +48,14 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      currentuser: {},
-      user: {},
-      myprojects: "No projects",
-      newPendingMembers: false
+      currentuser: {}, //active user
+      user: {}, //user Data
+      myprojects: "No projects", //all projects that active user is part of
     }
   },
   computed: {
     projectlist: function(){
-      return this.myprojects;
+      return this.myprojects; //lazily returns all projects that active user is part of
     }
   },
   beforeMount: function(){
@@ -70,68 +76,73 @@ export default {
     NavBar,
   },
   methods: {
+    //gets all project IDs that active user is part of
     userprojects: function(){
 
       fetch('/userprojects', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: 'POST',
+        body: JSON.stringify({ "email" : this.currentuser.email })
+      }).then(response=>
+        {
+          return response.json();
+        }).then(data=>{
+
+          this.myprojects = data;
+        })
+
       },
-      method: 'POST',
-      body: JSON.stringify({ "email" : this.currentuser.email })
-    }).then(response=>
-    {
-      return response.json();
-    }).then(data=>{
-      console.log(data);
-      this.myprojects = data;
-    })
+      //defines item style
+      setColor: function(index){
+        if(index%2==0){
+          return "actoutsecondary"
+        }else {
+          return "actouttertiary"
+        }
+      },
+      //open modal to create a new project
+      openProjectModal: async function(){
 
-  },
-  setColor: function(index){
-    if(index%2==0){
-      return "actoutsecondary"
-    }else {
-      return "actouttertiary"
-    }
-  },
-  openProjectModal: async function(){
+        var modal = await this.$ionic.modalController
+        .create({
+          component: Modal
+        })
 
-    var modal = await this.$ionic.modalController
-    .create({
-      component: Modal
-    })
+        await modal.present();
 
-    await modal.present();
+        await modal.onDidDismiss();
 
-    await modal.onDidDismiss();
-
-    await this.userprojects();
+        await this.userprojects();
 
 
 
-  },
-  openProjectPage: function(projectid){
-    this.$router.push({ name: 'project', params: { id: projectid }});
-  },
-  checkNewPendingMembers: function(project){
+      },
+      //open project page of corresponding id
+      openProjectPage: function(projectid){
+        this.$router.push({ name: 'project', params: { id: projectid }});
+      },
+      //check whether project has new pending members
+      checkNewPendingMembers: function(project){
 
-    if(project.pendingmembers != null){
-      if(project.pendingmembers[0] != null){
-        return true;
+        if(project.pendingmembers != null){
+          if(project.pendingmembers[0] != null){
+            return true;
+          }
+
+        }
+
       }
-
     }
 
-  }
-  }
-
-};
+  };
 
 
 
-</script>
+  </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-</style>
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
+  </style>

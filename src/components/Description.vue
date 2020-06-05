@@ -3,12 +3,19 @@
     <NavBar/>
 
     <ion-content padding>
-      <popover name="info">
+      <popover name="info" style="
+        border-top-left-radius:0px;
+        border-top-right-radius:0px;
+        border-bottom-left-radius:0px;
+        border-bottom-right-radius:5px;
+        left:0px;
+        top:0px;
+      ">
         Beschreib dich hier völlig frei.
       </popover>
       <ion-row style="align-items: center;justify-content: center;">
 
-          <ion-text color="actoutsecondary">Beschreibe dich hier.</ion-text>
+        <ion-text color="actoutsecondary">Beschreibe dich hier.</ion-text>
 
       </ion-row>
       <ion-list>
@@ -20,12 +27,12 @@
         </ion-item>
       </ion-list>
       <ion-row style="align-items: center;justify-content: center;">
-      <ion-button color="actoutblack" @click="update"> Update </ion-button><br/>
+        <ion-button color="actoutblack" @click="update"> Update </ion-button><br/>
       </ion-row>
     </ion-content>
     <ion-footer>
-    <EditTabs/>
-  </ion-footer>
+      <EditTabs/>
+    </ion-footer>
   </ion-page>
 </template>
 <script>
@@ -43,9 +50,8 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      currentuser: {},
-      userIsLoggedIn: true,
-      user: {}
+      currentuser: {}, //active User
+      user: {} //user data to be sent to the server
     }
   },
   beforeMount: function(){
@@ -59,26 +65,24 @@ export default {
   },
   components: {
     NavBar,
-    EditTabs
+    EditTabs //Tabs
   },
   methods: {
+    //Update DB with user data, then navibate to editProfile page
     update: function(){
-
-
-
       fetch('/updateDB', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'POST',
-      body: JSON.stringify({"id": this.currentuser._id, "payload": this.user})
-    })
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: 'POST',
+        body: JSON.stringify({"id": this.currentuser._id, "payload": this.user})
+      })
 
-    this.currentuser=this.user;
-    sessionStorage.setItem("User",JSON.stringify(this.currentuser));
-    this.$forceUpdate();
-    this.$router.push({ name: 'editProfile' });
+      this.currentuser=this.user;
+      sessionStorage.setItem("User",JSON.stringify(this.currentuser));
+      this.$forceUpdate();
+      this.$router.push({ name: 'editProfile' });
 
     }
   }

@@ -3,7 +3,14 @@
     <NavBar/>
 
     <ion-content padding>
-      <popover name="info">
+      <popover name="info" style="
+        border-top-left-radius:0px;
+        border-top-right-radius:0px;
+        border-bottom-left-radius:0px;
+        border-bottom-right-radius:5px;
+        left:0px;
+        top:0px;
+      ">
         Editier hier dein Profil.
       </popover>
       <ion-list>
@@ -54,79 +61,79 @@
           @ionChange="user.fahrausweis=$event.target.value"
           :value="user.fahrausweis"
           placeholder="">
-            <ion-select-option value="Ja">Ja</ion-select-option>
-            <ion-select-option value="Nein">Nein</ion-select-option>
-          </ion-select>
-        </ion-item>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Agentur</ion-label>
-          <ion-input required
-          @input="user.agentur=$event.target.value"
-          :value="user.agentur"
-          name="hobbies"
-          type="text"
-          spellcheck="false"
-          autocapitalize="on"></ion-input>
-        </ion-item>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Webseite</ion-label>
-          <ion-input required
-          @input="user.website=$event.target.value"
-          :value="user.website"
-          name="website"
-          type="text"
-          spellcheck="false"
-          autocapitalize="on"></ion-input>
-        </ion-item>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Link zum Showreel</ion-label>
-          <ion-input required
-          @input="user.showreel=$event.target.value"
-          :value="user.showreel"
-          name="hobbies"
-          type="text"
-          spellcheck="false"
-          autocapitalize="on"></ion-input>
-        </ion-item>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Hobbies</ion-label>
-          <ion-input required
-          @input="user.hobbies=$event.target.value"
-          :value="user.hobbies"
-          name="hobbies"
-          type="text"
-          spellcheck="false"
-          autocapitalize="on"></ion-input>
-        </ion-item>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Sprachen</ion-label>
-          <ion-input required
-          @input="user.sprachen=$event.target.value"
-          :value="user.sprachen"
-          name="sprachen"
-          type="text"
-          spellcheck="false"
-          autocapitalize="on"></ion-input>
-        </ion-item>
-        <ion-item color="actoutwhite">
-          <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Spezielle Fähigkeiten</ion-label>
-          <ion-input required
-          @input="user.specialskills=$event.target.value"
-          :value="user.specialskills"
-          name="specialskills"
-          type="text"
-          spellcheck="false"
-          autocapitalize="on"></ion-input>
-        </ion-item>
-      </ion-list>
-      <ion-row style="align-items: center;justify-content: center;">
+          <ion-select-option value="Ja">Ja</ion-select-option>
+          <ion-select-option value="Nein">Nein</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item color="actoutwhite">
+        <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Agentur</ion-label>
+        <ion-input required
+        @input="user.agentur=$event.target.value"
+        :value="user.agentur"
+        name="hobbies"
+        type="text"
+        spellcheck="false"
+        autocapitalize="on"></ion-input>
+      </ion-item>
+      <ion-item color="actoutwhite">
+        <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Webseite</ion-label>
+        <ion-input required
+        @input="user.website=$event.target.value"
+        :value="user.website"
+        name="website"
+        type="text"
+        spellcheck="false"
+        autocapitalize="on"></ion-input>
+      </ion-item>
+      <ion-item color="actoutwhite">
+        <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Link zum Showreel</ion-label>
+        <ion-input required
+        @input="user.showreel=$event.target.value"
+        :value="user.showreel"
+        name="hobbies"
+        type="text"
+        spellcheck="false"
+        autocapitalize="on"></ion-input>
+      </ion-item>
+      <ion-item color="actoutwhite">
+        <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Hobbies</ion-label>
+        <ion-input required
+        @input="user.hobbies=$event.target.value"
+        :value="user.hobbies"
+        name="hobbies"
+        type="text"
+        spellcheck="false"
+        autocapitalize="on"></ion-input>
+      </ion-item>
+      <ion-item color="actoutwhite">
+        <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Sprachen</ion-label>
+        <ion-input required
+        @input="user.sprachen=$event.target.value"
+        :value="user.sprachen"
+        name="sprachen"
+        type="text"
+        spellcheck="false"
+        autocapitalize="on"></ion-input>
+      </ion-item>
+      <ion-item color="actoutwhite">
+        <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Spezielle Fähigkeiten</ion-label>
+        <ion-input required
+        @input="user.specialskills=$event.target.value"
+        :value="user.specialskills"
+        name="specialskills"
+        type="text"
+        spellcheck="false"
+        autocapitalize="on"></ion-input>
+      </ion-item>
+    </ion-list>
+    <ion-row style="align-items: center;justify-content: center;">
       <ion-button color="actoutblack" @click="update"> Update </ion-button><br/>
-      </ion-row>
-    </ion-content>
-    <ion-footer>
+    </ion-row>
+  </ion-content>
+  <ion-footer>
     <EditTabs/>
   </ion-footer>
-  </ion-page>
+</ion-page>
 </template>
 <script>
 
@@ -143,9 +150,8 @@ export default {
   name: "HomePage",
   data: function(){
     return{
-      currentuser: {},
-      userIsLoggedIn: true,
-      user: {}
+      currentuser: {}, //active user
+      user: {} //user data to be sent to the DB
     }
   },
   beforeMount: function(){
@@ -159,26 +165,25 @@ export default {
   },
   components: {
     NavBar,
-    EditTabs
+    EditTabs //Tabs
   },
   methods: {
+    //update DB and navigate to Experiences page
     update: function(){
 
-
-
       fetch('/updateDB', {
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        "Content-type" : "application/json"
-      },
-      method: 'POST',
-      body: JSON.stringify({"id": this.currentuser._id, "payload": this.user})
-    })
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          "Content-type" : "application/json"
+        },
+        method: 'POST',
+        body: JSON.stringify({"id": this.currentuser._id, "payload": this.user})
+      })
 
-    this.currentuser=this.user;
-    sessionStorage.setItem("User",JSON.stringify(this.currentuser));
-    this.$forceUpdate();
-    this.$router.push({ name: 'previousexperiences' });
+      this.currentuser=this.user;
+      sessionStorage.setItem("User",JSON.stringify(this.currentuser));
+      this.$forceUpdate();
+      this.$router.push({ name: 'previousexperiences' });
 
     }
   }

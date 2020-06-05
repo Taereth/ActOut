@@ -3,9 +3,7 @@
     <ion-header>
       <ion-toolbar color="actoutblack">
 
-         <img src="../assets/ActoutLogo.svg" style="height: 50vh;" />
-
-
+        <img src="../assets/ActoutLogo.svg" style="height: 50vh;" />
 
       </ion-toolbar>
     </ion-header>
@@ -23,8 +21,8 @@
           autocapitalize="off"
           color="actoutblack"
           ></ion-input>
-          </ion-item>
-          <ion-item color="actoutwhite">
+        </ion-item>
+        <ion-item color="actoutwhite">
           <ion-label position="stacked" color="actoutblack" style="color:#49274A;">Password</ion-label>
           <ion-input required
           @input="user.password = $event.target.value"
@@ -46,7 +44,7 @@
       </ion-list>
 
       <ion-text v-if="isMobile == false" color="actoutwhite">Developer Anmerkung: <br/> Diese Anwendung befindet sich in Entwicklung und ist zurzeit primär für Mobilebenutzer gedacht.</ion-text>
-      
+
     </ion-content>
   </ion-page>
 </template>
@@ -69,11 +67,12 @@ export default {
   },
   data() {
     return {
-      user: {},
-      isMobile: false
+      user: {}, //Login data
+      isMobile: false //whether user is on mobile or desktop
     }
   },
   beforeMount: function(){
+    //sets boolean if user is mobile
     if(this.mobileCheck()==true){
       this.isMobile = true;
     }
@@ -83,6 +82,7 @@ export default {
 
     //LogIn Function, sends request to server, server returns email and password from mongodb, then this function compares passwords
     //and if successful allows entry
+    //throws error if access is denied and opens alert
 
     login: function(){
 
@@ -95,25 +95,27 @@ export default {
         body: JSON.stringify(this.user),
       }).then(response=>{
         if(response.status==200){
-        return response.json();}
-        else{
+          return response.json();}
+          else{
 
-          throw new Error('Access Denied.');
-        }
-      }).then((data)=>{
+            throw new Error('Access Denied.');
+          }
+        }).then((data)=>{
 
-        data = JSON.stringify(data.user);
-        sessionStorage.setItem("User",data);
-        this.$router.push({ name: 'dashboard' });
+          data = JSON.stringify(data.user);
+          sessionStorage.setItem("User",data);
+          this.$router.push({ name: 'dashboard' });
 
-      }).catch(error=>{
-        console.log(error.message);
-        this.wrongpassword();
-      })
+        }).catch(error=>{
+          console.log(error.message);
+          this.wrongpassword();
+        })
 
-    },
-    forgottenpassword: function(){
-      return this.$ionic.alertController
+      },
+      //Opens alert if password has been forgottenpassword
+      //Placeholder function
+      forgottenpassword: function(){
+        return this.$ionic.alertController
         .create({
           cssClass: 'alertDanger',
           header: 'Passwort vergessen',
@@ -121,9 +123,10 @@ export default {
           buttons: ['OK'],
         })
         .then(a => a.present())
-    },
-    wrongpassword: function(){
-      return this.$ionic.alertController
+      },
+      //opens Alert incase email or password are incorrect
+      wrongpassword: function(){
+        return this.$ionic.alertController
         .create({
           cssClass: 'alertDanger',
           header: 'Falsches Passwort',
@@ -131,35 +134,36 @@ export default {
           buttons: ['OK'],
         })
         .then(a => a.present())
-    },
-    signup: function(){
-      this.$router.push({name: 'signup'});
-    },
-    mobileCheck: function(){
-      const toMatch = [
-        /Android/i,
-        /webOS/i,
-        /iPhone/i,
-        /iPad/i,
-        /iPod/i,
-        /BlackBerry/i,
-        /Windows Phone/i
-    ];
+      },
+      //opens register page
+      signup: function(){
+        this.$router.push({name: 'signup'});
+      },
+      //returns true if user is mobile
+      mobileCheck: function(){
+        const toMatch = [
+          /Android/i,
+          /webOS/i,
+          /iPhone/i,
+          /iPad/i,
+          /iPod/i,
+          /BlackBerry/i,
+          /Windows Phone/i
+        ];
 
-    return toMatch.some((toMatchItem) => {
+        return toMatch.some((toMatchItem) => {
 
-        console.log(navigator.userAgent);
-        return navigator.userAgent.match(toMatchItem);
-    });
+          return navigator.userAgent.match(toMatchItem);
+        });
 
+      }
     }
-  }
-};
-</script>
+  };
+  </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-
+  <!-- Add "scoped" attribute to limit CSS to this component only -->
+  <style scoped>
 
 
-</style>
+
+  </style>

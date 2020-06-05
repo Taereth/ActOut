@@ -1,4 +1,4 @@
-// server.js
+// packages
 const express = require('express');
 const helmet = require('helmet');
 const frameguard = require('frameguard');
@@ -16,11 +16,10 @@ const csp = require('helmet-csp')
 
 
 app = express();
-//app.use(sslRedirect());
+
+//Internet Security Aspects, following Mozilla Guidelines
 app.use('/', sslRedirect());
 var enforce = require('express-sslify');
-//app.use(enforce.HTTPS());
-
 app.use(noSniff());
 app.use(referrerPolicy({ policy: 'no-referrer' }));
 app.use(hsts({
@@ -28,7 +27,6 @@ app.use(hsts({
 }))
 app.use(helmet());
 app.use(frameguard({ action: 'deny' }));
-
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
@@ -40,7 +38,6 @@ app.use(csp({
     frameAncestors: ["'self'"]
   }
 }))
-
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "www.actout.ch");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -58,7 +55,7 @@ app.use(history({
 app.use(staticFileMiddleware);
 var port = process.env.PORT || 5001;
 
-//dependencies
+//Additional dependencies
 
 const nconf = require('nconf');
 const Multer = require('multer');
@@ -70,6 +67,7 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv').config({
   path: './.env'
 });
+//JWT Key
 const JWTKEY = fs.readFileSync('./key.key', 'utf8');
 
 const multer = Multer({
@@ -79,6 +77,7 @@ const multer = Multer({
   }
 })
 
+//AWS Setup
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -104,14 +103,9 @@ const ObjectID = mongodb.ObjectID;
 app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 
-//HTTPHeaders
-
-
 
 app.listen(port);
 console.log('server started '+ port);
-
-//test
 
 let dbName = "test";
 
@@ -182,7 +176,7 @@ app.post("/checklogin",function (req,res){
 
 
 
-//Functions to run when the user exists in the database
+  //Functions to run when the user exists in the database
 
   function iterateFunc(doc) {
 
@@ -239,42 +233,36 @@ app.post("/checklogin",function (req,res){
 
 
     cursor.count(function(err, count) {
-    if(count == 1) {
-      cursor.forEach(iterateFunc,errorFunc);
-    }
+      if(count == 1) {
+        cursor.forEach(iterateFunc,errorFunc);
+      }
 
-    else if(count == 0){
-      res.status(404).send("User not found.");
-      client.close();
-    }
+      else if(count == 0){
+        res.status(404).send("User not found.");
+        client.close();
+      }
 
-    else{
-      res.status(500).send("DB Error");
-      client.close();
-    }
-});
+      else{
+        res.status(500).send("DB Error");
+        client.close();
+      }
+    });
 
 
   })
 
 })
 
+//Sends DB Entry back to client, based on id
 app.post("/getDBEntrybyID",jwtauth,function (req,res){
-
-
-
 
   var id = req.body['id'].toString();
 
 
-
-//Functions to run when the user exists in the database
+  //Functions to run when the user exists in the database
 
   function iterateFunc(doc) {
-
-
     res.json(doc);
-
     client.close();
 
   }
@@ -298,50 +286,38 @@ app.post("/getDBEntrybyID",jwtauth,function (req,res){
       collection = db.collection("users");
     }
 
-
     var cursor = collection.find({id: id});
 
-
-
     cursor.count(function(err, count) {
-    if(count == 1) {
-      cursor.forEach(iterateFunc,errorFunc);
-    }
+      if(count == 1) {
+        cursor.forEach(iterateFunc,errorFunc);
+      }
 
-    else if(count == 0){
-      res.json({status:'No Id Found'});
-      client.close();
-    }
+      else if(count == 0){
+        res.json({status:'No Id Found'});
+        client.close();
+      }
 
-    else{
-      res.json({status:'DB Error'});
-      client.close();
-    }
-});
+      else{
+        res.json({status:'DB Error'});
+        client.close();
+      }
+    });
 
 
   })
 
 })
 
+//sends User Entry back to client based on email
 app.post("/getUserEntrybyEmail",jwtauth,function (req,res){
-
-
-
 
   var email = req.body['email'].toString();
 
-
-
-//Functions to run when the user exists in the database
-
+  //Functions to run when the user exists in the database
   function iterateFunc(doc) {
 
-
-
-
     res.json(doc);
-
     client.close();
 
   }
@@ -358,32 +334,30 @@ app.post("/getUserEntrybyEmail",jwtauth,function (req,res){
     const db = client.db(dbName);
     var collection = db.collection("users");
 
-
     var cursor = collection.find({"email": email});
 
-
-
     cursor.count(function(err, count) {
-    if(count == 1) {
-      cursor.forEach(iterateFunc,errorFunc);
-    }
+      if(count == 1) {
+        cursor.forEach(iterateFunc,errorFunc);
+      }
 
-    else if(count == 0){
-      res.json(JSON.stringify({status:'No Id Found'}));
-      client.close();
-    }
+      else if(count == 0){
+        res.json(JSON.stringify({status:'No Id Found'}));
+        client.close();
+      }
 
-    else{
-      res.json({status:'DB Error'});
-      client.close();
-    }
-});
+      else{
+        res.json({status:'DB Error'});
+        client.close();
+      }
+    });
 
 
   })
 
 })
 
+//update DB Entry
 app.post("/updateDB",jwtauth,function (req,res){
 
   var dbid = req.body.id;
@@ -402,7 +376,7 @@ app.post("/updateDB",jwtauth,function (req,res){
 
     var dbEntry;
 
-
+    //If ID starts with P its a project entry
     if(id.startsWith("P")){
       collection = db.collection("projects")
       dbEntry = {
@@ -417,6 +391,7 @@ app.post("/updateDB",jwtauth,function (req,res){
         "updates":payload.updates
       }
     }
+    //Else its a User Entry
     else{
       collection = db.collection("users");
       dbEntry = {
@@ -468,6 +443,7 @@ app.post("/updateDB",jwtauth,function (req,res){
 
 })
 
+//Update a specific DB Entry by ID
 app.post("/updateDBbyID",jwtauth,function (req,res){
 
   var payload = req.body.payload;
@@ -551,6 +527,7 @@ app.post("/updateDBbyID",jwtauth,function (req,res){
 
 })
 
+//sends all user data to client
 app.get("/allusers", jwtauth, function (req,res){
 
   var users=[];
@@ -562,9 +539,9 @@ app.get("/allusers", jwtauth, function (req,res){
     const db = client.db(dbName)
     const collection = db.collection("users")
 
-	var cursor = collection.find()
+    var cursor = collection.find()
 
-	let users = await cursor.toArray()
+    let users = await cursor.toArray()
 
     res.json(users);
 
@@ -575,6 +552,7 @@ app.get("/allusers", jwtauth, function (req,res){
 
 })
 
+//sends all projects that user is member of back to client
 app.post("/userprojects", jwtauth, function (req,res){
 
   var user = req.body.email;
@@ -588,9 +566,9 @@ app.post("/userprojects", jwtauth, function (req,res){
     const db = client.db(dbName)
     const collection = db.collection("projects")
 
-	var cursor = collection.find({members: { $all: [user] }})
+    var cursor = collection.find({members: { $all: [user] }})
 
-	var userprojects = await cursor.toArray()
+    var userprojects = await cursor.toArray()
     res.json(userprojects);
 
     client.close();
@@ -600,6 +578,7 @@ app.post("/userprojects", jwtauth, function (req,res){
 
 })
 
+//sends all projects back to client
 app.post("/allprojects", jwtauth, function (req,res){
 
   var user = req.body.email;
@@ -613,9 +592,9 @@ app.post("/allprojects", jwtauth, function (req,res){
     const db = client.db(dbName)
     const collection = db.collection("projects")
 
-	var cursor = collection.find()
+    var cursor = collection.find()
 
-	var userprojects = await cursor.toArray()
+    var userprojects = await cursor.toArray()
     res.json(userprojects);
 
     client.close();
@@ -625,6 +604,7 @@ app.post("/allprojects", jwtauth, function (req,res){
 
 })
 
+//sends all user data back to client
 app.post("/allusers", jwtauth, function (req,res){
 
   var user = req.body.email;
@@ -638,9 +618,9 @@ app.post("/allusers", jwtauth, function (req,res){
     const db = client.db(dbName)
     const collection = db.collection("users")
 
-	var cursor = collection.find()
+    var cursor = collection.find()
 
-	var userlist = await cursor.toArray()
+    var userlist = await cursor.toArray()
     res.json(userlist);
 
     client.close();
@@ -650,20 +630,22 @@ app.post("/allusers", jwtauth, function (req,res){
 
 })
 
+//creates a new project in the DB
 app.post("/newproject", jwtauth, function (req,res){
 
-    try{
-      storeIntoMongoDB(req.body,"projects");
-      res.status(200).json("Succesful Insertion");
-    }
-    catch{
-      res.status(500).send({error: "DB Error"});
-    }
+  try{
+    storeIntoMongoDB(req.body,"projects");
+    res.status(200).json("Succesful Insertion");
+  }
+  catch{
+    res.status(500).send({error: "DB Error"});
+  }
 
 
 
 })
 
+//sets up new Chat in DB
 app.post("/chatSetup",jwtauth, function (req,res){
 
   var user1 = req.body['user1'].toString();
@@ -694,13 +676,12 @@ app.post("/chatSetup",jwtauth, function (req,res){
 
 
     var cursor = collection.find({"user1": {$in: [user1,user2]},
-                                  "user2": {$in: [user1,user2]}
+    "user2": {$in: [user1,user2]}
 
-   });
+  });
 
 
-
-    cursor.count(function(err, count) {
+  cursor.count(function(err, count) {
     if(count == 1) {
       cursor.forEach(iterateFunc,errorFunc);
     }
@@ -708,40 +689,33 @@ app.post("/chatSetup",jwtauth, function (req,res){
     else if(count == 0){
 
       var object = {"user1": user1,
-                    "user2": user2,
-                    "messages": [],
-                    "version": 1
+      "user2": user2,
+      "messages": [],
+      "version": 1
     }
 
-      collection.insertOne(object, (err, result) =>{
-        if (err){
-          throw err;
-        }
+    collection.insertOne(object, (err, result) =>{
+      if (err){
+        throw err;
+      }
 
+      res.json({"ChatID":result.insertedId, "messages":[], "version":1});
 
-        res.json({"ChatID":result.insertedId, "messages":[], "version":1});
+    })
 
+    client.close();
+  }
 
-      })
-
-
-
-      client.close();
-    }
-
-    else{
-      res.json({status:'DB Error'});
-      client.close();
-    }
+  else{
+    res.json({status:'DB Error'});
+    client.close();
+  }
 });
-
-
-  })
-
-
 
 })
 
+})
+//Regularly run request that updates chat in client
 app.post("/chat",jwtauth, function (req,res){
 
 
@@ -749,11 +723,7 @@ app.post("/chat",jwtauth, function (req,res){
   var versionnr = req.body['version'];
   var messages = req.body['messages'];
 
-
-
   function iterateFunc(doc) {
-
-
 
     res.json({"ChatID":doc._id, "messages":doc.messages, "version":doc.version});
 
@@ -776,27 +746,24 @@ app.post("/chat",jwtauth, function (req,res){
 
     var cursor = collection.find({ $and: [{_id: ObjectID(id)},{version: {$gt: versionnr } } ] })
 
-
-
-
     cursor.count(function(err, count) {
-    if(count == 1) {
-      cursor.forEach(iterateFunc,errorFunc);
-    }
+      if(count == 1) {
+        cursor.forEach(iterateFunc,errorFunc);
+      }
 
-    else if(count == 0){
+      else if(count == 0){
 
         res.json({"ChatID":id, "messages":messages, "version": versionnr});
 
 
-      client.close();
-    }
+        client.close();
+      }
 
-    else{
-      res.json({status:'DB Error'});
-      client.close();
-    }
-});
+      else{
+        res.json({status:'DB Error'});
+        client.close();
+      }
+    });
 
 
   })
@@ -805,6 +772,7 @@ app.post("/chat",jwtauth, function (req,res){
 
 })
 
+//Update Chat DB Entry
 app.post("/updateChatDB",jwtauth,function (req,res){
 
 
@@ -842,6 +810,7 @@ app.post("/updateChatDB",jwtauth,function (req,res){
 
 })
 
+//Request to Upload File to AWS
 app.post('/fileupload', multer.single("file"), (req, res) => {
 
   if(!req.file) {
@@ -862,9 +831,8 @@ app.post('/fileupload', multer.single("file"), (req, res) => {
 
 });
 
+//Request to Download File from AWS
 app.post('/filedownload', jwtauth, (req,res) =>{
-
-
 
   const params = {
     Bucket: 'pbaactout',
@@ -878,9 +846,7 @@ app.post('/filedownload', jwtauth, (req,res) =>{
 } )
 
 //Function to store any Object into mongoDB -> Made in previous project ( https://github.com/Taereth/InstantFeed )
-
 function storeIntoMongoDB(object, collectionName) {
-
 
   MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
     if (err) {
@@ -903,6 +869,7 @@ function storeIntoMongoDB(object, collectionName) {
 
 }
 
+//Function to Upload a File to AWS
 function uploadtoAWS(payload, fileName) {
 
   const params = {

@@ -16,6 +16,8 @@ export default {
 
 <style>
 
+/* Styles to be used, ion-colors to be used*/
+
 .titleicon {
     position: absolute;
     width: 100%;
@@ -24,14 +26,7 @@ export default {
     text-align:center;
 }
 
-popover {
-  border-top-left-radius:0px;
-  border-top-right-radius:0px;
-  border-bottom-left-radius:0px;
-  border-bottom-right-radius:5px;
-  left:0px;
-  top:0px;
-}
+
 
 ion-item{
   --highlight-color-focused:#49274A;

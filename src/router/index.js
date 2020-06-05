@@ -17,15 +17,6 @@ let router = new IonicVueRouter({
           import(/* webpackChunkName: "home" */ "@/components/HomePage"),
       },
       {
-        path: "/new-item",
-        name: "new-item",
-        component: () =>
-          import(/* webpackChunkName: "new-item" */ "@/components/NewItemPage"),
-          meta: {
-                  requiresAuth: true
-              }
-      },
-      {
         path: "/signup",
         name: "signup",
         component: () =>
@@ -173,6 +164,8 @@ router.beforeEach((to, from, next) => {
         next()
     }
 })
+
+//Counter Navigation Duplicate Error
 
 const originalPush = router.push;
 router.push = function push(location) {
