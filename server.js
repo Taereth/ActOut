@@ -30,13 +30,13 @@ app.use(frameguard({ action: 'deny' }));
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'"],
+    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
     imgSrc: ["'self'", "data:"],
     objectSrc: ["'self'"],
     baseUri: ["'self'"],
     scriptSrc: ["'self'"],
     frameAncestors: ["'self'"],
-    fontSrc: ["'self'", "data:"]
+    fontSrc: ["'self'", "data:", "https://fonts.googleapis.com"]
   }
 }))
 
@@ -362,6 +362,7 @@ app.post("/updateDB",function (req,res){
 
   MongoClient.connect(uri, { useNewUrlParser: true }, (err, client) => {
     if (err) {
+      console.log("Error connecting");
       throw err;
     }
 

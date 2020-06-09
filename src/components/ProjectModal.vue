@@ -126,7 +126,6 @@ export default {
           body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
         })
 
-        console.log("id:" + this.currentuser._id + "payload:" + this.currentuser)
 
         var dataupdate = JSON.stringify(this.currentuser);
         sessionStorage.setItem("User",dataupdate);
