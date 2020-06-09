@@ -427,11 +427,11 @@ app.post("/updateDB",function (req,res){
       dbEntry
     },{upsert: true}, (err, result) =>{
       if (err){
-        console.log("here's a problem.")
         throw err;
       }
-      client.close();
       res.status(200);
+      client.close();
+
 
     })
 
@@ -633,7 +633,7 @@ app.post("/newproject", jwtauth, function (req,res){
 
   try{
     storeIntoMongoDB(req.body,"projects");
-    res.status(200).json({status:"Succesful Insertion"});
+    res.status(200).json(JSON.stringify({status:'Succesful Insertion'}));
   }
   catch{
     res.status(500).send({error: "DB Error"});
@@ -799,9 +799,13 @@ app.post("/updateChatDB",jwtauth,function (req,res){
       if (err){
         throw err;
       }
-      client.close();
+
 
     })
+
+    res.status(200).json(JSON.stringify({status:"succesful"}))
+    client.close();
+
 
   })
 
