@@ -35,7 +35,8 @@ app.use(csp({
     objectSrc: ["'self'"],
     baseUri: ["'self'"],
     scriptSrc: ["'self'"],
-    frameAncestors: ["'self'"]
+    frameAncestors: ["'self'"],
+    fontSrc: ["'self'", "data:"]
   }
 }))
 
