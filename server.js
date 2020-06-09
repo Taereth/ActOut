@@ -427,6 +427,7 @@ app.post("/updateDB",function (req,res){
       dbEntry
     },{upsert: true}, (err, result) =>{
       if (err){
+        console.log("here's a problem.")
         throw err;
       }
       client.close();
