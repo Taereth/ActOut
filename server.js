@@ -355,7 +355,6 @@ app.post("/getUserEntrybyEmail",function (req,res){
 //update DB Entry
 app.post("/updateDB",function (req,res){
 
-  var dbid = req.body.id;
   var payload = req.body.payload;
   var id= req.body.payload.id;
 
@@ -423,7 +422,7 @@ app.post("/updateDB",function (req,res){
     }
 
 
-    collection.updateOne({_id: new ObjectID(dbid)},{$set:
+    collection.updateOne({id: id},{$set:
       dbEntry
     },{upsert: true}, (err, result) =>{
       if (err){
