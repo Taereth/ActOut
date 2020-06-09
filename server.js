@@ -30,13 +30,13 @@ app.use(frameguard({ action: 'deny' }));
 app.use(csp({
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+    styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
     imgSrc: ["'self'", "data:"],
     objectSrc: ["'self'"],
     baseUri: ["'self'"],
     scriptSrc: ["'self'"],
     frameAncestors: ["'self'"],
-    fontSrc: ["'self'", "data:", "https://fonts.googleapis.com"]
+    fontSrc: ["'self'", "data:", "https://fonts.googleapis.com", "https://fonts.gstatic.com"]
   }
 }))
 
