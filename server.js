@@ -305,7 +305,7 @@ app.post("/getDBEntrybyID",jwtauth,function (req,res){
 })
 
 //sends User Entry back to client based on email
-app.post("/getUserEntrybyEmail",jwtauth,function (req,res){
+app.post("/getUserEntrybyEmail",function (req,res){
 
   var email = req.body['email'].toString();
 
@@ -353,7 +353,7 @@ app.post("/getUserEntrybyEmail",jwtauth,function (req,res){
 })
 
 //update DB Entry
-app.post("/updateDB",jwtauth,function (req,res){
+app.post("/updateDB",function (req,res){
 
   var dbid = req.body.id;
   var payload = req.body.payload;
