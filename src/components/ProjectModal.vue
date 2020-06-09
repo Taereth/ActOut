@@ -114,23 +114,24 @@ export default {
         response.json();
       }).then(data=>{
         console.log(data);
+        this.currentuser.projects.push(this.project.id);
+
+
+        fetch('/updateDB', {
+          headers: {
+            'Accept': 'application/json, text/plain, */*',
+            "Content-type" : "application/json"
+          },
+          method: 'POST',
+          body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
+        })
+
+        var dataupdate = JSON.stringify(this.currentuser);
+        sessionStorage.setItem("User",dataupdate);
+
+        this.closeModal();
       })
-      this.currentuser.projects.push(this.project.id);
 
-
-      fetch('/updateDB', {
-        headers: {
-          'Accept': 'application/json, text/plain, */*',
-          "Content-type" : "application/json"
-        },
-        method: 'POST',
-        body: JSON.stringify({"id": this.currentuser._id, "payload": this.currentuser})
-      })
-
-      var data = JSON.stringify(this.currentuser);
-      sessionStorage.setItem("User",data);
-
-      this.closeModal();
 
 
 
