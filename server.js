@@ -429,9 +429,6 @@ app.post("/updateDB",function (req,res){
       if (err){
         throw err;
       }
-      catch{
-        res.status(200).json(JSON.stringify({status:"some error occured"}));
-      }
       res.status(200);
       client.close();
 
