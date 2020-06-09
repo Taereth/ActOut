@@ -431,6 +431,7 @@ app.post("/updateDB",function (req,res){
         throw err;
       }
       client.close();
+      res.status(200);
 
     })
 
@@ -515,6 +516,7 @@ app.post("/updateDBbyID",jwtauth,function (req,res){
         throw err;
       }
       client.close();
+      res.status(200);
 
     })
 
@@ -631,7 +633,7 @@ app.post("/newproject", jwtauth, function (req,res){
 
   try{
     storeIntoMongoDB(req.body,"projects");
-    res.status(200).json("Succesful Insertion");
+    res.status(200).json({status:"Succesful Insertion"});
   }
   catch{
     res.status(500).send({error: "DB Error"});
